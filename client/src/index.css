@@ -3,8 +3,10 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+  background-color: #edf0e9;
+
 }
 
 code {
@@ -12,16 +14,79 @@ code {
     monospace;
 }
 
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrap {
+  flex: 1;
+}
+
+/* Homepage */
+.home-container {
+  /* background-image: url("./assets/backgrounds/testbackground.jpg"); */
+  margin-top: auto;
+  margin-bottom: auto;
+  transform: translateY(50%);
+}
+
+.logo-long {
+  width: 410px;
+  /* height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px; */
+}
+.logo-main {
+  width: 250px;
+  height: auto;
+  margin-bottom: 40px;
+}
+
+.home-intro {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.home-links-section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.home-links {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  margin-bottom: 20px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.social-links a img {
+  width: 35px;
+  height: auto;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
 /* NavBar */
-.navbar-brand {
-  transform: translateX(-50%);
-  left: 50%;
-  position: absolute;
+.nav {
+  margin-left: 10px;
+}
+
+.nav-logo {
+  width: 100px;
+  height: auto;
 }
 
 .nav a {
-  font-size: 22px;
+  font-size: 20px;
   color: black;
-  margin-left: 10px;
-  margin-right: 10px;
 }
+
+
+/* Footer */
