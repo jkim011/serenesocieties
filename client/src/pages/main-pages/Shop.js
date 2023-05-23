@@ -1,5 +1,5 @@
 import React from 'react';
-import ShopDropdown from '../components/ShopDropdown';
+import ShopDropdown from '../../components/ShopDropdown';
 
 function Shop() {
   return (
