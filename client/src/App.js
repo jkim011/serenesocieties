@@ -5,11 +5,13 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './components/Nav';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import Gallery from './pages/Gallery';
-import Lookbook from './pages/Lookbook';
+import Home from './pages/main-pages/Home';
+import Shop from './pages/main-pages/Shop';
+import Gallery from './pages/main-pages/Gallery';
+import Lookbook from './pages/main-pages/Lookbook';
 import Footer from './components/Footer';
+import About from './pages/misc-pages/About';
+import Terms from './pages/misc-pages/Terms';
 
 import NaturalEssence from './pages/shop-sections/NaturalEssence';
 import Halloween from './pages/shop-sections/Halloween';
@@ -19,9 +21,9 @@ import AllPosters from './pages/shop-sections/AllPosters';
 function App() {
   return (
     <div className='page-container'>
-      <div className='content-wrap'>
         <Router>
           <>
+          <div className='content-wrap'>
             <NavBar />
             <Routes>
               <Route
@@ -56,12 +58,20 @@ function App() {
                 path='/halloween-special'
                 element={<Halloween />}
               />
+              <Route
+                path='/about'
+                element={<About />}
+              />
+              <Route
+                path='/terms-and-conditions'
+                element={<Terms />}
+              />
             </Routes>
+          </div>
+          <Footer />
           </>
-
         </Router>
-      </div>
-      <Footer />
+      
     </div>
   );
 }
