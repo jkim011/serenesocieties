@@ -15,7 +15,7 @@ function NavBar() {
     return null
   } else {
     return (
-    <Navbar className='nav' collapseOnSelect expand="lg" bg="">
+    <Navbar className='nav' collapseOnSelect expand="lg" bg="" style={{marginBottom:"50px"}}>
         <Navbar.Brand as={Link} to="/" className='nav-logo'><img src={LogoLong} className="logo-long " size='small' alt='logo'/></Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" className=''/>
         <Navbar.Collapse id="responsive-navbar-nav">

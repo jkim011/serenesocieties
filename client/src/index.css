@@ -107,6 +107,7 @@ body {
   margin-left: 10px;
   margin-right: 10px;
   margin-top: 20px;
+  margin-bottom: 50px;
 }
 
 /* .nav-logo {
@@ -121,7 +122,26 @@ body {
 
 .nav a {
   font-size: 20px;
+  font-weight: 600;
   color: black;
+}
+
+/* Pages */
+.page-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  vertical-align: baseline;
+}
+
+.dropdown {
+  position: absolute;
+  transform: translateX(-30px);
+  margin-top: 8px;
+}
+.page-title {
+  display: flex;
+  flex-direction: row;
 }
 
 

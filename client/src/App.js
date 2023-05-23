@@ -13,8 +13,8 @@ import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
 
-import NaturalEssence from './pages/shop-sections/NaturalEssence';
-import Halloween from './pages/shop-sections/Halloween';
+import NaturalEssence from './pages/collections/NaturalEssence';
+import Halloween from './pages/collections/Halloween';
 import AllApparel from './pages/shop-sections/AllApparel';
 import AllPosters from './pages/shop-sections/AllPosters';
 
