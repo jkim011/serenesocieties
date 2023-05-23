@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Testbackground from '../../assets/backgrounds/testbackground.jpg';
+import modelFront from '../../assets/backgrounds/modelFront.jpg';
+import modelBack from '../../assets/backgrounds/modelBack.jpg';
 import LogoMain from '../../assets/logo/serene-logo-new-main.jpg';
 import LogoMainBlack from '../../assets/logo/SereneLogoMainBlack.png';
 import IgIcon from '../../assets/icons/ig-icon-darker.png';
@@ -11,6 +13,9 @@ import FacebookIcon from '../../assets/icons/twitter-icon-darker.png';
 function Home() {
   return (
     <div className='home-container'>
+      <img src={modelFront} className='home-pic-left'/>
+      <img src={modelBack} className='home-pic-right'/>
+      
       <div className='home-intro'>
         <Link as={Link} to='/' className='home-image-link'><img src={LogoMainBlack} className='logo-main'/></Link>
         <div className='home-links-section'>
@@ -26,7 +31,7 @@ function Home() {
           </div>
         </div>
       </div>
-      
+
     </div>
   )
 }
