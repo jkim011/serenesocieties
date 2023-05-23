@@ -12,7 +12,7 @@ function NavBar() {
   console.log(window.location.pathname);
   if(window.location.pathname === '/') {
     navigate(0);
-    return (<div></div>)
+    return null
   } else {
     return (
     <Navbar className='nav' collapseOnSelect expand="lg" bg="">
