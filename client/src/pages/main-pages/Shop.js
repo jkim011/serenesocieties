@@ -4,8 +4,11 @@ import ShopDropdown from '../../components/ShopDropdown';
 function Shop() {
   return (
     <div>
-      <ShopDropdown />
-      <h1>All Products</h1>
+      <div className='page-header'>
+        <ShopDropdown className="dropdown"/>
+        <h1 className='page-title'>All Products</h1>
+      </div>
+      
     </div>
   )
 }

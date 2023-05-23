@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import IgIcon from '../assets/icons/ig-icon-darker.png';
 import TiktokIcon from '../assets/icons/tiktok-icon-darker.png';
 import FacebookIcon from '../assets/icons/twitter-icon-darker.png';
+import EmailIcon from '../assets/icons/email-icon-darker.png';
 import { useNavigate } from 'react-router-dom';
 
 function Footer() {
@@ -21,6 +22,7 @@ function Footer() {
         <a href='https://www.instagram.com/serenesocieties/' target="_blank" rel="noreferrer"><img src={IgIcon} className='footer-socials'/></a>
         <a href='' target="_blank" rel="noreferrer"><img src={TiktokIcon} className='footer-socials'/></a>
         <a href='' target="_blank" rel="noreferrer"><img src={FacebookIcon} className='footer-socials'/></a>
+        <a href='' target="_blank" rel="noreferrer"><img src={EmailIcon} className='footer-socials'/></a>
       </div>
     </div>
   )

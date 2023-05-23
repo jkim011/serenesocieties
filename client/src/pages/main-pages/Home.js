@@ -9,6 +9,7 @@ import LogoMainBlack from '../../assets/logo/SereneLogoMainBlack.png';
 import IgIcon from '../../assets/icons/ig-icon-darker.png';
 import TiktokIcon from '../../assets/icons/tiktok-icon-darker.png';
 import FacebookIcon from '../../assets/icons/twitter-icon-darker.png';
+import EmailIcon from '../../assets/icons/email-icon-darker.png';
 
 function Home() {
   return (
@@ -28,6 +29,7 @@ function Home() {
           <a href='https://www.instagram.com/serenesocieties/' target="_blank" rel="noreferrer"><img src={IgIcon} className=''/></a>
           <a href='' target="_blank" rel="noreferrer"><img src={TiktokIcon} className=''/></a>
           <a href='' target="_blank" rel="noreferrer"><img src={FacebookIcon} className=''/></a>
+          <a href='' target="_blank" rel="noreferrer"><img src={EmailIcon} className=''/></a>
           </div>
         </div>
       </div>

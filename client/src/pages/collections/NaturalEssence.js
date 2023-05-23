@@ -4,9 +4,11 @@ import ShopDropdown from '../../components/ShopDropdown';
 function NaturalEssence() {
   return (
     <div>
-      <ShopDropdown />
-      <h1>Natural Essence</h1>
-
+      <div className='page-header'>
+        <ShopDropdown className="dropdown"/>
+        <h1 className='page-title'>Natural Essence</h1>
+      </div>
+      
     </div>
   )
 }
