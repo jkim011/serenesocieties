@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Button,
@@ -22,7 +23,7 @@ function NavBar() {
   
   const navigate = useNavigate();
   console.log(window.location.pathname);
-  const [visible, setVisible] = React.useState(false)
+  const [visible, setVisible] = useState(false)
   if(window.location.pathname === '/') {
     navigate(0);
     return null
@@ -48,10 +49,11 @@ function NavBar() {
     <Grid columns={1}>
       <Grid.Column>
         <Button
-          onClick={visible}
-          label="Nav"
+          onClick={setVisible}
           onChange={(e, data) => setVisible(data.checked)}
-        />
+        >
+          Nav
+        </Button>
       </Grid.Column>
 
       <Grid.Column>
