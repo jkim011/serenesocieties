@@ -6,7 +6,7 @@ function Shop() {
     <div>
       <div className='page-header'>
         <ShopDropdown className="dropdown"/>
-        <h1 className='page-title'>All Products</h1>
+        <h2 className='page-title'>All Products</h2>
       </div>
       
     </div>

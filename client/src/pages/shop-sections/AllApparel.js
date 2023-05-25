@@ -6,7 +6,7 @@ function AllApparel() {
     <div>
       <div className='page-header'>
         <ShopDropdown className="dropdown"/>
-        <h1 className='page-title'>All Apparel</h1>
+        <h2 className='page-title'>All Apparel</h2>
       </div>
       
     </div>

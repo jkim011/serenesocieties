@@ -1,21 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Testbackground from '../../assets/backgrounds/testbackground.jpg';
 import modelFront from '../../assets/backgrounds/modelFront.jpg';
 import modelBack from '../../assets/backgrounds/modelBack.jpg';
+import palmTree from '../../assets/backgrounds/toxicPalmtree.jpg';
+
 import LogoMain from '../../assets/logo/serene-logo-new-main.jpg';
 import LogoMainBlack from '../../assets/logo/SereneLogoMainBlack.png';
-import IgIcon from '../../assets/icons/ig-icon-darker.png';
-import TiktokIcon from '../../assets/icons/tiktok-icon-darker.png';
-import FacebookIcon from '../../assets/icons/twitter-icon-darker.png';
-import EmailIcon from '../../assets/icons/email-icon-darker.png';
+import IgIcon from '../../assets/icons/ig-icon.png';
+import TiktokIcon from '../../assets/icons/tiktok-icon.png';
+import FacebookIcon from '../../assets/icons/twitter-icon.png';
+import EmailIcon from '../../assets/icons/email-icon.png';
 
 function Home() {
   return (
     <div className='home-container'>
       <img src={modelFront} className='home-pic-left'/>
       <img src={modelBack} className='home-pic-right'/>
+      <img src={palmTree} className='home-pic-phone'/>
       
       <div className='home-intro'>
         <Link as={Link} to='/' className='home-image-link'><img src={LogoMainBlack} className='logo-main'/></Link>
