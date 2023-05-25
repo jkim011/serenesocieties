@@ -6,7 +6,7 @@ function NaturalEssence() {
     <div>
       <div className='page-header'>
         <ShopDropdown className="dropdown"/>
-        <h1 className='page-title'>Natural Essence</h1>
+        <h2 className='page-title'>Natural Essence</h2>
       </div>
       
     </div>

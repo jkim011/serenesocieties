@@ -6,7 +6,7 @@ function Halloween() {
     <div>
       <div className='page-header'>
         <ShopDropdown className="dropdown"/>
-        <h1 className='page-title'>Halloween Special</h1>
+        <h2 className='page-title'>Halloween Special</h2>
       </div>
       
     </div>

@@ -6,7 +6,7 @@ function AllPosters() {
     <div>
       <div className='page-header'>
         <ShopDropdown className="dropdown"/>
-        <h1 className='page-title'>All Posters</h1>
+        <h2 className='page-title'>All Posters</h2>
       </div>
       
     </div>
