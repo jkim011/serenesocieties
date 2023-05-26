@@ -115,12 +115,25 @@ body {
   position: absolute;
 }
 
-
-
 .nav a {
   font-size: 20px;
   font-weight: 600;
   color: black;
+}
+
+.main-nav-items {
+  margin-left: 15%;
+  /* margin-right: 10%; */
+}
+
+.menu-icon {
+  width: 35px;
+}
+
+#cart{
+  position: absolute;
+  right: 4%;
+  top: 15%
 }
 
 /* Footer */
@@ -159,15 +172,7 @@ body {
 .footer-socials:hover {
   filter: invert(21%) sepia(72%) saturate(7472%) hue-rotate(270deg) brightness(95%) contrast(87%);
 }
-.main-nav-items{
 
-}
-
-#cart{
-  position: absolute;
-  right: 4%;
-  top:15%
-}
 
 @media screen and (max-width:850px){
   /* #cart{
@@ -211,7 +216,7 @@ body {
   /* NavBar */
   .logo-long {
     /* position: absolute; */
-    width: 220px;
+    width: 230px;
     
   }
   .navbar-brand {
@@ -231,6 +236,10 @@ body {
     font-size: 20px;
     font-weight: 600;
     color: black;
+  }
+
+  .main-nav-items {
+    margin-left: 2%;
   }
 
   /* Footer */

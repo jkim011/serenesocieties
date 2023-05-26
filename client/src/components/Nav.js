@@ -1,62 +1,60 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  
-  Button,
-  Checkbox,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  Menu,
-  Segment,
-  Sidebar,
-} from 'semantic-ui-react'
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { Icon } from 'semantic-ui-react';
+import MenuIcon from '../assets/icons/menu-icon.png';
 
 import NavLogo from '../assets/logo/serene-logo-new-main.jpg';
 import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
 
+
 function NavBar() {
-  
   const navigate = useNavigate();
   console.log(window.location.pathname);
-  const [visible, setVisible] = useState(false)
-  
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   if(window.location.pathname === '/') {
     navigate(0);
     return null
-  } else {
-    return (
-      <Navbar className='nav' collapseOnSelect expand="lg" bg="" style={{marginBottom:"50px"}}>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" className=''/>
-
-        
-        
-        <Nav>
+  }
+  return (
+    <Navbar className='nav' collapseOnSelect expand="lg" bg="" style={{marginBottom:"50px"}}>
+      <Nav>
         <Navbar.Brand as={Link} to="/" className='nav-logo'><img src={LogoLong} className="logo-long " size='small' alt='logo'/></Navbar.Brand>
         <Nav.Link as={Link} id='cart' to="/cart">Cart</Nav.Link>
 
-          
-        </Nav>
+        <>
+          <Button variant='white' className="d-lg-none" onClick={handleShow}>
+            <img src={MenuIcon} className='menu-icon'/>
+          </Button>
 
-          <Navbar.Collapse  id="responsive-navbar-nav">
-            <Nav className="me-auto main-nav-items">
+          <Offcanvas show={show} onHide={handleClose} responsive="lg">
+            <Offcanvas.Header closeButton>
+              {/* <Offcanvas.Title>Responsive offcanvas</Offcanvas.Title> */}
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              <Nav className="me-auto main-nav-items">
+                <Nav.Link className='main-nav-items' as={Link} to="/shop" onClick={handleClose} >Shop</Nav.Link>
+                <Nav.Link className='main-nav-items' as={Link} to="/gallery" onClick={handleClose} >Gallery</Nav.Link>
+                <Nav.Link id='lookbook' className='main-nav-items' as={Link} to="/lookbook" onClick={handleClose} >Lookbook</Nav.Link>
+              </Nav>   
+            </Offcanvas.Body>
+          </Offcanvas>
+        </>
+      </Nav>
+    </Navbar>
 
-              <Nav.Link className='' as={Link} to="/shop">Shop</Nav.Link>
-              <Nav.Link className='' as={Link} to="/gallery">Gallery</Nav.Link>
-              <Nav.Link className='' as={Link} to="/lookbook">Lookbook</Nav.Link>
+    
 
-            </Nav>   
-          </Navbar.Collapse>
-
-
-      </Navbar>
-    )
-  }
+  )
 }
 
 export default NavBar;
