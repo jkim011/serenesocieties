@@ -42,7 +42,7 @@ function NavBar() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="me-auto main-nav-items">
-                <Nav.Link className='main-nav-items' as={Link} to="/shop" onClick={handleClose} >Shop</Nav.Link>
+                <Nav.Link className='main-nav-items' as={Link} to="/shop/all-products" onClick={handleClose} >Shop</Nav.Link>
                 <Nav.Link className='main-nav-items' as={Link} to="/gallery" onClick={handleClose} >Gallery</Nav.Link>
                 <Nav.Link id='lookbook' className='main-nav-items' as={Link} to="/lookbook" onClick={handleClose} >Lookbook</Nav.Link>
               </Nav>   

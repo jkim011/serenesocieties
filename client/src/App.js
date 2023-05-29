@@ -32,7 +32,7 @@ function App() {
                 element={<Home />}
               />
               <Route
-                path='/shop'
+                path='/shop/all-products'
                 element={<Shop />}
               />
               <Route
@@ -44,19 +44,19 @@ function App() {
                 element={<Lookbook />}
               />
               <Route
-                path='/all-apparel'
+                path='/shop/all-apparel'
                 element={<AllApparel />}
               />
               <Route
-                path='/all-posters'
+                path='/shop/all-posters'
                 element={<AllPosters />}
               />
               <Route
-                path='/natural-essence'
+                path='/shop/natural-essence'
                 element={<NaturalEssence />}
               />
               <Route
-                path='/halloween-special'
+                path='/shop/halloween-special'
                 element={<Halloween />}
               />
               <Route

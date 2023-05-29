@@ -9,8 +9,26 @@
   font-size: 130%;
 }
 .page-title {
-    margin-top: 5px;
-    margin-left: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+/* Single Product */
+.single-product-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.product-image {
+  width: 350px;
+  height: auto;
+}
+.product-info {
+
+}
+.product-description {
+  
 }
 
 
