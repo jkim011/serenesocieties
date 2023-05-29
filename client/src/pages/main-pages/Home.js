@@ -22,7 +22,7 @@ function Home() {
       <div className='home-intro'>
         <Link as={Link} to='/' className='home-image-link'><img src={LogoMainBlack} className='logo-main'/></Link>
         <div className='home-links-section'>
-          <Link as={Link} to='/shop' className='home-links'>Shop</Link>
+          <Link as={Link} to='/shop/all-products' className='home-links'>Shop</Link>
           <Link as={Link} to='/gallery' className='home-links'>Gallery</Link>
           <Link as={Link} to='/lookbook' className='home-links'>Lookbook</Link>
           <Link as={Link} to='/about' className='home-links'>About</Link>
