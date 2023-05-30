@@ -1,6 +1,7 @@
 import React from 'react';
 import ShopDropdown from '../../components/ShopDropdown';
 import SingleProduct from '../shop-sections/SingleProduct';
+import ProductList from '../../components/ProductList';
 
 function Shop() {
   return (
@@ -9,7 +10,8 @@ function Shop() {
         <ShopDropdown className="dropdown"/>
         <h2 className='page-title'>All Products</h2>
       </div>
-      <SingleProduct />
+      {/* <SingleProduct /> */}
+      <ProductList/>
     </div>
   )
 }
