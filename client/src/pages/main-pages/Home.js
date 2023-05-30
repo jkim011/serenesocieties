@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import modelFront from '../../assets/backgrounds/modelFront.jpg';
 import modelBack from '../../assets/backgrounds/modelBack.jpg';
-import palmTree from '../../assets/backgrounds/toxicPalmtree.jpg';
+import palmTree from '../../assets/backgrounds/toxicPalmtreeEdit2.jpg';
 
 import LogoMain from '../../assets/logo/serene-logo-new-main.jpg';
 import LogoMainBlack from '../../assets/logo/SereneLogoMainBlack.png';
