@@ -25,15 +25,42 @@
   height: auto;
 }
 .product-info {
-
+  margin-top: 40px;
+  margin-left: 40px;
 }
 .product-description {
   
 }
+.product-btns {
+  display: inline-flex;
+}
+.product-size button {
+  height: 35px;
+  font-size: 18px;
+  text-align: center;
+  margin-right: 30px;
+
+}
+
 
 
 @media only screen and (max-width: 576px) {
   .page-title {
     margin-top: 8px;
+  }
+
+  /* Single Product */
+  .single-product-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-image {
+    width: 350px;
+    height: auto;
+  }
+  .product-info {
+    margin-top: 0;
+    margin-left: 0;
   }
 }

@@ -16,6 +16,14 @@ body {
   flex: 1;
 }
 
+.btns {
+  border-radius: 8px;
+  background-color: white;
+}
+.btns:hover {
+
+}
+
 /* Homepage */
 .home-container {
   z-index: 1;
@@ -140,6 +148,7 @@ body {
 .footer-container {
   display: flex;
   flex-direction: row;
+  margin-top: 40px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 5px;
