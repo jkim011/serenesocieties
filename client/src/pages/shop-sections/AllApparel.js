@@ -1,5 +1,6 @@
 import React from 'react';
 import ShopDropdown from '../../components/ShopDropdown';
+import SingleProduct from './SingleProduct';
 
 function AllApparel() {
   return (
@@ -8,7 +9,8 @@ function AllApparel() {
         <ShopDropdown className="dropdown"/>
         <h2 className='page-title'>All Apparel</h2>
       </div>
-      
+      <SingleProduct />
+
     </div>
   )
 }
