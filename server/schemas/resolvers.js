@@ -3,7 +3,7 @@ const { User, Project } = require('../models');
 const { signToken } = require('../utils/auth');
 
 
-module.exports = resolvers = {
+const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if(context.user){
@@ -16,3 +16,5 @@ module.exports = resolvers = {
         return User.find();
       },
 }
+
+module.exports = resolvers;

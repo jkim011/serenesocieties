@@ -1,7 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
-// const { typeDefs, resolvers } = require('./schemas');
-// const { authMiddleware } = require('./utils/auth');
+const { typeDefs, resolvers } = require('./schemas/index.js');
+const { authMiddleware } = require('./utils/auth');
 const path = require('path');
 const db = require('./config/connection');
 
@@ -26,9 +26,9 @@ app.get('/', (req, res) => {
 });
 
 // COMMENT OUT WHEN USING IN LOCALHOST
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 
 
 

@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server-express");
 
-module.exports = typeDefs = gql`
+const typeDefs = gql`
     
     type Product {
         _id: ID
@@ -39,3 +39,5 @@ module.exports = typeDefs = gql`
     }
 
 `;
+
+module.exports = typeDefs;
