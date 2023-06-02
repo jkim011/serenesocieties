@@ -6,6 +6,7 @@ export const QUERY_PRODUCTS = gql`
       _id
       name
       image
+      image2
       price
       category
       
@@ -19,6 +20,7 @@ export const QUERY_SINGLE_PRODUCT = gql`
       _id
       name
       image
+      image2
       description
       price
       category
