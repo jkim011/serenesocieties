@@ -26,7 +26,7 @@ import AllApparel from './pages/shop-sections/AllApparel';
 import AllPosters from './pages/shop-sections/AllPosters';
 
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: 'http://localhost:3001/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -50,7 +50,7 @@ function App() {
     <div className='page-container'>
         <ApolloProvider client={client}>
         <Router>
-          <>
+          {/* <> */}
           <div className='content-wrap'>
             <NavBar />
             <Routes>
@@ -97,7 +97,7 @@ function App() {
             </Routes>
           </div>
           <Footer />
-          </>
+          {/* </> */}
         </Router>
         </ApolloProvider>
       

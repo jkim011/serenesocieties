@@ -13,7 +13,7 @@ const ProductList = ({products}) => {
                 <div key={product._id} id="productCard" className="m-2">
 
                     <div id="productHead">
-                        <img id="productImg" src={shirt} alt=""></img>
+                        <img id="productImg" src={product.image} alt=""></img>
                     </div>
 
                     <div className="container ">
