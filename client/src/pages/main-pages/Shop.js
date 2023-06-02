@@ -6,7 +6,8 @@ import ProductList from '../../components/ProductList';
 import { QUERY_PRODUCTS } from '../../utils/queries';
 
 function Shop() {
-  const {loading, data} = useQuery(QUERY_PRODUCTS)
+  const {loading, data, error} = useQuery(QUERY_PRODUCTS)
+  console.log(error)
   const products = data?.products || []
   console.log(products, "in shop.js")
 
