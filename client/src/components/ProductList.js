@@ -2,81 +2,80 @@ import React from "react";
 import shirt from "../assets/clothes/testShirt.png"
 import "../styles/productList.css"
 
+const ProductList = ({products}) => {
 
-const ProductList = () => {
     return(
- <section id="productCardContainer" className="d-flex flex-row flex-wrap justify-content-around">
 
-        <article id="productCard" className="m-2">
+        <div id="productCardContainer" className="d-flex flex-row flex-wrap justify-content-around">
 
-            <div id="productHead">
-                <img id="productImg" src={shirt}></img>
-            </div>
+            {products && 
+              products.map((product) => (
+                <div key={product._id} id="productCard" className="m-2">
 
-            <div className="container ">
-             <div id="productDetails" className="row">
-                <h3 className="col text-center">Sunset</h3>
-                <h3 className="col text-center">20.00</h3>
+                    <div id="productHead">
+                        <img id="productImg" src={shirt} alt=""></img>
+                    </div>
+
+                    <div className="container ">
+                    <div id="productDetails" className="row">
+                        <h3 className="col text-center">{product.name}</h3>
+                        <h3 className="col text-center">{product.price}</h3>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
 
-        </article>
+            ))}
 
-  <article id="productCard" className="m-2">
+            
+            {/* <article id="productCard" className="m-2">
 
-            <div id="productHead">
-                <img id="productImg" src={shirt}></img>
-            </div>
-
-            <div className="container ">
-             <div id="productDetails" className="row">
-                <h3 className="col text-center">Sunset</h3>
-                <h3 className="col text-center">20.00</h3>
+                <div id="productHead">
+                    <img id="productImg" src={shirt}></img>
                 </div>
-            </div>
 
-        </article>
-
-          <article id="productCard" className="m-2">
-
-            <div id="productHead">
-                <img id="productImg" src={shirt}></img>
-            </div>
-
-            <div className="container ">
-             <div id="productDetails" className="row">
-                <h3 className="col text-center">Sunset</h3>
-                <h3 className="col text-center">20.00</h3>
+                <div className="container ">
+                <div id="productDetails" className="row">
+                    <h3 className="col text-center">Sunset</h3>
+                    <h3 className="col text-center">20.00</h3>
+                    </div>
                 </div>
-            </div>
 
-        </article>
+            </article>
 
-          <article id="productCard" className="m-2">
+            <article id="productCard" className="m-2">
 
-            <div id="productHead">
-                <img id="productImg" src={shirt}></img>
-            </div>
-
-            <div className="container ">
-             <div id="productDetails" className="row">
-                <h3 className="col text-center">Sunset</h3>
-                <h3 className="col text-center">20.00</h3>
+                <div id="productHead">
+                    <img id="productImg" src={shirt}></img>
                 </div>
-            </div>
 
-        </article>
-      
+                <div className="container ">
+                <div id="productDetails" className="row">
+                    <h3 className="col text-center">Sunset</h3>
+                    <h3 className="col text-center">20.00</h3>
+                    </div>
+                </div>
 
+                </article>
 
+            <article id="productCard" className="m-2">
+
+                <div id="productHead">
+                    <img id="productImg" src={shirt}></img>
+                </div>
+
+                <div className="container ">
+                <div id="productDetails" className="row">
+                    <h3 className="col text-center">Sunset</h3>
+                    <h3 className="col text-center">20.00</h3>
+                    </div>
+                </div>
+
+            </article> */}
         
-
-       
-
-</section>
-        
-
+        </div>
     )
+
 }
 
 export default ProductList;
