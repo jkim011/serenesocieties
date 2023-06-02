@@ -31,7 +31,6 @@ app.get('/', (req, res) => {
 // });
 
 
-
 // create an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start();

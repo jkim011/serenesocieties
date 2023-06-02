@@ -8,7 +8,6 @@ function SingleProduct() {
   
   return (
     <div className="single-product-container">
-      {/* <img src={testShirtBack} className="product-image"/> */}
       <Carousel className="product-image" interval={null} variant="dark">
         <Carousel.Item>
           <img
