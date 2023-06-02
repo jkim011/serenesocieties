@@ -30,6 +30,7 @@ export const ADD_PRODUCT = gql`
         _id
         name
         image
+        image2
         description
         price
         category

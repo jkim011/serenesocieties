@@ -48,17 +48,17 @@ const resolvers = {
     
         return { token, user };
         },
-        addProduct: async (parent, { name, description, image, price, category, size, stock }, context) => {
+        addProduct: async (parent, { name, description, image, image2, price, category, size, stock }, context) => {
 
-            const product = await Product.create({ name, description, image, price, category, size, stock });
+            const product = await Product.create({ name, description, image, image2, price, category, size, stock });
 
             return product;
 
         },
-        updateProduct: async (parent, { productId, name, description, image, price, category, size, stock }, context) => {
+        updateProduct: async (parent, { productId, name, description, image, image2, price, category, size, stock }, context) => {
             return Product.findOneAndUpdate(
                 {_id: productId},
-                {name, description, image, price, category, size, stock}
+                {name, description, image, image2, price, category, size, stock}
             )
         },
         deleteProduct: async (parent, { productId }, context) => {

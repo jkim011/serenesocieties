@@ -1,3 +1,20 @@
-#productImg{
-    height: 40vh
+#productHead {
+  
+}
+#productHead:hover {
+    .productImg {
+        display: none;
+    }
+    .productImg2 {
+        display: block;
+    }
+}
+
+.productImg {
+    height: 35vh
+    /* width: 100px;
+    height: auto; */
+}
+.productImg2 {
+    display: none;
 }
