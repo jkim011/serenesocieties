@@ -1,7 +1,6 @@
-#productHead {
-  
+#productCard {
 }
-#productHead:hover {
+#productCard:hover {
     .productImg {
         display: none;
     }
@@ -12,9 +11,18 @@
 
 .productImg {
     height: 35vh
-    /* width: 100px;
-    height: auto; */
 }
 .productImg2 {
     display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .productImg {
+    height: 25vh;
+  }
+
+  .productText {
+    font-size: 98%;
+  }
+
 }
