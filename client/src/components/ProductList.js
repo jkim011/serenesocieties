@@ -1,5 +1,6 @@
 import React from "react";
-import shirt from "../assets/clothes/testShirt.png"
+import { Link } from 'react-router-dom';
+import shirt from "../assets/clothes/testShirt.png";
 import "../styles/productList.css";
 
 const ProductList = ({products}) => {
@@ -10,14 +11,16 @@ const ProductList = ({products}) => {
           <div key={product._id} id="productCard" className="m-2">
 
             <div id="productHead">
-              <img className="productImg" src={product.image} alt="" />
-              <img className="productImg productImg2" src={product.image2} alt="" />
+              <Link to=''>
+                <img className="productImg" src={product.image} alt="" />
+                <img className="productImg productImg2" src={product.image2} alt="" />
+              </Link>
             </div>
 
             <div className="container ">
               <div id="productDetails" className="column">
-                <h5 className="col text-center">{product.name}</h5>
-                <h5 className="col text-center">${product.price}</h5>
+                <h5 className="col text-center productText">{product.name}</h5>
+                <h5 className="col text-center productText">${product.price}</h5>
               </div>
             </div>
 
