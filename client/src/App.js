@@ -24,6 +24,7 @@ import NaturalEssence from './pages/collections/NaturalEssence';
 import Halloween from './pages/collections/Halloween';
 import AllApparel from './pages/shop-sections/AllApparel';
 import AllPosters from './pages/shop-sections/AllPosters';
+import SingleProduct from './pages/shop-sections/SingleProduct';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -48,9 +49,8 @@ const client = new ApolloClient({
 function App() {
   return (
     <div className='page-container'>
-        <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
         <Router>
-          {/* <> */}
           <div className='content-wrap'>
             <NavBar />
             <Routes>
@@ -59,16 +59,20 @@ function App() {
                 element={<Home />}
               />
               <Route
-                path='/shop/all-products'
-                element={<Shop />}
-              />
-              <Route
                 path='/gallery'
                 element={<Gallery />}
               />
               <Route
                 path='/lookbook'
                 element={<Lookbook />}
+              />
+              <Route
+                path='/shop/all-products'
+                element={<Shop />}
+              />
+              <Route
+                path={`/shop/:productId`}
+                element={<SingleProduct />}
               />
               <Route
                 path='/shop/all-apparel'
@@ -97,9 +101,8 @@ function App() {
             </Routes>
           </div>
           <Footer />
-          {/* </> */}
         </Router>
-        </ApolloProvider>
+      </ApolloProvider>
       
     </div>
   );

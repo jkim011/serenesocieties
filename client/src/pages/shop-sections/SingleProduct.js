@@ -1,10 +1,19 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 
 import testShirtBack from '../../assets/clothes/testShirtBack.jpg';
 import testShirtFront from '../../assets/clothes/testShirtFront.jpg';
 
 function SingleProduct() {
+  const { productId } = useParams();
+  const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
+    variables: { productId: productId }
+  });
+
+  const product = data?.product || {};
   
   return (
     <div className="single-product-container">
@@ -12,7 +21,7 @@ function SingleProduct() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={testShirtBack}
+            src={product.image}
             alt=""
           />
         </Carousel.Item>
@@ -20,16 +29,16 @@ function SingleProduct() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={testShirtFront}
+            src={product.image2}
             alt=""
           />
         </Carousel.Item>
       </Carousel>
 
       <div className="product-info">
-        <h3>Product Name <span style={{marginLeft:"30px"}}>$25.00</span></h3>
+        <h3>{product.name} <span style={{marginLeft:"30px"}}>${product.price}</span></h3>
         <ul className="product-description">
-          <li>Desc blah balhc aldkfj aldk faksdf jfl jksdf lk k </li>
+          <li>{product.description}</li>
           <li>Desc </li>
           <li>Desc </li>
           <li>Desc </li>
