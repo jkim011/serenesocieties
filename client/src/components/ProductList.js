@@ -11,7 +11,7 @@ const ProductList = ({products}) => {
           <div key={product._id} id="productCard" className="m-2">
 
             <div id="productHead">
-              <Link to=''>
+              <Link to={`/shop/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />
                 <img className="productImg productImg2" src={product.image2} alt="" />
               </Link>

@@ -9,7 +9,6 @@ function AllApparel() {
         <ShopDropdown className="dropdown"/>
         <h2 className='page-title'>All Apparel</h2>
       </div>
-      <SingleProduct />
 
     </div>
   )
