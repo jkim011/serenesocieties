@@ -22,19 +22,21 @@ const productSchema = new Schema({
     type: Number,
     required: true,
   },
-  category: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  size: {
-    type: String,
-    trim: true,
-  },
-  stock: {
-    type: Number,
-    required: true
-  }
+  categories: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+    }
+  ],
+  inventory: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: 'Stock',
+        required: true
+    }
+  ],
+
 });
 
 const Product = model('Product', productSchema);

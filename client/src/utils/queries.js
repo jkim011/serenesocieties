@@ -8,7 +8,7 @@ export const QUERY_PRODUCTS = gql`
       image
       image2
       price
-      category
+      
       
     }
   }
@@ -23,9 +23,16 @@ export const QUERY_SINGLE_PRODUCT = gql`
       image2
       description
       price
-      category
-      size
-      stock
+      category {
+        _id
+        name
+      }
+      
+      stock {
+        _id
+        size
+        stock
+      }
     }
   }
 `;
