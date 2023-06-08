@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product } = require('../models');
+const { User, Product, Category, Stock } = require('../models');
 const { signToken } = require('../utils/auth');
 
 
@@ -18,10 +18,19 @@ const resolvers = {
             return User.findOne({ username });
         },
         products: async () => {
-            return Product.find();
+            return Product.find().populate("inventory");
         },
         product: async (parent, { productId }) => {
-            return Product.findOne({ _id: productId });
+            return Product.findOne({ _id: productId }).populate("inventory");
+        },
+        categories: async () => {
+            return await Category.find();
+        },
+        inventory: async () => {
+            return await Stock.find().populate('product');
+        },
+        stock: async () => {
+            return await Stock.findOne({ _id: stockId })
         }
     },
 
@@ -48,17 +57,17 @@ const resolvers = {
     
         return { token, user };
         },
-        addProduct: async (parent, { name, description, image, image2, price, category, size, stock }, context) => {
+        addProduct: async (parent, { name, description, image, image2, price, categories }, context) => {
 
-            const product = await Product.create({ name, description, image, image2, price, category, size, stock });
+            const product = await Product.create({ name, description, image, image2, price, categories });
 
             return product;
 
         },
-        updateProduct: async (parent, { productId, name, description, image, image2, price, category, size, stock }, context) => {
+        updateProduct: async (parent, { productId, name, description, image, image2, price, categories }, context) => {
             return Product.findOneAndUpdate(
-                {_id: productId},
-                {name, description, image, image2, price, category, size, stock}
+                { _id: productId },
+                { name, description, image, image2, price, categories }
             )
         },
         deleteProduct: async (parent, { productId }, context) => {
@@ -68,6 +77,31 @@ const resolvers = {
             })
             return product;
 
+        },
+        addCategory: async (parent, { name }, context) => {
+            const category = await Category.create({ name });
+            return category;
+        },
+        addStock: async (parent, { productId, size, amount }) => {
+            
+            const stock = await Stock.create(
+            //   { _id: productId },
+              {  size, amount }
+            )
+            await Product.findOneAndUpdate(
+              { _id: productId },
+              { $addToSet: { inventory: {_id: stock._id} } }
+            )
+            return [stock];
+
+        },
+        updateStock: async (parent, { stockId, size, amount }) => {
+
+            return Stock.findOneAndUpdate(
+                { _id: stockId },
+                { size, amount }
+            )
+            
         }
 
 
