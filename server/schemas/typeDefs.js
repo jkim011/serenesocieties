@@ -22,7 +22,7 @@ const typeDefs = gql`
     type Stock {
         _id: ID
         size: String!
-        amount: Int!
+        quantity: Int!
     }
 
     type User{
@@ -45,6 +45,7 @@ const typeDefs = gql`
         products(category: ID, name: String): [Product]
         product(productId: ID!): Product
         categories: [Category]
+        category: Category
         inventory: [Stock]
         stock(stockId: ID!): Stock
     }
@@ -56,8 +57,9 @@ const typeDefs = gql`
         updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [String]): Product
         deleteProduct(productId: ID!): Product
         addCategory(name: String!): Category
-        addStock(productId: ID!, size: String!, amount: Int!): Stock
-        updateStock(stockId: ID!, size: String!, amount: Int!): Stock
+        addStock(productId: ID!, size: String!, quantity: Int!): Stock
+        updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
+        deleteStock(stockId: ID!): Stock
     }
 
 `;

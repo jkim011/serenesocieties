@@ -26,6 +26,9 @@ const resolvers = {
         categories: async () => {
             return await Category.find();
         },
+        category: async () => {
+            return await Category.findOne();
+        },
         inventory: async () => {
             return await Stock.find().populate('product');
         },
@@ -78,16 +81,9 @@ const resolvers = {
             return product;
 
         },
-        addCategory: async (parent, { name }, context) => {
-            const category = await Category.create({ name });
-            return category;
-        },
-        addStock: async (parent, { productId, size, amount }) => {
+        addStock: async (parent, { productId, size, quantity }) => {
             
-            const stock = await Stock.create(
-            //   { _id: productId },
-              {  size, amount }
-            )
+            const stock = await Stock.create({ size, quantity })
             await Product.findOneAndUpdate(
               { _id: productId },
               { $addToSet: { inventory: {_id: stock._id} } }
@@ -95,15 +91,26 @@ const resolvers = {
             return [stock];
 
         },
-        updateStock: async (parent, { stockId, size, amount }) => {
+        updateStock: async (parent, { stockId, size, quantity }) => {
 
             return Stock.findOneAndUpdate(
                 { _id: stockId },
-                { size, amount }
+                { size, quantity }
             )
             
-        }
+        },
+        deleteStock: async (parent, { stockId }, context) => {
 
+            const stock = await Stock.findOneAndDelete({
+                _id: stockId,
+            })
+            return stock;
+
+        },
+        // addCategory: async (parent, { name }, context) => {
+        //     const category = await Category.create({ name });
+        //     return category;
+        // },
 
     }
 }

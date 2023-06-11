@@ -5,7 +5,7 @@ const stockSchema = new Schema({
     type: String,
     trim: true,
   },
-  amount: {
+  quantity: {
     type: Number,
     required: true,
   }

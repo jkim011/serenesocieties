@@ -31,7 +31,7 @@ export const QUERY_SINGLE_PRODUCT = gql`
       stock {
         _id
         size
-        stock
+        quantity
       }
     }
   }
