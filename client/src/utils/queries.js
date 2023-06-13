@@ -23,16 +23,13 @@ export const QUERY_SINGLE_PRODUCT = gql`
       image2
       description
       price
-      category {
-        _id
-        name
-      }
-      
-      stock {
+      inventory {
         _id
         size
         quantity
       }
+      
+
     }
   }
 `;

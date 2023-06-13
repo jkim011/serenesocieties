@@ -14,7 +14,10 @@ function SingleProduct() {
   });
 
   const product = data?.product || {};
-  
+
+  const inventory = product.inventory
+  console.log(product.inventory)
+
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
