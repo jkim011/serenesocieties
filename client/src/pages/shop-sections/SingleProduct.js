@@ -4,9 +4,6 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 
-import testShirtBack from '../../assets/clothes/testShirtBack.jpg';
-import testShirtFront from '../../assets/clothes/testShirtFront.jpg';
-
 function SingleProduct() {
   const { productId } = useParams();
   const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
@@ -14,9 +11,8 @@ function SingleProduct() {
   });
 
   const product = data?.product || {};
-
   const inventory = product.inventory
-  console.log(product.inventory)
+  console.log(inventory)
 
   return (
     <div className="single-product-container">
@@ -46,13 +42,11 @@ function SingleProduct() {
           <li>Desc </li>
           <li>Desc </li>
         </ul>
+
         <form className="product-btns">
             <label for="product-size">Size: </label>
             <select id="product-size" className="product-size" name="Size">
-              <option value="s">S</option>
-              <option value="m">M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
+              {inventory?.map(stock => <option key={stock._id}>{stock.size}</option>)}
             </select>
 
           <button className="btns cart-btn">Add to cart</button>
