@@ -26,8 +26,8 @@ const resolvers = {
         categories: async () => {
             return await Category.find();
         },
-        category: async () => {
-            return await Category.findOne();
+        category: async (parent, { categoryId }) => {
+            return await Category.findOne({ _id: categoryId });
         },
         inventory: async () => {
             return await Stock.find().populate('product');
@@ -107,10 +107,16 @@ const resolvers = {
             return stock;
 
         },
-        // addCategory: async (parent, { name }, context) => {
-        //     const category = await Category.create({ name });
-        //     return category;
-        // },
+        addCategory: async (parent, { name, routeName }, context) => {
+            const category = await Category.create({ name, routeName });
+            return category;
+        },
+        updateCategory: async (parent, { categoryId, name, routeName }, context) => {
+            return Category.findOneAndUpdate(
+                { _id: categoryId},
+                { name, routeName }
+            )
+        }
 
     }
 }

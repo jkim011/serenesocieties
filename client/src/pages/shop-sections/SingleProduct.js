@@ -12,8 +12,8 @@ function SingleProduct() {
 
   const product = data?.product || {};
   const inventory = product.inventory
-  console.log(inventory)
-
+  console.log(inventory, "in SingleProduct")
+console.log(product.image)
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
@@ -21,7 +21,7 @@ function SingleProduct() {
           <img
             className="d-block w-100"
             src={product.image}
-            alt=""
+            alt="image1"
           />
         </Carousel.Item>
 
@@ -29,7 +29,7 @@ function SingleProduct() {
           <img
             className="d-block w-100"
             src={product.image2}
-            alt=""
+            alt="image2"
           />
         </Carousel.Item>
       </Carousel>
@@ -44,7 +44,7 @@ function SingleProduct() {
         </ul>
 
         <form className="product-btns">
-            <label for="product-size">Size: </label>
+            <label>Size: </label>
             <select id="product-size" className="product-size" name="Size">
               {inventory?.map(stock => <option key={stock._id}>{stock.size}</option>)}
             </select>

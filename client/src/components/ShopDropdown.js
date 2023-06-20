@@ -1,24 +1,72 @@
 import React from 'react';
+import { useQuery } from '@apollo/client';
+import { QUERY_PRODUCTS, QUERY_SINGLE_CATEGORY } from "../utils/queries";
+import { QUERY_CATEGORIES } from '../utils/queries';
+import { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import { Divider } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-function ShopDropdown() {
+const ShopDropdown = () => { 
+
+  const {loading, data, error} = useQuery(QUERY_PRODUCTS)
+  console.log(error)
+  // const categories = data?.categories || []
+  const products = data?.products || []
+  const categories = useQuery(QUERY_CATEGORIES);
+  console.log(categories.data?.categories, "categories ShopDropdown")
+  console.log(products, "products shopdropdown")
+
+  //testing
+  const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)
+  console.log(route, "usestate")
+
+  if(loading) {
+    return (
+      <div>Loading</div>
+    )
+  }
+
   return (
-    <DropdownButton
-      className='dropdown'
-      drop="end"
-      variant="white"
-      title="Shop by"
-    >
-      <Dropdown.ItemText><h5>All</h5></Dropdown.ItemText>
-        <Dropdown.Item href='/shop/all-products'>All Products</Dropdown.Item>
-        <Dropdown.Item href="/shop/all-apparel">Apparel</Dropdown.Item>
-        <Dropdown.Item href="/shop/all-posters">Posters</Dropdown.Item>
-      <Dropdown.Divider />
-      <Dropdown.ItemText><h5>Collections</h5></Dropdown.ItemText>
-        <Dropdown.Item href="/shop/natural-essence">Natural Essence</Dropdown.Item>
-        <Dropdown.Item href="/shop/halloween-special">Halloween Special</Dropdown.Item>
-    </DropdownButton>
+    <div>
+      <DropdownButton
+        className='dropdown'
+        drop="end"
+        variant="white"
+        title="Shop by"
+      >
+        {categories.data?.categories && 
+          categories.data?.categories.map((category) => (
+            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`} onClick={() => setRoute(category.routeName)} onChange={(e) => setRoute(e.target.value)}>{category.name}</Dropdown.Item>
+          ))
+        }  
+      </DropdownButton>
+      {/* <p>{route}</p> */}
+
+      <div id="productCardContainer" className="d-flex flex-row flex-wrap justify-content-around">
+        {products && 
+          products.map((product) => (
+            <div key={product._id} id="productCard" className="m-2">
+
+              <div id="productHead">
+                <Link to={`/shop/products/${product._id}`}>
+                  <img className="productImg" src={product.image} alt="" />
+                  <img className="productImg productImg2" src={product.image2} alt="" />
+                </Link>
+              </div>
+
+              <div className="container ">
+                <div id="productDetails" className="column">
+                  <h5 className="col text-center productText">{product.name}</h5>
+                  <h5 className="col text-center productText">${product.price}</h5>
+                </div>
+              </div>
+
+            </div>
+          ))} 
+      </div>
+    </div>
   )
 }
 

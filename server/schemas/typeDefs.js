@@ -16,7 +16,7 @@ const typeDefs = gql`
     type Category {
         _id: ID
         name: String!
-        isCollection: Boolean
+        routeName: String!
     }
 
     type Stock {
@@ -45,7 +45,7 @@ const typeDefs = gql`
         products(category: ID, name: String): [Product]
         product(productId: ID!): Product
         categories: [Category]
-        category: Category
+        category(categoryId: ID!): Category
         inventory: [Stock]
         stock(stockId: ID!): Stock
     }
@@ -56,7 +56,8 @@ const typeDefs = gql`
         addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [String]): Product
         updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [String]): Product
         deleteProduct(productId: ID!): Product
-        addCategory(name: String!): Category
+        addCategory(name: String!, routeName: String!): Category
+        updateCategory(categoryId: ID!, name: String!, routeName: String!): Category
         addStock(productId: ID!, size: String!, quantity: Int!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
         deleteStock(stockId: ID!): Stock

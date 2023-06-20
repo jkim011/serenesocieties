@@ -67,14 +67,14 @@ function App() {
                 element={<Lookbook />}
               />
               <Route
-                path='/shop/all-products'
+                path='/shop/:routeName'
                 element={<Shop />}
               />
               <Route
-                path={`/shop/:productId`}
+                path={`/shop/products/:productId`}
                 element={<SingleProduct />}
               />
-              <Route
+              {/* <Route
                 path='/shop/all-apparel'
                 element={<AllApparel />}
               />
@@ -89,7 +89,7 @@ function App() {
               <Route
                 path='/shop/halloween-special'
                 element={<Halloween />}
-              />
+              /> */}
               <Route
                 path='/about'
                 element={<About />}

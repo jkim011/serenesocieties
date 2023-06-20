@@ -15,7 +15,6 @@ import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
 
 function NavBar() {
   const navigate = useNavigate();
-  console.log(window.location.pathname);
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
