@@ -1,16 +1,29 @@
 [
   {
-    "name": "seeded shirt",
+    "name": "Seeded t-shirt",
     "image": "/images/testShirt",
+    "image2": "/",
     "description": "testing seeded data shirt",
-    "price": 10
+    "price": 20,
+    "categories": [
+
+    ],
+    "inventory": [
+
+    ]
 
   },
   {
-    "name": "seeded shirt 2",
+    "name": "Seeded poster",
     "image": "/images/testShirt",
-    "description": "testing seeded data shirt",
-    "price": 25
+    "description": "testing seeded data poster",
+    "price": 10,
+    "categories": [
+
+    ],
+    "inventory": [
+
+    ]
 
   }
 ]

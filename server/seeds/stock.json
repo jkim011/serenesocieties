@@ -1,0 +1,26 @@
+[
+    [
+        {
+            "size": "S",
+            "quantity": 10
+        },
+        {
+            "size":"M",
+            "quantity": 8
+        },
+        {
+            "size": "L",
+            "quantity": 12
+        }
+    ],
+    [
+        {
+            "size": "10x12 in",
+            "quantity": 15
+        },
+        {
+            "size":"13x15 in",
+            "quantity": 8
+        }
+    ]
+]
