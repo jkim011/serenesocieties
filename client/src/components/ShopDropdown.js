@@ -42,7 +42,7 @@ const ShopDropdown = () => {
           ))
         }  
       </DropdownButton>
-      {/* <p>{route}</p> */}
+      <p>{route}</p>
 
       <div id="productCardContainer" className="d-flex flex-row flex-wrap justify-content-around">
         {products && 

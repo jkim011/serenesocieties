@@ -1,0 +1,10 @@
+[
+    {
+      "name": "All Products",
+      "routeName": "all-products"
+    },
+    {
+      "name": "Tees",
+      "routeName": "tees"
+    }
+  ]

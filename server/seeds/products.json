@@ -3,18 +3,14 @@
     "name": "seeded shirt",
     "image": "/images/testShirt",
     "description": "testing seeded data shirt",
-    "price": 10,
-    "category": "Tops",
-    "size": "XL",
-    "stock": 20
+    "price": 10
+
   },
   {
     "name": "seeded shirt 2",
     "image": "/images/testShirt",
     "description": "testing seeded data shirt",
-    "price": 25,
-    "category": "Tops",
-    "size": "S",
-    "stock": 30
+    "price": 25
+
   }
 ]
