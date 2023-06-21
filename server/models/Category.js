@@ -3,13 +3,18 @@ const { Schema, model } = require('mongoose');
 const categorySchema = new Schema({
   name: {
     type: String,
-    required: true,
+    // required: true,
     trim: true
   },
-  isCollection: {
-    type: Boolean,
-    
+  routeName: {
+    type: String,
+    // required: true,
+    trim: true
   }
+  // isCollection: {
+  //   type: Boolean,
+    
+  // }
 });
 
 const Category = model('Category', categorySchema);
