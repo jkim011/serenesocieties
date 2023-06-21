@@ -14,7 +14,7 @@ function Shop() {
 
   return (
     <div>
-      <div className='page-header'>
+      <div >
         <ShopDropdown className="dropdown" />  {/*categories={categories}}
         {/* <h2 className='page-title'>All Products</h2> */}
       </div>

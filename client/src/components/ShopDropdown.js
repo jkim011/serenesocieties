@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS, QUERY_SINGLE_CATEGORY } from "../utils/queries";
 import { QUERY_CATEGORIES } from '../utils/queries';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Divider } from 'semantic-ui-react';
@@ -21,24 +21,30 @@ const ShopDropdown = () => {
   //testing
   const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)
   console.log(route, "usestate")
+  const setCurrentRoute = e => {
+    setRoute(e.currentTarget.routeName)
+    console.log(route)
+  }
+  useEffect(() => {
+    console.log(route, "route")
+  }, [route])
 
   if(loading) {
     return (
       <div>Loading</div>
     )
   }
-
   return (
     <div>
       <DropdownButton
-        className='dropdown'
+        className='dropdown page-header'
         drop="end"
         variant="white"
         title="Shop by"
       >
         {categories.data?.categories && 
           categories.data?.categories.map((category) => (
-            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`} onClick={() => setRoute(category.routeName)} onChange={(e) => setRoute(e.target.value)}>{category.name}</Dropdown.Item>
+            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`} onClick={setCurrentRoute} >{category.name}</Dropdown.Item>
           ))
         }  
       </DropdownButton>
