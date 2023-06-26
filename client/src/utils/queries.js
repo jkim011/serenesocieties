@@ -8,7 +8,16 @@ export const QUERY_PRODUCTS = gql`
       image
       image2
       price
-      
+      inventory {
+        _id
+        size
+        quantity
+      }
+      categories {
+        _id
+        name
+        routeName
+      }
       
     }
   }
@@ -28,7 +37,11 @@ export const QUERY_SINGLE_PRODUCT = gql`
         size
         quantity
       }
-      
+      categories {
+        _id
+        name
+        routeName
+      }
 
     }
   }
