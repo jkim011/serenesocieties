@@ -10,7 +10,9 @@ import { QUERY_CATEGORIES } from '../../utils/queries';
 function Shop() {
   const {loading, data, error} = useQuery(QUERY_PRODUCTS)
   const products = data?.products || []
-  console.log(products, "in shop.js")
+  console.log(products, "in shop.js");
+  const categories = products.categories
+  console.log(categories, "products.categories in shop.js")
 
   return (
     <div>

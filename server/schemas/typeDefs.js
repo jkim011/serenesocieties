@@ -42,7 +42,7 @@ const typeDefs = gql`
         me: User
         users: [User]
         user(username: String!): User
-        products(category: ID, name: String): [Product]
+        products(category: [ID], name: String): [Product]
         product(productId: ID!): Product
         categories: [Category]
         category(categoryId: ID!): Category
@@ -53,10 +53,10 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
-        addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [String]): Product
-        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [String]): Product
+        addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [ID]): Product
+        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!): Product
         deleteProduct(productId: ID!): Product
-        addCategory(name: String!, routeName: String!): Category
+        addCategory(productId: ID! name: String!, routeName: String!): Category
         updateCategory(categoryId: ID!, name: String!, routeName: String!): Category
         addStock(productId: ID!, size: String!, quantity: Int!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock

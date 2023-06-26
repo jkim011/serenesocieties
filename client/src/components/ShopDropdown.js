@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { Divider } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const ShopDropdown = () => { 
 
@@ -14,20 +14,30 @@ const ShopDropdown = () => {
   console.log(error)
   // const categories = data?.categories || []
   const products = data?.products || []
+  console.log(products, "products shopdropdown")
   const categories = useQuery(QUERY_CATEGORIES);
   console.log(categories.data?.categories, "categories ShopDropdown")
-  console.log(products, "products shopdropdown")
+
+const Productcategories = products.categories
+console.log(Productcategories, "Productcategories")
+   
+console.log(products.data?.categories.name, "product category shopdropdown")
+
+  // const productCategories = products.categories || []
+  // console.log(productCategories, "productCategories")
 
   //testing
   const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)
   console.log(route, "usestate")
-  const setCurrentRoute = e => {
-    setRoute(e.currentTarget.routeName)
-    console.log(route)
-  }
-  useEffect(() => {
-    console.log(route, "route")
-  }, [route])
+  // const setCurrentRoute = e => {
+  //   setRoute(e.currentTarget.routeName)
+  //   console.log(route)
+  // }
+  // useEffect(() => {
+  //   console.log(route, "route")
+  //   // setRoute(categories.routeName)
+  // }, [route])
+
 
   if(loading) {
     return (
@@ -44,7 +54,7 @@ const ShopDropdown = () => {
       >
         {categories.data?.categories && 
           categories.data?.categories.map((category) => (
-            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`} onClick={setCurrentRoute} >{category.name}</Dropdown.Item>
+            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`}  >{category.name}</Dropdown.Item>
           ))
         }  
       </DropdownButton>
@@ -54,7 +64,6 @@ const ShopDropdown = () => {
         {products && 
           products.map((product) => (
             <div key={product._id} id="productCard" className="m-2">
-
               <div id="productHead">
                 <Link to={`/shop/products/${product._id}`}>
                   <img className="productImg" src={product.image} alt="" />

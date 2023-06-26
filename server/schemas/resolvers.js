@@ -17,17 +17,19 @@ const resolvers = {
         user: async (parent, { username }) => {
             return User.findOne({ username });
         },
-        products: async () => {
-            return Product.find().populate("inventory");
+        products: async (parent, {categoryId, categories, name}) => {
+            const params = categories ? {categories} : {}
+            return Product.find(params).populate("inventory").populate("categories");
+            // return Product.find({ _id: categoryId }).populate("inventory").populate("categories");
         },
         product: async (parent, { productId }) => {
-            return Product.findOne({ _id: productId }).populate("inventory");
+            return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
         categories: async () => {
-            return await Category.find();
+            return await Category.find().populate("products");
         },
         category: async (parent, { categoryId }) => {
-            return await Category.findOne({ _id: categoryId });
+            return await Category.findOne({ _id: categoryId }).populate("products").populate("product");
         },
         inventory: async () => {
             return await Stock.find().populate('product');
