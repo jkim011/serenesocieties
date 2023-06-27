@@ -12,19 +12,11 @@ const ShopDropdown = () => {
 
   const {loading, data, error} = useQuery(QUERY_PRODUCTS)
   console.log(error)
-  // const categories = data?.categories || []
+
   const products = data?.products || []
   console.log(products, "products shopdropdown")
   const categories = useQuery(QUERY_CATEGORIES);
   console.log(categories.data?.categories, "categories ShopDropdown")
-
-const Productcategories = products.categories
-console.log(Productcategories, "Productcategories")
-   
-console.log(products.data?.categories.name, "product category shopdropdown")
-
-  // const productCategories = products.categories || []
-  // console.log(productCategories, "productCategories")
 
   //testing
   const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)

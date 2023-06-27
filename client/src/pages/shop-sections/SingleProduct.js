@@ -14,7 +14,6 @@ function SingleProduct() {
   const inventory = product.inventory
   console.log(product)
   console.log(inventory, "inventory in SingleProduct")
-console.log(product.categories, "categories in single product")
 
   return (
     <div className="single-product-container">

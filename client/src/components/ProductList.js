@@ -12,12 +12,6 @@ const ProductList = ({products}) => {
   console.log(error)
   const categories = data?.categories || []
   
-  console.log(categories.category, "in productList")
-  
-  categories && categories.map((category) => (
-      console.log(category.routeName)
-            
-  ))
   // let currentCategory = category.routeName
   // console.log(currentCategory, "current category")
 
