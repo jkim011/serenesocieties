@@ -26,7 +26,7 @@ const resolvers = {
             return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
         categories: async () => {
-            return await Category.find().populate("products");
+            return await Category.find() //.populate("products");
         },
         category: async (parent, { categoryId }) => {
             return await Category.findOne({ _id: categoryId }).populate("products").populate("product");
