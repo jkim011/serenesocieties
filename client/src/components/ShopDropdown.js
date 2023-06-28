@@ -21,14 +21,22 @@ const ShopDropdown = () => {
   //testing
   const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)
   console.log(route, "usestate")
-  // const setCurrentRoute = e => {
-  //   setRoute(e.currentTarget.routeName)
-  //   console.log(route)
-  // }
+  const setCurrentRoute = e => {
+    e.preventDefault()
+    setRoute(e.routeName)
+    console.log(route)
+  }
   // useEffect(() => {
-  //   console.log(route, "route")
-  //   // setRoute(categories.routeName)
+  //   setRoute(categories.routeName)
   // }, [route])
+
+
+  // const productCategories = products.categories
+  // console.log(productCategories, "TESTING THIS")
+
+  for( let i = 0; i < products.length; i++) {
+    console.log(products[i].categories, "product index", [i])
+  }
 
 
   if(loading) {
