@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 function Footer() {
   const navigate = useNavigate();
-  console.log(window.location.pathname);
+  // console.log(window.location.pathname);
   if(window.location.pathname === '/') {
     // navigate(0);
     return (<div></div>)

@@ -11,11 +11,21 @@ function Shop() {
   // const {loading, data, error} = useQuery(QUERY_PRODUCTS)
   // const products = data?.products || []
 
+  const {loading, data} = useQuery(QUERY_CATEGORIES);
+
+  const categories = data?.categories || []
+ 
+  
+  console.log("SHOP CAT", categories)
+  
+  if (loading) return (
+    <span>Loading...</span>
+  )
+
   return (
     <div>
       <div >
-        <ShopDropdown className="dropdown" />  {/*categories={categories}}
-        {/* <h2 className='page-title'>All Products</h2> */}
+        <ShopDropdown categories={categories} className="dropdown"  />  
       </div>
       {/* <ProductList products={products} /> */}
     </div>
