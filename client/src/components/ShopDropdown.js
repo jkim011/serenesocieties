@@ -19,12 +19,10 @@ const ShopDropdown = () => {
   console.log(categories.data?.categories, "categories ShopDropdown")
 
   //testing
-  const [ route, setRoute ] = useState(categories.data?.categories[0].routeName)
+  const [ route, setRoute ] = useState([categories.data?.categories.routeName])
   console.log(route, "usestate")
-  const setCurrentRoute = e => {
-    e.preventDefault()
-    setRoute(e.routeName)
-    console.log(route)
+  const setCurrentRoute = (e) => {
+    console.log(setRoute[e.target.value], "setCurrentRoute")
   }
   // useEffect(() => {
   //   setRoute(categories.routeName)
@@ -54,7 +52,7 @@ const ShopDropdown = () => {
       >
         {categories.data?.categories && 
           categories.data?.categories.map((category) => (
-            <Dropdown.Item key={category._id} className="dropdown-values" value={category.routeName} href={`/shop/${category.routeName}`}  >{category.name}</Dropdown.Item>
+            <Dropdown.Item key={category._id} className="dropdown-values" value={category} href={`/shop/${category.routeName}`} onChange={setCurrentRoute} >{category.name}</Dropdown.Item>
           ))
         }  
       </DropdownButton>
