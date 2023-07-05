@@ -34,11 +34,11 @@ const ShopDropdown = ({ categories }) => {
 
   const handleChange = (e) => {
     setRoute(e.target.value)
-    // window.location.reload()
   }
 
   for (let i = 0; i < products.length; i++) {
-    // console.log(products[i].categories, "product index", [i])
+    console.log(products[i].categories, "product index", [i])
+
   }
 
   if (loading) {

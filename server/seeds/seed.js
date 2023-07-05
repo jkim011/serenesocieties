@@ -5,7 +5,6 @@ db.once('open', async () => {
 
   await Category.deleteMany();
   const categories = await Category.insertMany([
-    {name: "All Products", routeName: "all-products"},
     {name: "Tees", routeName: "tees"},
     {name: "Posters", routeName: "posters"}
   ]);
@@ -29,7 +28,7 @@ db.once('open', async () => {
       image2: "../../images/clothes/testShirtFront.jpg",
       description: "testing seeded data shirt",
       price: 20.00,
-      categories: [categories[0]._id, categories[1]._id],
+      categories: [categories[0]._id],
       inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
     },
     {
@@ -37,7 +36,7 @@ db.once('open', async () => {
       image: "../../images/posters/toxicPalmtree.jpg",
       description: "testing seeded data poster",
       price: 10.00,
-      categories: [categories[0]._id, categories[2]._id],
+      categories: [categories[1]._id],
       inventory: [inventory[3]._id, inventory[4]._id]
     }
   ]);
