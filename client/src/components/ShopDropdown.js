@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Divider } from "semantic-ui-react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ShopDropdown = ({ categories }) => {
   if (!categories.length) {
@@ -26,7 +26,14 @@ const ShopDropdown = ({ categories }) => {
   const [route, setRoute] = useState(categories[0].routeName);
   console.log(route, "usestate");
 
- 
+  // useEffect(() => {
+  //   setRoute(route)
+  // }, [route])
+
+  const handleChange = (e) => {
+    setRoute(e.target.value)
+    // window.location.reload()
+  }
 
   for (let i = 0; i < products.length; i++) {
     // console.log(products[i].categories, "product index", [i])
@@ -37,28 +44,38 @@ const ShopDropdown = ({ categories }) => {
   }
   return (
     <div>
-      <DropdownButton
+      <Dropdown>
+      <Dropdown.Toggle
+        id="dropdownBtn"
         className="dropdown page-header"
         drop="end"
         variant="white"
         title="Shop By"
         value = {route}
-        onChange={(e) => setRoute(e.target.value)}
-      >
-       
+        onChange={handleChange} //works with regular select and options tags
+        
+      >      
+        Shop by
+      </Dropdown.Toggle>
+
+       <Dropdown.Menu>
         {categories &&
           categories.map((category) => (
             <Dropdown.Item
               key={category._id}
-              className="dropdown-values"
+              // as="button"
+              className="dropdown-values dropdownItem"
               value={category.routeName}
               href={`/shop/${category.routeName}`}
+              onChange={handleChange}
+              onClick={() => setRoute(category.routeName)} //works with bootstrap dropdown
             >
               {category.name}
             </Dropdown.Item>
           ))}
+      </Dropdown.Menu>
           
-      </DropdownButton>
+      </Dropdown>
       <p>{route}</p>
 
       <div
