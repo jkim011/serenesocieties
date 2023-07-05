@@ -17,7 +17,7 @@ const ShopDropdown = ({ categories }) => {
   // console.log(error)
 
   const products = data?.products || [];
-  // console.log(products, "products shopdropdown")
+  console.log(products, "products shopdropdown")
 
   // console.log(categories.data?.categories, "categories ShopDropdown")
 
@@ -35,6 +35,7 @@ const ShopDropdown = ({ categories }) => {
   const handleChange = (e) => {
     setRoute(e.target.value)
   }
+
 
   for (let i = 0; i < products.length; i++) {
     console.log(products[i].categories, "product index", [i])
@@ -84,8 +85,7 @@ const ShopDropdown = ({ categories }) => {
         id="productCardContainer"
         className="d-flex flex-row flex-wrap justify-content-around"
       >
-        {products &&
-          products.map((product) => (
+        {products.filter(product => product.categories[0].routeName == params.routeName ).map(product => (
             <div key={product._id} id="productCard" className="m-2">
               <div id="productHead">
                 <Link to={`/shop/products/${product._id}`}>
