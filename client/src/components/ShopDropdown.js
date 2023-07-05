@@ -23,7 +23,9 @@ const ShopDropdown = ({ categories }) => {
 
   //testing
   console.log("cat Props", categories[0]);
-  const [route, setRoute] = useState(categories[0].routeName);
+  const params = useParams()
+  console.log("params", params.routeName)
+  const [route, setRoute] = useState(params.routeName);
   console.log(route, "usestate");
 
   // useEffect(() => {
