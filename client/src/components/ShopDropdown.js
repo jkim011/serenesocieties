@@ -56,7 +56,7 @@ const matchingCategories = () =>{
 
 matchingCategories()
 
-console.log("select", selectProductArr)
+console.log("params", params)
 
 // product.categories[0].routeName === params.routeName
 
@@ -97,12 +97,41 @@ console.log("select", selectProductArr)
       </Dropdown.Menu>
           
       </Dropdown>
-      <p>{route}</p>
+      
 
       <div
         id="productCardContainer"
         className="d-flex flex-row flex-wrap justify-content-around"
       >
+
+
+            {params.routeName == "all-products" ? products && products.map((product) =>(
+
+            <div key={product._id} id="productCard" className="m-2">
+            <div id="productHead">
+              <Link to={`/shop/products/${product._id}`}>
+                <img className="productImg" src={product.image} alt="" />
+                <img
+                  className="productImg productImg2"
+                  src={product.image2}
+                  alt=""
+                />
+              </Link>
+            </div>
+
+            <div className="container ">
+              <div id="productDetails" className="column">
+                <h5 className="col text-center productText">
+                  {product.name}
+                </h5>
+                <h5 className="col text-center productText">
+                  ${product.price}
+                </h5>
+              </div>
+            </div>
+            </div>
+            )) : <></> }
+
         {selectProductArr.map(product => (
             <div key={product._id} id="productCard" className="m-2">
               <div id="productHead">
@@ -128,6 +157,8 @@ console.log("select", selectProductArr)
               </div>
             </div>
           ))}
+
+        
       </div>
     </div>
   );
