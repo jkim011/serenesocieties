@@ -19,6 +19,7 @@ import Lookbook from './pages/main-pages/Lookbook';
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
+import Signup from './components/CreateUser';
 
 import SingleProduct from './pages/shop-sections/SingleProduct';
 import AdminDash from './pages/admin/AdminDash';
@@ -74,6 +75,10 @@ function App() {
               <Route
                 path={`/shop/products/:productId`}
                 element={<SingleProduct />}
+              />
+              <Route
+                path={`/signup`}
+                element={<Signup />}
               />
               <Route
                 path='/about'
