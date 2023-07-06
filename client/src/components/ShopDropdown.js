@@ -37,17 +37,17 @@ const ShopDropdown = ({ categories }) => {
   }
 
 
-let productChose = {}
+var selectProductArr = [] 
 
 const matchingCategories = () =>{
   for (let i = 0; i < products.length; i++) {
     for(let j=0; j<products[i].categories.length; j++){
-    console.log(products[i].categories[j])
+    // console.log(products[i].categories[j])
     let productChose = products[i]
     let productCategory = products[i].categories[j].routeName
     if(productCategory == params.routeName){
       console.log(productCategory,"match", productChose)
-      return productChose
+      selectProductArr.push(productChose)
      
     } 
     }
@@ -56,6 +56,7 @@ const matchingCategories = () =>{
 
 matchingCategories()
 
+console.log("select", selectProductArr)
 
 // product.categories[0].routeName === params.routeName
 
@@ -102,10 +103,7 @@ matchingCategories()
         id="productCardContainer"
         className="d-flex flex-row flex-wrap justify-content-around"
       >
-        {products.filter(product =>  params.routeName == "all-products" || matchingCategories(productChose) )
-        
-        
-        .map(product => (
+        {selectProductArr.map(product => (
             <div key={product._id} id="productCard" className="m-2">
               <div id="productHead">
                 <Link to={`/shop/products/${product._id}`}>
