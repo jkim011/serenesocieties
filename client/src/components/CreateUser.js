@@ -40,41 +40,52 @@ const Signup = () => {
     return (
         <div>
     
-        <section className="vh-100">
+        <section className=" mt-4">
         
-          <div>
-                  <form onSubmit={handleFormSubmit} className="login-form">
-                    <input
-                      className=""
-                      placeholder="Create a username"
-                      name="username"
-                      type="text"
-                      value={formState.name}
-                      onChange={handleChange}
-                    />
-                    <input
-                      className=""
-                      placeholder="Enter your email"
-                      name="email"
-                      type="email"
-                      value={formState.email}
-                      onChange={handleChange}
-                    />
-                    <input
-                      className=""
-                      placeholder="******"
-                      name="password"
-                      type="password"
-                      value={formState.password}
-                      onChange={handleChange}
-                    />
+          <div className="d-flex justify-content-center   vh-100">
+
+                  <form onSubmit={handleFormSubmit} className="login-form w-50">
+
+                    <div className="form-group">
+                        <input
+                        className="form-control mt-2"
+                        placeholder="Create a username"
+                        name="username"
+                        type="text"
+                        value={formState.name}
+                        onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                        className="form-control mt-2"
+                        placeholder="Enter your email"
+                        name="email"
+                        type="email"
+                        value={formState.email}
+                        onChange={handleChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                        className="form-control mt-2"
+                        placeholder="******"
+                        name="password"
+                        type="password"
+                        value={formState.password}
+                        onChange={handleChange}
+                        />
+                    </div>
+                    <div className=" d-flex justify-content-center ">
                     <button
-                      className="btn btn-block login-btn"
+                      className="btn btn-block btn-primary mt-2 btn-lg"
                       type="submit"
-                      
                     >
                       Submit
                     </button>
+                    </div>
                   </form>
             
             </div>
