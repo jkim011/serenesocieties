@@ -8,8 +8,8 @@ import { QUERY_PRODUCTS } from '../../utils/queries';
 import { QUERY_CATEGORIES } from '../../utils/queries';
 
 function Shop() {
-  // const {loading, data, error} = useQuery(QUERY_PRODUCTS)
-  // const products = data?.products || []
+  const {productLoading, productData, error} = useQuery(QUERY_PRODUCTS)
+  const products = productData?.products || []
 
   const {loading, data} = useQuery(QUERY_CATEGORIES);
 
@@ -27,7 +27,7 @@ function Shop() {
       <div >
         <ShopDropdown categories={categories} className="dropdown"  />  
       </div>
-      {/* <ProductList products={products} /> */}
+      <ProductList products={products} />
     </div>
   )
 }
