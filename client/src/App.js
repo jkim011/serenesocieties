@@ -19,6 +19,7 @@ import Lookbook from './pages/main-pages/Lookbook';
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
+import Signup from './components/CreateUser';
 
 import NaturalEssence from './pages/collections/NaturalEssence';
 import Halloween from './pages/collections/Halloween';
@@ -73,6 +74,10 @@ function App() {
               <Route
                 path={`/shop/products/:productId`}
                 element={<SingleProduct />}
+              />
+              <Route
+                path={`/signup`}
+                element={<Signup />}
               />
               {/* <Route
                 path='/shop/all-apparel'
