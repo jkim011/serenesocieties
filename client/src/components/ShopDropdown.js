@@ -10,23 +10,23 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ShopDropdown = ({ categories }) => {
   if (!categories.length) {
-    console.log("no cats");
+    // console.log("no cats");
   }
 
   const { loading, data, error } = useQuery(QUERY_PRODUCTS);
   // console.log(error)
 
   const products = data?.products || [];
-  console.log(products, "products shopdropdown")
+  // console.log(products, "products shopdropdown")
 
   // console.log(categories.data?.categories, "categories ShopDropdown")
 
   //testing
-  console.log("cat Props", categories[0]);
+  // console.log("cat Props", categories[0]);
   const params = useParams()
-  console.log("params", params.routeName)
+  // console.log("params", params.routeName)
   const [route, setRoute] = useState(params.routeName);
-  console.log(route, "usestate");
+  // console.log(route, "usestate");
 
   // useEffect(() => {
   //   setRoute(route)
@@ -35,18 +35,29 @@ const ShopDropdown = ({ categories }) => {
   const handleChange = (e) => {
     setRoute(e.target.value)
   }
-  
-  // const loop = () => {
-    for (let i = 0; i < products.length; i++) {
-      console.log(products[i].categories, "product index", [i])
-      if(products[i].categories[0].routeName == params.routeName) {
-        console.log("match")
-      } else {
-        console.log("no match")
-      }
+
+
+let productChose = {}
+
+const matchingCategories = () =>{
+  for (let i = 0; i < products.length; i++) {
+    for(let j=0; j<products[i].categories.length; j++){
+    console.log(products[i].categories[j])
+    let productChose = products[i]
+    let productCategory = products[i].categories[j].routeName
+    if(productCategory == params.routeName){
+      console.log(productCategory,"match", productChose)
+      return productChose
+     
+    } 
     }
-  // }
-  // const filteredProducts = products.filter((product) => product.categories[i].routeName)
+  }
+}
+
+matchingCategories()
+
+
+// product.categories[0].routeName === params.routeName
 
   if (loading) {
     return <div>Loading</div>;
@@ -91,7 +102,10 @@ const ShopDropdown = ({ categories }) => {
         id="productCardContainer"
         className="d-flex flex-row flex-wrap justify-content-around"
       >
-        {products.filter(product => product ).map(product => ( ///////////////////
+        {products.filter(product =>  params.routeName == "all-products" || matchingCategories(productChose) )
+        
+        
+        .map(product => (
             <div key={product._id} id="productCard" className="m-2">
               <div id="productHead">
                 <Link to={`/shop/products/${product._id}`}>
