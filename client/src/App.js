@@ -20,11 +20,8 @@ import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
 
-import NaturalEssence from './pages/collections/NaturalEssence';
-import Halloween from './pages/collections/Halloween';
-import AllApparel from './pages/shop-sections/AllApparel';
-import AllPosters from './pages/shop-sections/AllPosters';
 import SingleProduct from './pages/shop-sections/SingleProduct';
+import AdminDash from './pages/admin/AdminDash';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -59,6 +56,10 @@ function App() {
                 element={<Home />}
               />
               <Route
+                path='/admin-dashboard'
+                element={<AdminDash />}
+              />
+              <Route
                 path='/gallery'
                 element={<Gallery />}
               />
@@ -74,22 +75,6 @@ function App() {
                 path={`/shop/products/:productId`}
                 element={<SingleProduct />}
               />
-              {/* <Route
-                path='/shop/all-apparel'
-                element={<AllApparel />}
-              />
-              <Route
-                path='/shop/all-posters'
-                element={<AllPosters />}
-              />
-              <Route
-                path='/shop/natural-essence'
-                element={<NaturalEssence />}
-              />
-              <Route
-                path='/shop/halloween-special'
-                element={<Halloween />}
-              /> */}
               <Route
                 path='/about'
                 element={<About />}

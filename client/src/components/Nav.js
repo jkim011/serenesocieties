@@ -44,6 +44,7 @@ function NavBar() {
                 <Nav.Link className='main-nav-items' as={Link} to="/shop/all-products" onClick={handleClose} >Shop</Nav.Link>
                 <Nav.Link className='main-nav-items' as={Link} to="/gallery" onClick={handleClose} >Gallery</Nav.Link>
                 <Nav.Link id='lookbook' className='main-nav-items' as={Link} to="/lookbook" onClick={handleClose} >Lookbook</Nav.Link>
+                <Nav.Link id='profile' className='main-nav-items' as={Link} to="/admin-dashboard" onClick={handleClose} >Profile</Nav.Link>
               </Nav>   
             </Offcanvas.Body>
           </Offcanvas>
