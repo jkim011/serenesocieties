@@ -1,19 +1,16 @@
 import React from 'react';
-import Nav from 'react-bootstrap/Nav';
 import AdminNav from '../../components/admin/AdminNav';
 
-function AdminDash() {
+function InventoryDash() {
   return (
     <div className='admin-container'>
       <AdminNav />
-
-      <div>
-        <p>basic analytics goes here</p>
-      </div>
       
+      <div>
+        
+      </div>
     </div>
   )
 }
 
-
-export default AdminDash;
+export default InventoryDash;

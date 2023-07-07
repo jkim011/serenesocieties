@@ -1,0 +1,27 @@
+.admin-container {
+  margin-top: 3%;
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-nav {
+  margin-right: 3%;
+  margin-left: 3%;
+}
+
+.admin-navbar {
+  flex-direction: column;
+}
+
+@media only screen and (max-width: 600px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .admin-navbar {
+    flex-direction: row;
+  }
+  .admin-navbar a {
+    font-size: 14px;
+  }
+}
