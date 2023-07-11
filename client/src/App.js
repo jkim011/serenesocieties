@@ -30,6 +30,7 @@ import CategoriesDash from './pages/admin/CategoriesDash';
 import InventoryDash from './pages/admin/InventoryDash';
 import OrdersDash from './pages/admin/OrdersDash';
 import AnalyticsDash from './pages/admin/AnalyticsDash';
+import EditProduct from './pages/admin/EditProduct';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -70,6 +71,10 @@ function App() {
               <Route
                 path='/admin-dashboard/manage/products'
                 element={<ProductsDash />}
+              />
+              <Route 
+                path={`/admin-dashboard/manage/products/edit/:productId`}
+                element={<EditProduct />}
               />
               <Route
                 path='/admin-dashboard/manage/inventory'
