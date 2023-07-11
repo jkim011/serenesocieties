@@ -18,6 +18,7 @@ import Shop from './pages/main-pages/Shop';
 import SingleProduct from './pages/shop-sections/SingleProduct';
 import Gallery from './pages/main-pages/Gallery';
 import Lookbook from './pages/main-pages/Lookbook';
+import Profile from './pages/main-pages/Profile';
 
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
@@ -120,6 +121,10 @@ function App() {
               <Route
                 path='/about'
                 element={<About />}
+              />
+              <Route
+                path='/profile'
+                element={<Profile />}
               />
               <Route
                 path='/terms-and-conditions'

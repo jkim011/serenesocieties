@@ -130,7 +130,7 @@ body {
 }
 
 .main-nav-items {
-  margin-left: 15%;
+  margin-left: 5%;
   /* margin-right: 10%; */
 }
 
@@ -140,9 +140,31 @@ body {
 
 #cart{
   position: absolute;
+  right: 12%;
+  top: 15%
+}
+#profile{
+  position: absolute;
+  right: 18%;
+  top: 15%
+}
+#logout{
+  position: absolute;
+  right: 3%;
+  top: 15%
+}
+
+/* #logout{
+  position: absolute;
   right: 4%;
   top: 15%
 }
+
+#profile{
+  position: absolute;
+  right: 14%;
+  top: 15%
+} */
 
 /* Footer */
 .footer-container {
@@ -230,9 +252,9 @@ body {
   .navbar-nav {
     margin-left: -5px;
   }
-  #cart {
+  /* #cart {
     margin-right: -5px;
-  }
+  } */
 
   .nav {
     /* margin-left: 10px;
@@ -274,8 +296,21 @@ body {
   }
   
   #cart{
-    right: 4%;
+    position: inherit;
+    margin-left: 4%;
   }
+
+  #logout{
+    position: inherit;
+    margin-left: 4%;
+  }
+
+  #profile{
+    position: inherit;
+    margin-left: 4%;
+  }
+
+  
 
 }
 
@@ -284,4 +319,10 @@ body {
     margin-left: 4%;
   }
 
+  /* .logo-long {
+   
+    width: 300px;
+    margin-top: 2%
+    
+  } */
 }
