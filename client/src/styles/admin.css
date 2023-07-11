@@ -31,6 +31,12 @@
   margin-bottom: 20px;
 }
 
+.admin-products {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 @media only screen and (max-width: 600px) {
   .admin-container {
     flex-direction: column;

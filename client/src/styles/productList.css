@@ -1,6 +1,6 @@
-#productCard {
-}
-#productCard:hover {
+/* .productCard {
+} */
+.productCard:hover {
     .productImg {
         display: none;
     }
