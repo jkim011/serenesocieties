@@ -30,6 +30,7 @@ import CategoriesDash from './pages/admin/CategoriesDash';
 import InventoryDash from './pages/admin/InventoryDash';
 import OrdersDash from './pages/admin/OrdersDash';
 import AnalyticsDash from './pages/admin/AnalyticsDash';
+import Login from './components/Login';
 import EditProduct from './pages/admin/EditProduct';
 
 const httpLink = createHttpLink({
@@ -111,6 +112,10 @@ function App() {
               <Route
                 path={`/signup`}
                 element={<Signup />}
+              />
+              <Route
+                path={`/login`}
+                element={<Login />}
               />
               <Route
                 path='/about'
