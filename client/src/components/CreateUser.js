@@ -71,13 +71,27 @@ const Signup = () => {
                     <div className="form-group">
                         <input
                         className="form-control mt-2"
-                        placeholder="******"
+                        placeholder="Create Password"
                         name="password"
                         type="password"
                         value={formState.password}
                         onChange={handleChange}
                         />
                     </div>
+
+                    {/* <div className="form-group">
+                        <input
+                        className="form-control mt-2"
+                        placeholder="Reenter Password"
+                        name="password"
+                        type="password"
+                        value={formState.password}
+                        onChange={handleChange}
+                        />
+                    </div> */}
+
+
+
                     <div className=" d-flex justify-content-center ">
                     <button
                       className="btn btn-block btn-primary mt-2 btn-lg"
