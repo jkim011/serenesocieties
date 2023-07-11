@@ -105,18 +105,31 @@ console.log(products)
           backdrop="static"
           keyboard={false}
           centered
+          size='xl'
         >
           <Modal.Header closeButton>
             <Modal.Title>Add New Product</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className='add-product'>
             <form onSubmit={handleCreateProduct} >
-              <textarea 
-                name='name' value={name} placeholder='Product name'
-                onChange={handleChange} rows={1} className=''
-              />
+              <div className='add-product-sec1'>
+                <textarea 
+                  name='name' value={name} placeholder='Product name'
+                  onChange={handleChange} rows={1} className='add-product-input mb-2'
+                />
 
+                <textarea 
+                  name='description' value={description} placeholder='Product description'
+                  onChange={handleChange} rows={4} className='add-product-input mb-2'
+                />
 
+                <input type='number' name='price' value={price} placeholder='$'
+                  onChange={handleChange} className='add-product-input-price mb-2'
+                />
+              </div>
+              <div className='add-product-sec2'>
+                {/* image upload here */}
+              </div>
             </form>
           </Modal.Body>
           <Modal.Footer>
