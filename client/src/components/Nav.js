@@ -40,7 +40,7 @@ function NavBar() {
   return (
     <Navbar className='nav' collapseOnSelect expand="lg" bg="" >
       <Nav>
-        <Navbar.Brand as={Link} to="/" className='nav-logo'><img src={LogoLong} className="logo-long " size='small' alt='logo'/></Navbar.Brand>
+        <Navbar.Brand as={Link} to="/" id='main-nav-brand' className='nav-logo'><img src={LogoLong} className="logo-long " size='small' alt='logo'/></Navbar.Brand>
         {/* <Nav.Link as={Link} id='cart' to="/cart">Cart</Nav.Link> */}
         {Auth.loggedIn()?(
           <>
