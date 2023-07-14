@@ -18,6 +18,13 @@
   display: inline-flex;
 }
 
+.admin-nav-toggle {
+  /* transform: translateX(90%); */
+  top: -20%;
+  left: 85%;
+  position: absolute;
+}
+
 /* .admin-navbar {
   list-style-type: none;
   flex-direction: column;
