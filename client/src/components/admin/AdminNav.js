@@ -63,8 +63,8 @@ function AdminNav() {
 
     <Navbar expand="lg" className="bg-body-tertiary mb-3">
       <Container fluid>
-        <Navbar.Brand>Admin Dashboard</Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} />
+        <Navbar.Brand><h1>Admin Dashboard</h1></Navbar.Brand>
+        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-lg`} className='admin-nav-toggle'/>
         <Navbar.Offcanvas
           id={`offcanvasNavbar-expand-lg`}
           aria-labelledby={`offcanvasNavbarLabel-expand-lg`}
