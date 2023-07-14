@@ -18,6 +18,12 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  cartItems:[ 
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    } 
+], 
   isAdmin: {
     type: Boolean,
     default: false,

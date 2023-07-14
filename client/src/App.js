@@ -123,7 +123,7 @@ function App() {
                 element={<About />}
               />
               <Route
-                path='/profile'
+                path='/profile/'
                 element={<Profile />}
               />
               <Route

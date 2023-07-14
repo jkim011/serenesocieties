@@ -7,7 +7,7 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if(context.user){
-                return User.findOne({_id: context.user._id})
+                return User.findOne({_id: context.user._id}).populate("cartItems")
             }
             throw new AuthenticationError('You need to be logged in!');
         },
@@ -118,6 +118,13 @@ const resolvers = {
                 { _id: categoryId},
                 { name, routeName }
             )
+        },
+        addItemToCart: async (parent, {userId, productId}) => {
+            const cart = await User.findOneAndUpdate(
+                {_id: userId},
+                {$addToSet: {cartItems: {_id: productId}}}
+            )
+            return cart
         }
 
     }
