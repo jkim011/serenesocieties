@@ -7,15 +7,15 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if(context.user){
-                return User.findOne({_id: context.user._id})
+                return User.findOne({_id: context.user._id}).populate("cartItems")
             }
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async () => {
-            return User.find();
+            return User.find().populate("cartItems");
         },
         user: async (parent, { username }) => {
-            return User.findOne({ username });
+            return User.findOne({ username }).populate("cartItems");
         },
         products: async (parent, {categoryId, categories, name}) => {
             const params = categories ? {categories} : {}
@@ -118,6 +118,13 @@ const resolvers = {
                 { _id: categoryId},
                 { name, routeName }
             )
+        },
+        addItemToCart: async (parent, {userId, productId}, context) => {
+            const cart = await User.findOneAndUpdate(
+                {_id: userId},
+                {$addToSet: {cartItems:{_id: productId}}}
+            )
+            return cart
         }
 
     }

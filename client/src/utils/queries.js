@@ -74,6 +74,14 @@ export const QUERY_ME = gql`
       username
       email
       isAdmin
+      cartItems {
+        name
+        image
+        image2
+        description
+        price
+        
+      }
     }
   }
 `;

@@ -30,6 +30,7 @@ const typeDefs = gql`
         username: String!
         email: String!
         password: String!
+        cartItems: [Product]
         isAdmin: Boolean!
     }
 
@@ -61,6 +62,8 @@ const typeDefs = gql`
         addStock(productId: ID!, size: String!, quantity: Int!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
         deleteStock(stockId: ID!): Stock
+        addItemToCart(userId: ID!, productId: ID!): User
+        removeItemFromCart(userId: ID!, productId: ID!): User
     }
 
 `;
