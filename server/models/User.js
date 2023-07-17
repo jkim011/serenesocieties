@@ -21,7 +21,7 @@ const userSchema = new Schema({
   cartItems:[ 
     {
       type: Schema.Types.ObjectId,
-      ref: "Product",
+      ref: 'Product'
     } 
 ], 
   isAdmin: {

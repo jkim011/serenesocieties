@@ -12,7 +12,7 @@ function Profile() {
   });
   
   const me = data?.me || []
-  console.log(me)
+  console.log("userdata", me)
   
   if(!Auth.loggedIn()){
   return (

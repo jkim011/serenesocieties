@@ -129,7 +129,8 @@ db.once('open', async () => {
     username: "person",
     email: "person@gmail.com",
     password: "password",
-    isAdmin: false
+    isAdmin: false,
+    cartItems: [products[0]._id]
   });
   console.log("users seeded")
 

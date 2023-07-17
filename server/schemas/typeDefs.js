@@ -63,7 +63,7 @@ const typeDefs = gql`
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
         deleteStock(stockId: ID!): Stock
         addItemToCart(userId: ID!, productId: ID!): User
-        removeItemFromCart(productId: ID!): User
+        removeItemFromCart(userId: ID!, productId: ID!): User
     }
 
 `;

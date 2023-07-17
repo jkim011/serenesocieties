@@ -12,10 +12,10 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async () => {
-            return User.find();
+            return User.find().populate("cartItems");
         },
         user: async (parent, { username }) => {
-            return User.findOne({ username });
+            return User.findOne({ username }).populate("cartItems");
         },
         products: async (parent, {categoryId, categories, name}) => {
             const params = categories ? {categories} : {}
@@ -119,10 +119,10 @@ const resolvers = {
                 { name, routeName }
             )
         },
-        addItemToCart: async (parent, {userId, productId}) => {
+        addItemToCart: async (parent, {userId, productId}, context) => {
             const cart = await User.findOneAndUpdate(
                 {_id: userId},
-                {$addToSet: {cartItems: {_id: productId}}}
+                {$addToSet: {cartItems:{_id: productId}}}
             )
             return cart
         }
