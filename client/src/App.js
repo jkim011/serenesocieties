@@ -19,6 +19,8 @@ import SingleProduct from './pages/shop-sections/SingleProduct';
 import Gallery from './pages/main-pages/Gallery';
 import Lookbook from './pages/main-pages/Lookbook';
 import Profile from './pages/main-pages/Profile';
+import Cart from "./pages/main-pages/Cart"
+
 
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
@@ -130,6 +132,10 @@ function App() {
                 path='/terms-and-conditions'
                 element={<Terms />}
               />
+              <Route
+              path="/cart"
+              element={<Cart/>}
+              ></Route>
             </Routes>
           </div>
           <Footer />

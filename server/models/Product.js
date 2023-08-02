@@ -30,11 +30,14 @@ const productSchema = new Schema({
     }
   ],
   inventory: [
-    {
-        type: Schema.Types.ObjectId,
-        ref: 'Stock',
-        required: true
-    }
+  {  size: {
+      type: String,
+      trim: true,
+    },
+    quantity: {
+      type: Number,
+      
+    }}
   ],
 
 });

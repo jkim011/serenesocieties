@@ -14,17 +14,17 @@ db.once('open', async () => {
   ]);
   console.log("categories seeded");
 
-  await Stock.deleteMany();
-  const inventory = await Stock.insertMany([
-    {size: "S", quantity: 10},
-    {size: "M", quantity: 8},
-    {size: "L", quantity: 12},
-    {size: "M", quantity: 5},
-    {size: "L", quantity: 8},
-    {size: "10x12 in", quantity: 15},
-    {size: "13x15 in", quantity: 8}
-  ]);
-  console.log("inventory seeded")
+  // await Stock.deleteMany();
+  // const inventory = await Stock.insertMany([
+  //   {size: "S", quantity: 10},
+  //   {size: "M", quantity: 8},
+  //   {size: "L", quantity: 12},
+  //   {size: "M", quantity: 5},
+  //   {size: "L", quantity: 8},
+  //   {size: "10x12 in", quantity: 15},
+  //   {size: "13x15 in", quantity: 8}
+  // ]);
+  // console.log("inventory seeded")
 
   await Product.deleteMany();
   const products = await Product.insertMany([
@@ -35,7 +35,20 @@ db.once('open', async () => {
       description: "testing seeded data shirt",
       price: 20.00,
       categories: [categories[1]._id],
-      inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
+      inventory: [
+        {
+          size: "Small",
+          quantity: 10
+        },
+        {
+          size: "Medium",
+          quantity: 15
+        },
+        {
+          size: "Large",
+          quantity: 5
+        }
+      ]
     },
     {
       name: "Seeded hoodie",
@@ -44,7 +57,20 @@ db.once('open', async () => {
       description: "testing seeded data hoodie",
       price: 50.00,
       categories: [categories[2]._id, categories[4]._id],
-      inventory: [inventory[3]._id, inventory[4]._id]
+      inventory: [
+        {
+          size: "Small",
+          quantity: 12
+        },
+        {
+          size: "Medium",
+          quantity: 13
+        },
+        {
+          size: "Large",
+          quantity: 8
+        }
+      ]
     },
     {
       name: "Seeded poster",
@@ -52,69 +78,21 @@ db.once('open', async () => {
       description: "testing seeded data poster",
       price: 10.00,
       categories: [categories[3]._id],
-      inventory: [inventory[5]._id, inventory[6]._id]
-    },
-    {
-      name: "Seeded t-shirt 2",
-      image: "../../images/clothes/testShirtBack.jpg",
-      image2: "../../images/clothes/testShirtFront.jpg",
-      description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
-      inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
-    },
-    {
-      name: "Seeded t-shirt 3",
-      image: "../../images/clothes/testShirtBack.jpg",
-      image2: "../../images/clothes/testShirtFront.jpg",
-      description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
-      inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
-    },
-    {
-      name: "Seeded t-shirt 4",
-      image: "../../images/clothes/testShirtBack.jpg",
-      image2: "../../images/clothes/testShirtFront.jpg",
-      description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id, categories[4]._id],
-      inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
-    },
-    {
-      name: "Seeded poster 2",
-      image: "../../images/posters/toxicPalmtree.jpg",
-      description: "testing seeded data poster",
-      price: 10.00,
-      categories: [categories[3]._id],
-      inventory: [inventory[5]._id, inventory[6]._id]
-    },
-    {
-      name: "Seeded poster 3",
-      image: "../../images/posters/toxicPalmtree.jpg",
-      description: "testing seeded data poster",
-      price: 10.00,
-      categories: [categories[3]._id, categories[4]._id],
-      inventory: [inventory[5]._id, inventory[6]._id]
-    },
-    {
-      name: "Seeded t-shirt summer ",
-      image: "../../images/clothes/testShirtBack.jpg",
-      image2: "../../images/clothes/testShirtFront.jpg",
-      description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id, categories[5]._id],
-      inventory: [inventory[0]._id, inventory[1]._id, inventory[2]._id]
-    },
-    {
-      name: "Seeded hoodie summer",
-      image: "../../images/clothes/halloween-hoodie.jpg",
-      image2: "../../images/clothes/halloween-hoodie-model.jpg",
-      description: "testing seeded data hoodie",
-      price: 50.00,
-      categories: [categories[2]._id, categories[5]._id],
-      inventory: [inventory[3]._id, inventory[4]._id]
-    }
+      inventory: [
+        {
+          size: "Small",
+          quantity: 10
+        },
+        {
+          size: "Medium",
+          quantity: 18
+        },
+        {
+          size: "Large",
+          quantity: 9
+        }
+      ]
+    }    
   ]);
   console.log("products seeded");
 
