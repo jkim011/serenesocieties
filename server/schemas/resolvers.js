@@ -26,6 +26,7 @@ const resolvers = {
             return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
         productSize: async (parent, { productId, stockId }) => {
+            // const productsize = inventory[0]
             return Product.findOne({ _id: productId, stockId: stockId }).populate('inventory');
         },
         categories: async () => {
@@ -122,10 +123,11 @@ const resolvers = {
                 { name, routeName }
             )
         },
-        addItemToCart: async (parent, {userId, productId}, context) => {
+        addItemToCart: async (parent, {userId, productId, name, cartProductSize}, context) => {
             const cart = await User.findOneAndUpdate(
                 {_id: userId},
-                {$addToSet: {cartItems:{_id: productId}}}
+                {$addToSet: {cartProduct:{_id: productId, name}}},
+                // {cartProductSize}
             )
             return cart
         }

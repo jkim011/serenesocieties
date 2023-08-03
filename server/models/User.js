@@ -26,7 +26,7 @@ const userSchema = new Schema({
       },
       cartProductSize: {
         type: String,
-        required: true
+        // required: true
       }
     } 
   ], 
