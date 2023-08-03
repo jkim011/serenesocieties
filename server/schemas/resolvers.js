@@ -25,18 +25,21 @@ const resolvers = {
         product: async (parent, { productId }) => {
             return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
+        productSize: async (parent, { productId, stockId }) => {
+            return Product.findOne({ _id: productId, stockId: stockId }).populate('inventory');
+        },
         categories: async () => {
             return await Category.find() //.populate("products");
         },
         category: async (parent, { categoryId }) => {
             return await Category.findOne({ _id: categoryId }).populate("products").populate("product");
         },
-        inventory: async () => {
-            return await Stock.find().populate('product');
-        },
-        stock: async () => {
-            return await Stock.findOne({ _id: stockId })
-        }
+        // inventory: async () => {
+        //     return await Stock.find().populate('product');
+        // },
+        // stock: async () => {
+        //     return await Stock.findOne({ _id: stockId })
+        // }
     },
 
     Mutation: {

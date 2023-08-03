@@ -4,4 +4,4 @@ const Category = require('./Category');
 // const Stock = require('./Stock');
 const Cart = require('./CartModel');
 
-module.exports = { User, Product, Category };
+module.exports = { User, Product, Category, Cart };
