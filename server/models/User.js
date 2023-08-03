@@ -20,8 +20,14 @@ const userSchema = new Schema({
   },
   cartItems:[ 
     {
-      type: Schema.Types.ObjectId,
-      ref: 'Cart'
+      cartProduct: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product'
+      },
+      cartProductSize: {
+        type: String,
+        required: true
+      }
     } 
   ], 
   isAdmin: {

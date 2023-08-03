@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { User, Product, Category, Stock } = require('../models');
+const { User, Product, Category, Cart } = require('../models');
 
 db.once('open', async () => {
 
@@ -96,6 +96,14 @@ db.once('open', async () => {
   ]);
   console.log("products seeded");
 
+
+  await Cart.deleteMany();
+  const cartItems = await Cart.insertMany({
+    cartProduct: products[0]._id,
+    cartProductSize: "Small"
+
+  })
+
   await User.deleteMany();
   await User.create({
     username: "admin",
@@ -108,7 +116,7 @@ db.once('open', async () => {
     email: "person@gmail.com",
     password: "password",
     isAdmin: false,
-    cartItems: [products[0]._id]
+    cartItems: [cartItems[0]._id]
   });
   console.log("users seeded")
 
