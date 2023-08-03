@@ -24,20 +24,22 @@ const productSchema = new Schema({
   },
   categories: [
     {
-        type: Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true
     }
   ],
   inventory: [
-  {  size: {
-      type: String,
-      trim: true,
-    },
-    quantity: {
-      type: Number,
-      
-    }}
+    {  
+      size: {
+        type: String,
+        trim: true,
+      },
+      quantity: {
+        type: Number,
+        
+      }
+    }
   ],
 
 });
