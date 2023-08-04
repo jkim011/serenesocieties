@@ -15,6 +15,10 @@ function SingleProduct() {
   console.log(product)
   console.log(inventory, "inventory in SingleProduct")
 
+  const handleAddToCart = () => {
+    
+  }
+
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
