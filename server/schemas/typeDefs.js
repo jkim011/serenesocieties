@@ -25,12 +25,18 @@ const typeDefs = gql`
         quantity: Int!
     }
 
+    type cartItem {
+        _id: ID
+        cartProduct: ID
+        cartProductSize: String
+    }
+
     type User{
         _id: ID
         username: String!
         email: String!
         password: String!
-        cartItems: [Product]
+        cartItems: [cartItem]
         isAdmin: Boolean!
     }
 
@@ -63,8 +69,8 @@ const typeDefs = gql`
         addStock(productId: ID!, size: String!, quantity: Int!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
         deleteStock(stockId: ID!): Stock
-        addItemToCart(userId: ID!, productId: ID!): User
-        removeItemFromCart(userId: ID!, productId: ID!): User
+        addToCart(userId: ID!, cartProduct: ID, cartProductSize: String!): User
+        removeFromCart(userId: ID!, cartId: ID!): User
     }
 
 `;

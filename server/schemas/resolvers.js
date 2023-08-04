@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Product, Category, Stock } = require('../models');
+const { User, Product, Category, Stock, Cart } = require('../models');
 const { signToken } = require('../utils/auth');
 
 
@@ -12,22 +12,23 @@ const resolvers = {
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async () => {
-            return User.find().populate("cartItems");
+            return User.find().populate("cartItems").populate("cartItems");
         },
         user: async (parent, { username }) => {
             return User.findOne({ username }).populate("cartItems");
         },
         products: async (parent, {categoryId, categories, name}) => {
             const params = categories ? {categories} : {}
-            return Product.find(params).populate("inventory").populate("categories");
+            return Product.find(params).populate("inventory").populate("categories").populate("cartItems");
             // return Product.find({ _id: categoryId }).populate("inventory").populate("categories");
         },
         product: async (parent, { productId }) => {
-            return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
+            return Product.findOne({ _id: productId }).populate("inventory").populate("categories").populate("cartItems");
         },
-        productSize: async (parent, { productId, stockId }) => {
-            return Product.findOne({ _id: productId, stockId: stockId }).populate('inventory');
-        },
+        // productSize: async (parent, { productId, stockId }) => {
+        //     // const productsize = inventory[0]
+        //     return Product.findOne({ _id: productId, stockId: stockId }).populate('inventory');
+        // },
         categories: async () => {
             return await Category.find() //.populate("products");
         },
@@ -122,10 +123,26 @@ const resolvers = {
                 { name, routeName }
             )
         },
-        addItemToCart: async (parent, {userId, productId}, context) => {
+        addToCart: async (parent, { userId, cartProduct, cartProductSize }, context) => {
             const cart = await User.findOneAndUpdate(
                 {_id: userId},
-                {$addToSet: {cartItems:{_id: productId}}}
+                {
+                  $addToSet: 
+                    { 
+                      cartItems: {cartProduct, cartProductSize} 
+                    } 
+                },
+            )
+            return cart
+        },
+        removeFromCart: async (parent, { userId, cartId }, context) => {
+            const cart = await User.findOneAndUpdate(
+                { _id: userId },
+                {
+                  $pull: {
+                    cartItems: {_id: cartId}
+                  }
+                }
             )
             return cart
         }

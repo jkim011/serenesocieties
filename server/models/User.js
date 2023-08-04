@@ -26,8 +26,10 @@ const userSchema = new Schema({
       },
       cartProductSize: {
         type: String,
-        required: true
+        // required: true
       }
+      // type: Schema.Types.ObjectId,
+      // ref: 'Cart'
     } 
   ], 
   isAdmin: {
