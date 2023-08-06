@@ -19,11 +19,11 @@ const resolvers = {
         },
         products: async (parent, {categoryId, categories, name}) => {
             const params = categories ? {categories} : {}
-            return Product.find(params).populate("inventory").populate("categories").populate("cartItems");
+            return Product.find(params).populate("inventory").populate("categories");
             // return Product.find({ _id: categoryId }).populate("inventory").populate("categories");
         },
         product: async (parent, { productId }) => {
-            return Product.findOne({ _id: productId }).populate("inventory").populate("categories").populate("cartItems");
+            return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
         // productSize: async (parent, { productId, stockId }) => {
         //     // const productsize = inventory[0]
