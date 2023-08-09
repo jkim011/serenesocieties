@@ -19,7 +19,7 @@ import { QUERY_ME } from '../utils/queries';
 function NavBar() {
   const { loading, data, error } = useQuery(QUERY_ME);
   const me = data?.me || [];
-  console.log(me, "nav me")
+  // console.log(me, "nav me")
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);

@@ -9,7 +9,7 @@ function SingleProduct() {
   const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
-
+  console.log(data, "data")
   const product = data?.product || {};
   const inventory = product.inventory
   console.log(product)

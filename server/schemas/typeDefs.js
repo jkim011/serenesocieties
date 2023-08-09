@@ -28,7 +28,7 @@ const typeDefs = gql`
     type cartItem {
         _id: ID
         cartProduct: ID
-        cartProductSize: ID
+        cartProductSize: String
     }
 
     type User{
@@ -69,7 +69,7 @@ const typeDefs = gql`
         addStock(productId: ID!, size: String!, quantity: Int!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
         deleteStock(stockId: ID!): Stock
-        addToCart(userId: ID!, cartProduct: ID, cartProductSize: ID): User
+        addToCart(userId: ID!, cartProduct: ID, cartProductSize: String!): User
         removeFromCart(userId: ID!, cartId: ID!): User
     }
 
