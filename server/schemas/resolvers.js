@@ -25,8 +25,8 @@ const resolvers = {
         product: async (parent, { productId }) => {
             return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
-        cartProducts: async(parent, {productId})=>{
-            return Product.find({_id: productId}).populate("inventory").populate("categories");
+        cartProducts: async(parent, {cartItems})=>{
+            return Product.find({_id: cartId}).populate("inventory").populate("categories");
         },
         // productSize: async (parent, { productId, stockId }) => {
         //     // const productsize = inventory[0]
@@ -126,13 +126,13 @@ const resolvers = {
                 { name, routeName }
             )
         },
-        addToCart: async (parent, { userId, cartProduct, cartProductSize }, context) => {
+        addToCart: async (parent, { userId, cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice }, context) => {
             const cart = await User.findOneAndUpdate(
                 {_id: userId},
                 {
                   $addToSet: 
                     { 
-                      cartItems: {cartProduct, cartProductSize} 
+                      cartItems: { cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice } 
                     } 
                 },
             )

@@ -48,8 +48,8 @@ export const QUERY_SINGLE_PRODUCT = gql`
 `;
 
 export const QUERY_CART_PRODUCTS = gql`
-query getCartItems($productId: [ID!]){
-  product(productId: $productId) {
+query getCartItems($cartItem: [ID!]){
+  product(cartItem: $cartItem) {
     _id
     name
     image
@@ -90,9 +90,12 @@ export const QUERY_ME = gql`
       isAdmin
       cartItems {
         _id
-        cartProduct
+        cartProductId
+        cartProductName
+        cartProductSizeId
         cartProductSize
-        
+        cartProductImage
+        cartProductPrice
       }
     }
   }
@@ -107,8 +110,12 @@ export const QUERY_USER = gql`
       isAdmin
       cartItems {
         _id
-        cartProduct
+        cartProductId
+        cartProductName
+        cartProductSizeId
         cartProductSize
+        cartProductImage
+        cartProductPrice
         
       }
     }
