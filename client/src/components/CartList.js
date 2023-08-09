@@ -12,37 +12,33 @@ const CartList = () => {
     console.log(cartItems, "cartItems")
     
 
-    let productIds = cartItems.map(cartItem => {
-        return cartItem.cartProduct
-    })
-    console.log(productIds, "productIDs")
+    // let productIds = cartItems.map(cartItem => {
+    //     return cartItem.cartProductId
+    // })
+    // console.log(productIds, "productIDs")
     
-    const {loading: productLoading, data: productData, error: productError} = useQuery(QUERY_CART_PRODUCTS, {
-        variables: {productId: productIds}
-    })
+    // const {loading: productLoading, data: productData, error: productError} = useQuery(QUERY_CART_PRODUCTS, {
+    //     variables: {productId: productIds}
+    // })
     
-    console.log(productData)
+    // console.log(productData, 'productData')
     
-
-   
-   
-
-
 
     return(
         <>
-        <div  >
-        {cartItems && cartItems.map((cartItem) =>(
-            <div key={cartItem._id}>
-                {/* <p>Size: {cartItem.cartProductSize}</p> */}
-                <p>ID: {cartItem.cartProduct}</p>
+            <div  >
+                {cartItems && cartItems.map((cartItem) =>(
+                    <div key={cartItem._id}>
+                        <p>Product ID: {cartItem.cartProductId}</p>
+                        <p>{cartItem.cartProductName}</p>
+                        <p>Stock ID: {cartItem.cartProductSizeId}</p>
+                        <p>{cartItem.cartProductSize}</p>
+                        <p>${cartItem.cartProductPrice}</p>
+                        <img src={cartItem.cartProductImage} style={{width: "50px"}}/>
+
+                    </div>
+                )) } 
             </div>
-        )) } 
-        </div>
-
-        <div>
-
-        </div>
 
 
         </>
