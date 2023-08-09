@@ -7,5 +7,7 @@ const CartList = () => {
     const {loading, data, error} = useQuery(QUERY_ME);
     const cartItems = data?.me.cartItems || []
 
-    console.log(cartItems)
+    console.log(cartItems, "cartItems")
 }
+
+export default CartList;
