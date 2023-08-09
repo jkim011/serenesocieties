@@ -15,9 +15,13 @@ const CartList = () => {
     let productIds = cartItems.map(cartItem => {
         return cartItem.cartProduct
     })
+    
     console.log(productIds.pop())
+
     let pIn = productIds.pop()
+
     console.log(pIn, 'pin')
+
     const {loading: productLoading, data: productData, error: productError} = useQuery(QUERY_SINGLE_PRODUCT, {
         variables: {productId: pIn}
     })
