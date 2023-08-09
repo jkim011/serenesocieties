@@ -75,11 +75,9 @@ export const QUERY_ME = gql`
       email
       isAdmin
       cartItems {
-        name
-        image
-        image2
-        description
-        price
+        _id
+        cartProduct
+        cartProductSize
         
       }
     }
@@ -93,6 +91,12 @@ export const QUERY_USER = gql`
       username
       email
       isAdmin
+      cartItems {
+        _id
+        cartProduct
+        cartProductSize
+        
+      }
     }
   }
 `;

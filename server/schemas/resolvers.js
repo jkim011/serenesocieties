@@ -7,12 +7,12 @@ const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if(context.user){
-                return User.findOne({_id: context.user._id}).populate("cartItems")
+                return User.findOne({_id: context.user._id}).populate("cartItems");
             }
             throw new AuthenticationError('You need to be logged in!');
         },
         users: async () => {
-            return User.find().populate("cartItems").populate("cartItems");
+            return User.find().populate("cartItems");
         },
         user: async (parent, { username }) => {
             return User.findOne({ username }).populate("cartItems");
