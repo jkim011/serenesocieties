@@ -25,6 +25,9 @@ const resolvers = {
         product: async (parent, { productId }) => {
             return Product.findOne({ _id: productId }).populate("inventory").populate("categories");
         },
+        cartProducts: async(parent, {productId})=>{
+            return Product.find({_id: productId}).populate("inventory").populate("categories");
+        },
         // productSize: async (parent, { productId, stockId }) => {
         //     // const productsize = inventory[0]
         //     return Product.findOne({ _id: productId, stockId: stockId }).populate('inventory');

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { QUERY_ME, QUERY_SINGLE_PRODUCT } from "../utils/queries";
+import { QUERY_ME, QUERY_SINGLE_PRODUCT, QUERY_CART_PRODUCTS } from "../utils/queries";
 import { useQuery } from "@apollo/client";
 import ProductList from "./ProductList";
 
@@ -15,18 +15,14 @@ const CartList = () => {
     let productIds = cartItems.map(cartItem => {
         return cartItem.cartProduct
     })
+    console.log(productIds, "productIDs")
     
-    console.log(productIds.pop())
-
-    let pIn = productIds.pop()
-
-    console.log(pIn, 'pin')
-
-    const {loading: productLoading, data: productData, error: productError} = useQuery(QUERY_SINGLE_PRODUCT, {
-        variables: {productId: pIn}
+    const {loading: productLoading, data: productData, error: productError} = useQuery(QUERY_CART_PRODUCTS, {
+        variables: {productId: productIds}
     })
     
     console.log(productData)
+    
 
    
    

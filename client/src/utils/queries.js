@@ -47,6 +47,20 @@ export const QUERY_SINGLE_PRODUCT = gql`
   }
 `;
 
+export const QUERY_CART_PRODUCTS = gql`
+query getCartItems($productId: [ID!]){
+  product(productId: $productId) {
+    _id
+    name
+    image
+    image2
+    description
+    price
+
+}
+}
+`
+
 export const QUERY_CATEGORIES = gql`
   query getCategories {
     categories {
