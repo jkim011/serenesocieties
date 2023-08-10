@@ -100,8 +100,8 @@ function SingleProduct() {
 
         <form className="product-btns">
             <label>Size: </label>
-            <select id="product-size" className="product-size" name="Size" value={size} onChange={handleSizeSelect} >
-              {inventory?.map(stock => <option className="sizeId" key={stock._id}  >{stock.size}</option>)}
+            <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
+              {inventory?.map(stock => <option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
             </select>
 
           <button className="btns cart-btn">Add to cart</button>
