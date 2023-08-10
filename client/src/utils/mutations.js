@@ -47,3 +47,32 @@ export const ADD_PRODUCT = gql`
   }
 `;
 
+export const ADD_TO_CART = gql `
+  mutation addToCart($userId: ID!, $cartProductId: ID!, $cartProductName: String!, $cartProductSizeId: ID!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Int!) {
+    addToCart(userId: $userId, cartProductId: $cartProductId, cartProductName: $cartProductName, cartProductSizeId: $cartProductSizeId, cartProductImage: $cartProductImage, cartProductPrice: $cartProductPrice) {
+      _id
+      name
+      image
+      image2
+      description
+      price
+
+    }
+  }
+
+`;
+
+export const REMOVE_FROM_CART = gql `
+  mutation addToCart($userId: ID!, $cartId: ID!) {
+    addToCart(userId: $userId, cartId: $cartId) {
+      _id
+      name
+      image
+      image2
+      description
+      price
+
+    }
+  }
+
+`;
