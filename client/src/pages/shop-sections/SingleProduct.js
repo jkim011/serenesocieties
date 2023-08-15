@@ -12,6 +12,7 @@ function SingleProduct() {
   const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
+  
 
   const product = data?.product || {};
   const inventory = product.inventory
@@ -35,9 +36,19 @@ function SingleProduct() {
   const sizeFields = size.split(',')
   const sizeName = sizeFields[0]
   const sizeId = sizeFields[1]
-  console.log(sizeName, "sizeName")
-  console.log(sizeId, "sizeId")
-  console.log(size, "size")
+  // console.log(sizeName, "sizeName")
+  // console.log(sizeId, "sizeId")
+  // console.log(size, "size")
+  // console.log(productId, "ProductID")
+
+  console.log("userID", Auth.getProfile().data._id)
+  console.log("CartProductId", productId)
+  console.log("product name", product.name)
+  console.log("image", product.image)
+  console.log("price", product.price)
+  console.log("sizeId", sizeId)
+  console.log("sizeName", sizeName)
+  console.log("__________________________________________")
 
   // const sizeIdValue = document.querySelector(".sizeId")
   // console.log(sizeIdValue)
@@ -51,12 +62,15 @@ function SingleProduct() {
       const {cartData} = await addCartItem({
         variables:
         {
-          userId: Auth.getProfile().username,
+          userId: Auth.getProfile().data._id,
           cartProductId: productId,
+          cartProductName: product.name,
+          cartProductSizeId: sizeId,
+          cartProductSize: sizeName,
           cartProductImage: product.image,
           cartProductPrice: product.price,
-          cartProductSizeId: sizeId,
-          cartProductSize: sizeName
+         
+          
           
         },
       });
