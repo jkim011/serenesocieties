@@ -18,7 +18,7 @@ const CartList = () => {
     console.log(cartTotalPrice)
 
     return (
-      <div  >
+      <div >
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id}>
             <p>Product ID: {cartItem.cartProductId}</p>

@@ -12,39 +12,35 @@ function SingleProduct() {
   const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
-  // console.log(data, "data")
+
   const product = data?.product || {};
   const inventory = product.inventory
-  // console.log(product)
-  // console.log(inventory, "inventory in SingleProduct")
-  // console.log(Auth.getProfile().data._id, "userid")
-  // console.log(productId, "product")
-  // console.log(product.image, "image")
-  // console.log(product.price, "price")
 
-  const [size, setSize] = useState("Small")
-  const [sizeId, setSizeId] = useState("")
-  // console.log(product.inventory[0]._id, "size ID")
+  const sizeDataName = data?.product.inventory[0].size
+  const sizeDataId = data?.product.inventory[0]._id
+  const sizeData = [sizeDataName, sizeDataId]
+  const useStateData = sizeData.toString()
+
+// console.log(sizeDataName,"console.log")
+// console.log(sizeDataId,"console.log")
+  const [size, setSize] = useState(useStateData)
+  // const [sizeId, setSizeId] = useState("")
 
   const handleSizeSelect = (event) => {
-    const {name, value, key} = event.target;
-   
-
+    const {name, value} = event.target;
     if(name === "Size"){
-      setSize(value)
-      
+      setSize(value)  
     }
-    if(name === "sizeId"){
-      setSizeId(key)
-    }
-  
   }
-  console.log(size)
-  // console.log(sizeId)
+  const sizeFields = size.split(',')
+  const sizeName = sizeFields[0]
+  const sizeId = sizeFields[1]
+  console.log(sizeName, "sizeName")
+  console.log(sizeId, "sizeId")
+  console.log(size, "size")
+
   // const sizeIdValue = document.querySelector(".sizeId")
   // console.log(sizeIdValue)
- 
-  
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
 
@@ -55,13 +51,13 @@ function SingleProduct() {
       const {cartData} = await addCartItem({
         variables:
         {
-          userId: Auth.getProfile().user._id,
+          userId: Auth.getProfile().username,
           cartProductId: productId,
           cartProductImage: product.image,
           cartProductPrice: product.price,
-          cartProductSize: size
+          cartProductSizeId: sizeId,
+          cartProductSize: sizeName
           
-        
         },
       });
     } catch(err){
@@ -104,7 +100,7 @@ function SingleProduct() {
               {inventory?.map(stock => <option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
             </select>
 
-          <button className="btns cart-btn">Add to cart</button>
+          <button className="btns cart-btn" onClick={handleAddToCart}>Add to cart</button>
         </form>
       </div>
       
