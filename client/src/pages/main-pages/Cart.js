@@ -6,9 +6,10 @@ function Cart() {
         <div className='page-header'>
           
           <h2 className='page-title'>Cart</h2>
-          <CartList />
+
+          
         </div>
-  
+        <CartList />
       </div>
     )
   }

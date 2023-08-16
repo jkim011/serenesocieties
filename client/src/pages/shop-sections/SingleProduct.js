@@ -6,6 +6,7 @@ import { useState } from "react";
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import {ADD_TO_CART} from "../../utils/mutations"
 import Auth from "../../utils/auth";
+import "../../styles/singleProduct.css"
 
 function SingleProduct() {
   const { productId } = useParams();
@@ -13,9 +14,10 @@ function SingleProduct() {
     variables: { productId: productId }
   });
   
-
+ 
   const product = data?.product || {};
   const inventory = product.inventory
+ 
 
   const sizeDataName = data?.product.inventory[0].size
   const sizeDataId = data?.product.inventory[0]._id
@@ -24,8 +26,10 @@ function SingleProduct() {
 
 // console.log(sizeDataName,"console.log")
 // console.log(sizeDataId,"console.log")
-  const [size, setSize] = useState(useStateData)
+  const [size, setSize] = useState("--")
   // const [sizeId, setSizeId] = useState("")
+
+  
 
   const handleSizeSelect = (event) => {
     const {name, value} = event.target;
@@ -40,14 +44,15 @@ function SingleProduct() {
   // console.log(sizeId, "sizeId")
   // console.log(size, "size")
   // console.log(productId, "ProductID")
-
+  console.log(product)
+  console.log("*************************")
   console.log("userID", Auth.getProfile().data._id)
   console.log("CartProductId", productId)
   console.log("product name", product.name)
   console.log("image", product.image)
   console.log("price", product.price)
-  console.log("sizeId", sizeId)
-  console.log("sizeName", sizeName)
+  console.log("sizeId", sizeId, )
+  console.log("sizeName", sizeName, )
   console.log("__________________________________________")
 
   // const sizeIdValue = document.querySelector(".sizeId")
@@ -79,6 +84,22 @@ function SingleProduct() {
     }
   }
 
+ 
+console.log("SIZE", size)
+
+const blankOption = document.querySelector("#blankOption")
+const addCartBtn = document.querySelector("#addCartBtn")
+
+
+
+
+
+  if(loading){
+    return(
+    <div>
+      <p>Loading</p>
+    </div>)
+  }else 
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
@@ -111,15 +132,21 @@ function SingleProduct() {
         <form className="product-btns">
             <label>Size: </label>
             <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
-              {inventory?.map(stock => <option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
+            <option id="blankOption">--</option> 
+              {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
             </select>
 
-          <button className="btns cart-btn" onClick={handleAddToCart}>Add to cart</button>
+          <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>Add to cart</button>
         </form>
       </div>
       
     </div>
   )
+
+ 
+
+ 
+ 
 }
 
 export default SingleProduct;
