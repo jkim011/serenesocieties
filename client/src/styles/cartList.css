@@ -1,0 +1,26 @@
+.cartImageComponent{
+    width: 140px;
+}
+.cartContainer{
+    width: 50%;
+}
+.cartItemDetails{ 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media screen and (max-width: 900px) {
+    .cartContainer{
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .cartImageComponent{
+        /* margin-top: 10%; */
+        width: 100%;
+    }
+ 
+}
+
