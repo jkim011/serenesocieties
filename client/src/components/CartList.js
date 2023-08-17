@@ -18,6 +18,7 @@ const CartList = () => {
 
     const handleRemoveFromCart = async (event) => {
       event.preventDefault();
+      
 
       try {
         let {cartData} = await removeFromCart({
@@ -40,7 +41,7 @@ const CartList = () => {
     console.log(cartTotalPrice)
 
     return (
-      <div className="cartContainer container flex " >
+      <div className="cartContainer container flex " name="cartItem"  >
          
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="border row mb-2" >
@@ -56,7 +57,25 @@ const CartList = () => {
              
               <p>${cartItem.cartProductPrice}</p>
               </div>
-              <button onClick={handleRemoveFromCart}><FontAwesomeIcon icon="fa-solid fa-trash-can" /></button>
+              <button onClick={
+                 async (event) => {
+                  event.preventDefault();
+                  
+            
+                  try {
+                    let {cartData} = await removeFromCart({
+                      variables: {
+                        userId: Auth.getProfile().data._id,
+                        cartId: cartItem._id
+                      }
+                    })
+                  } catch(err) {
+                    console.log(err)
+                  }
+                }
+
+
+              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></button>
           </div>
         
         )) } 
