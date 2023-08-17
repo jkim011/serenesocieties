@@ -1,6 +1,6 @@
 import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useState } from "react";
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
@@ -13,6 +13,7 @@ function SingleProduct() {
   const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
+  const navigate = useNavigate()
   
  
   const product = data?.product || {};
@@ -79,6 +80,7 @@ function SingleProduct() {
           
         },
       });
+      navigate(0)
     } catch(err){
       console.log(err)
     }
