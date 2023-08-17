@@ -50,18 +50,17 @@ export const ADD_PRODUCT = gql`
 export const ADD_TO_CART = gql `
   mutation addToCart($userId: ID!, $cartProductId: String!, $cartProductName: String!, $cartProductSizeId: String!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Int!) {
     addToCart(userId: $userId, cartProductId: $cartProductId, cartProductName: $cartProductName, cartProductSizeId: $cartProductSizeId, cartProductSize: $cartProductSize, cartProductImage: $cartProductImage, cartProductPrice: $cartProductPrice) {
-     _id
-    email
-    username
-     cartItems{
-      cartProductId
-      cartProductName
-      cartProductSizeId
-      cartProductSize
-      cartProductImage
-      cartProductPrice
-     }
-
+      _id
+      email
+      username
+      cartItems{
+        cartProductId
+        cartProductName
+        cartProductSizeId
+        cartProductSize
+        cartProductImage
+        cartProductPrice
+      }
     }
   }
 
@@ -71,12 +70,16 @@ export const REMOVE_FROM_CART = gql `
   mutation addToCart($userId: ID!, $cartId: ID!) {
     addToCart(userId: $userId, cartId: $cartId) {
       _id
-      name
-      image
-      image2
-      description
-      price
-
+      email
+      username
+      cartItems{
+        cartProductId
+        cartProductName
+        cartProductSizeId
+        cartProductSize
+        cartProductImage
+        cartProductPrice
+      }
     }
   }
 
