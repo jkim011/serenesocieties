@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import shirt from "../assets/clothes/testShirt.png";
 import "../styles/productList.css";
 import { QUERY_CATEGORIES, QUERY_PRODUCTS } from '../utils/queries';
@@ -9,7 +9,7 @@ import { useQuery } from "@apollo/client";
 const ProductList = () => {
   const { loading, data, error } = useQuery(QUERY_PRODUCTS);
   const products = data?.products || [];
-
+  
   const params = useParams()
   
   var selectProductArr = [] 

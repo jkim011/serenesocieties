@@ -3,6 +3,8 @@ import { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
 import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
+import Button from "react-bootstrap/Button"
+
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +12,7 @@ import { useParams } from "react-router";
 import Auth from "../utils/auth";
 
 const CartList = () => {
+    
     const {loading, data, error} = useQuery(QUERY_ME);
     const cartItems = data?.me.cartItems || []
     console.log(cartItems, "cartItems")
@@ -45,19 +48,19 @@ const CartList = () => {
          
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="border row mb-2" >
-            <div className="col-6">
+            <div className="col-4 border">
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
-          <div className="col-6 cartItemDetails">
-           
-              <p>{cartItem.cartProductName}</p>
+          <div className="col-8 cartItemDetails">
               
-            
-              <p>{cartItem.cartProductSize}</p>
-             
+              <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
+              
               <p>${cartItem.cartProductPrice}</p>
-              </div>
-              <button onClick={
+          
+
+              <div className="container  mb-2  justify-content-end">
+                <div className="row justify-content-end ">
+              <Button className="col-2" size="sm" variant="danger" onClick={
                  async (event) => {
                   event.preventDefault();
                   
@@ -75,7 +78,15 @@ const CartList = () => {
                 }
 
 
-              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></button>
+              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
+              </div>
+            </div>
+
+          
+          </div>
+
+             
+
           </div>
         
         )) } 
