@@ -6,9 +6,9 @@ import { useParams } from 'react-router';
 
 
 function Profile() {
-  const {username} = useParams()
+  const {email} = useParams()
   const {loading, data} = useQuery(QUERY_ME ,{
-    variables: {username: username}
+    variables: {email: email}
   });
   
   const me = data?.me || []
@@ -21,7 +21,7 @@ function Profile() {
 }
 return(
   <section className='mt-4 '>
-  <h1>Welcome Back {me.username}</h1>
+  <h1>Welcome Back {me.firstName}</h1>
   </section>
   
 )
