@@ -67,8 +67,8 @@ export const ADD_TO_CART = gql `
 `;
 
 export const REMOVE_FROM_CART = gql `
-  mutation addToCart($userId: ID!, $cartId: ID!) {
-    addToCart(userId: $userId, cartId: $cartId) {
+  mutation removeFromCart($userId: ID!, $cartId: ID!) {
+    removeFromCart(userId: $userId, cartId: $cartId) {
       _id
       email
       username

@@ -3,16 +3,34 @@ import { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
 import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
-import ProductList from "./ProductList";
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router";
+import Auth from "../utils/auth";
 
 const CartList = () => {
     const {loading, data, error} = useQuery(QUERY_ME);
     const cartItems = data?.me.cartItems || []
     console.log(cartItems, "cartItems")
-    
+
+    const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
+
+    const handleRemoveFromCart = async (event) => {
+      event.preventDefault();
+
+      try {
+        let {cartData} = await removeFromCart({
+          variables: {
+            userId: Auth.getProfile().data._id,
+            // cartId: cart._id
+          }
+        })
+      } catch(err) {
+        console.log(err)
+      }
+    }
+
     // To calculate cart total
     let cartTotalPrice = 0
     for ( let i=0; i < cartItems.length; i++) {
@@ -38,7 +56,7 @@ const CartList = () => {
              
               <p>${cartItem.cartProductPrice}</p>
               </div>
-              <FontAwesomeIcon icon="fa-solid fa-trash-can" />
+              <button onClick={handleRemoveFromCart}><FontAwesomeIcon icon="fa-solid fa-trash-can" /></button>
           </div>
         
         )) } 
