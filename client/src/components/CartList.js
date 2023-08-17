@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
-import { useQuery } from "@apollo/client";
+import { REMOVE_FROM_CART } from "../utils/mutations";
+import { useQuery, useMutation } from "@apollo/client";
 import ProductList from "./ProductList";
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
