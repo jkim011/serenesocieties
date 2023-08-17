@@ -97,21 +97,23 @@ db.once('open', async () => {
   console.log("products seeded");
 
 
-
   await User.deleteMany();
   await User.create({
-    username: "admin",
+    firstName: "Admin",
+    lastName: "Admin",
     email: "admin@gmail.com",
     password: "password",
     isAdmin: true
   });
   await User.create({
-    username: "person",
+    firstName: "Person",
+    lastName: "Dude",
     email: "person@gmail.com",
     password: "password",
     isAdmin: false,
   });
   console.log("users seeded")
+
 
   process.exit();
 });

@@ -14,8 +14,8 @@ const resolvers = {
         users: async () => {
             return User.find().populate("cartItems");
         },
-        user: async (parent, { username }) => {
-            return User.findOne({ username }).populate("cartItems");
+        user: async (parent, { email }) => {
+            return User.findOne({ email }).populate("cartItems");
         },
         products: async (parent, {categoryId, categories, name}) => {
             const params = categories ? {categories} : {}
@@ -47,8 +47,8 @@ const resolvers = {
     },
 
     Mutation: {
-        addUser: async (parent, { username, email, password }) => {
-            const user = await User.create({ username, email, password });
+        addUser: async (parent, { firstName, lastName, email, password }) => {
+            const user = await User.create({ firstName, lastName, email, password });
             const token = signToken(user);
             return { token, user };
         },
