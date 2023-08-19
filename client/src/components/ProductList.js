@@ -36,11 +36,12 @@ const ProductList = () => {
   return(
     <div
       id="productCardContainer"
-      className="d-flex flex-row flex-wrap justify-content-around"
+      className="d-flex flex-row flex-wrap justify-content-center"
     >
-      {params.routeName == "all-products" ? products && products.map((product) =>(
+      <div className="row row-cols-4 justify-content-center">
 
-      <div key={product._id} className="m-2 productCard">
+      {params.routeName == "all-products" ? products && products.map((product) =>(
+      <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
         <div id="productHead">
           <Link to={`/shop/products/${product._id}`}>
             <img className="productImg" src={product.image} alt="" />
@@ -64,6 +65,7 @@ const ProductList = () => {
         </div>
       </div>
       )) : <></> }
+      </div>
 
       {selectProductArr.map(product => (
           <div key={product._id} className="m-2 productCard">

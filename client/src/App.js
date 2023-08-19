@@ -20,12 +20,9 @@ import Gallery from './pages/main-pages/Gallery';
 import Lookbook from './pages/main-pages/Lookbook';
 import Profile from './pages/main-pages/Profile';
 import Cart from "./pages/main-pages/Cart"
-
-
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
-
 import Signup from './components/CreateUser';
 import AdminDash from './pages/admin/AdminDash';
 import ProductsDash from './pages/admin/ProductsDash';
@@ -36,12 +33,12 @@ import AnalyticsDash from './pages/admin/AnalyticsDash';
 import Login from './components/Login';
 import EditProduct from './pages/admin/EditProduct';
 
+// Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faCoffee, faTrashCan } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faCheckSquare, faCoffee, faTrashCan)
+import { faTrashCan, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons'
+library.add(faTrashCan, faCartShopping, faUser)
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
