@@ -22,15 +22,18 @@ function Profile() {
   
   if(!Auth.loggedIn()){
   return (
-    <Link to="/login"><p>Login to view your Profile!</p></Link>
+    <div className='d-flex flex-column text-center mt-5'>
+      <Link to="/login" className="text-decoration-none text-black fs-5"><p>Login to view your profile</p></Link>
+      <Link to="/signup" className="text-decoration-none text-black fs-5"><p>Create an account</p></Link>
+    </div>
   )
 }
 return(
-  <section className='mt-4 '>
-  <h1>{me.firstName} {me.lastName}'s Profile</h1>
+  <div className='mt-4 text-center'>
+    <h1 className='mb-4'>{me.firstName} {me.lastName}'s Profile</h1>
 
-  <button onClick={handleLogout}>Logout</button>
-  </section>
+    <button onClick={handleLogout} className='mt-4'>Logout</button>
+  </div>
   
 )
 }

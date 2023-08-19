@@ -9,6 +9,14 @@
   margin-right: auto;
 }
 
+/* .grid-container {
+  align-content: start;
+} */
+
+/* .width100 {
+  width: 100%;
+} */
+
 .productCard {
   /* border: red solid 2px; */
   width: 290px;

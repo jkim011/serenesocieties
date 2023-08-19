@@ -9,6 +9,7 @@ import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 
 const CartList = () => {
@@ -43,6 +44,14 @@ const CartList = () => {
     }
     console.log(cartTotalPrice)
 
+    if(cartTotalPrice === 0) {
+      return (
+        <div>
+          <h5 className="text-center">Your cart is empty</h5>
+          <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3">Continue shopping</h6></Link>
+        </div>
+      )
+    }
     return (
       <div className="cartContainer container flex " name="cartItem"  >
          
@@ -51,8 +60,8 @@ const CartList = () => {
             <div className="col-4 border">
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
-          <div className="col-8 cartItemDetails">
-              
+
+            <div className="col-8 cartItemDetails">          
               <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
               
               <p>${cartItem.cartProductPrice}</p>
@@ -60,38 +69,32 @@ const CartList = () => {
 
               <div className="container  mb-2  justify-content-end">
                 <div className="row justify-content-end ">
-              <Button className="col-2" size="sm" variant="danger" onClick={
-                 async (event) => {
-                  event.preventDefault();
-                  
-            
-                  try {
-                    let {cartData} = await removeFromCart({
-                      variables: {
-                        userId: Auth.getProfile().data._id,
-                        cartId: cartItem._id
-                      }
-                    })
-                  } catch(err) {
-                    console.log(err)
+                <Button className="col-2" size="sm" variant="danger" onClick={
+                  async (event) => {
+                    event.preventDefault();    
+                    try {
+                      let {cartData} = await removeFromCart({
+                        variables: {
+                          userId: Auth.getProfile().data._id,
+                          cartId: cartItem._id
+                        }
+                      })
+                    } catch(err) {
+                      console.log(err)
+                    }
                   }
-                }
-
-
-              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
-              </div>
+                }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
+                </div>
+              </div>   
             </div>
-
-          
-          </div>
-
-             
-
-          </div>
-        
+        </div>       
         )) } 
 
-        <p>Total: ${cartTotalPrice}</p>
+        <div className="text-center">
+          <h5>Total: ${cartTotalPrice}</h5>
+          <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
+          <button>Checkout</button>
+        </div>
       </div>
 
     )
