@@ -4,12 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+
 const LocalCart = () => {
 
     const cartItems = localStorage.getItem("allCartItems")
     // console.log(cartItems)
      const parsedCart = JSON.parse(cartItems)
     console.log(parsedCart, "parsedCart")
+
+
+    const handleRemove = () =>{
+       
+    
+    }
 
     let cartTotalPrice = 0
     for ( let i=0; i < parsedCart.length; i++) {
@@ -27,11 +34,13 @@ const LocalCart = () => {
       )
     }
 
+    
+
     return (
         <div className="cartContainer container flex " name="cartItem"  >
            
           {parsedCart && parsedCart.map((cartItem) =>(
-            <div key={cartItem._id} className="border row mb-2" >
+            <div className="border row mb-2" >
               <div className="col-4 border">
                 <img className="cartImageComponent" src={cartItem.cartProductImage}/>
               </div>
@@ -46,7 +55,7 @@ const LocalCart = () => {
                   <div className="row justify-content-end ">
                   <Button className="col-2" size="sm" variant="danger" 
                   onClick={
-                    localStorage.removeItem("cartItem")
+                    parsedCart.slice(index)
                   }
                   ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
                   </div>
@@ -65,3 +74,4 @@ const LocalCart = () => {
       )
 }
 export default LocalCart; 
+
