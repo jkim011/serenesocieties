@@ -89,19 +89,33 @@ function SingleProduct() {
     event.preventDefault();
     console.log("local clik")
 
-    const localCartItems = []
+    let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+    if(existingLocalCartItems == null) existingLocalCartItems = []
 
-    localCartItems.push({'cartProductId': productId, "cartProductName": product.name, "cartProductSizeId": sizeId, "cartProductSize": sizeName, "cartProductImage": product.image, "cartProductPrice": product.price  })
+    let cartItem = {
+      'cartProductId': productId, 
+      "cartProductName": product.name, 
+      "cartProductSizeId": sizeId, 
+      "cartProductSize": sizeName, 
+      "cartProductImage": product.image, 
+      "cartProductPrice": product.price
+    }
+    localStorage.setItem("cartItem", JSON.stringify(cartItem))
+    existingLocalCartItems.push(cartItem)
+    localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
+
+    // localCartItems.push({cartItem:{'cartProductId': productId, "cartProductName": product.name, "cartProductSizeId": sizeId, "cartProductSize": sizeName, "cartProductImage": product.image, "cartProductPrice": product.price  }})
 
     
-
+console.log(JSON.parse(localStorage.getItem("allCartItems")), "local get")
       // localStorage.setItem('cartProductId', productId)
       // localStorage.setItem("cartProductName", product.name)
       // localStorage.setItem("cartProductSizeId", sizeId)
       // localStorage.setItem("cartProductSize", sizeName)
       // localStorage.setItem("cartProductImage", product.image)
       // localStorage.setItem("cartProductPrice", product.price)
-      console.log(localCartItems, "LOCAL CART")
+      // console.log(localCartItems, "LOCAL CART")
+      
   }
 
 
