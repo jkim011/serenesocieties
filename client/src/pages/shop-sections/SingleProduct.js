@@ -45,9 +45,9 @@ function SingleProduct() {
   // console.log(sizeId, "sizeId")
   // console.log(size, "size")
   // console.log(productId, "ProductID")
-  console.log(product)
+  // console.log(product)
   console.log("*************************")
-  console.log("userID", Auth.getProfile().data._id)
+  // console.log("userID", Auth.getProfile().data._id)
   console.log("CartProductId", productId)
   console.log("product name", product.name)
   console.log("image", product.image)
@@ -64,6 +64,8 @@ function SingleProduct() {
   const handleAddToCart = async (event) => {
     event.preventDefault();
 
+
+
     try{
       const {cartData} = await addCartItem({
         variables:
@@ -75,9 +77,6 @@ function SingleProduct() {
           cartProductSize: sizeName,
           cartProductImage: product.image,
           cartProductPrice: product.price,
-         
-          
-          
         },
       });
       navigate(0)
@@ -85,6 +84,26 @@ function SingleProduct() {
       console.log(err)
     }
   }
+
+  const handleAddToCartLocal = async (event) =>{
+    event.preventDefault();
+    console.log("local clik")
+
+    const localCartItems = []
+
+    localCartItems.push({'cartProductId': productId, "cartProductName": product.name, "cartProductSizeId": sizeId, "cartProductSize": sizeName, "cartProductImage": product.image, "cartProductPrice": product.price  })
+
+    
+
+      // localStorage.setItem('cartProductId', productId)
+      // localStorage.setItem("cartProductName", product.name)
+      // localStorage.setItem("cartProductSizeId", sizeId)
+      // localStorage.setItem("cartProductSize", sizeName)
+      // localStorage.setItem("cartProductImage", product.image)
+      // localStorage.setItem("cartProductPrice", product.price)
+      console.log(localCartItems, "LOCAL CART")
+  }
+
 
  
 console.log("SIZE", size)
@@ -137,8 +156,15 @@ const addCartBtn = document.querySelector("#addCartBtn")
             <option id="blankOption">--</option> 
               {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
             </select>
-
-          <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>Add to cart</button>
+          <div>
+          {Auth.loggedIn() ? (
+            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>Add to cart</button>
+          
+          ):(
+            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--"}>Add to cart</button>
+          )}
+          </div>
+          
         </form>
       </div>
       
