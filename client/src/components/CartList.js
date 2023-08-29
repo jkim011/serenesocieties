@@ -14,90 +14,90 @@ import Auth from "../utils/auth";
 
 const CartList = () => {
     
-    const {loading, data, error} = useQuery(QUERY_ME);
-    const cartItems = data?.me.cartItems || []
-    console.log(cartItems, "cartItems")
+  const {loading, data, error} = useQuery(QUERY_ME);
+  const cartItems = data?.me.cartItems || []
+  console.log(cartItems, "cartItems")
 
-    const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
+  const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
 
-    const handleRemoveFromCart = async (event) => {
-      event.preventDefault();
-      
+  const handleRemoveFromCart = async (event) => {
+    event.preventDefault();
+    
 
-      try {
-        let {cartData} = await removeFromCart({
-          variables: {
-            userId: Auth.getProfile().data._id,
-            // cartId: cart._id
-          }
-        })
-      } catch(err) {
-        console.log(err)
-      }
+    try {
+      let {cartData} = await removeFromCart({
+        variables: {
+          userId: Auth.getProfile().data._id,
+          // cartId: cart._id
+        }
+      })
+    } catch(err) {
+      console.log(err)
     }
+  }
 
-    // To calculate cart total
-    let cartTotalPrice = 0
-    for ( let i=0; i < cartItems.length; i++) {
-        console.log(cartItems[i].cartProductPrice, "forloop")
-        cartTotalPrice += parseInt(cartItems[i].cartProductPrice)
-    }
-    console.log(cartTotalPrice)
+  // To calculate cart total
+  let cartTotalPrice = 0
+  for ( let i=0; i < cartItems.length; i++) {
+      console.log(cartItems[i].cartProductPrice, "forloop")
+      cartTotalPrice += parseInt(cartItems[i].cartProductPrice)
+  }
+  console.log(cartTotalPrice)
 
-    if(cartTotalPrice === 0) {
-      return (
-        <div>
-          <h5 className="text-center">Your cart is empty</h5>
-          <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3">Continue shopping</h6></Link>
-        </div>
-      )
-    }
+  if(cartTotalPrice === 0) {
     return (
-      <div className="cartContainer container flex " name="cartItem"  >
-         
-        {cartItems && cartItems.map((cartItem) =>(
-          <div key={cartItem._id} className="border row mb-2" >
-            <div className="col-4 border">
-              <img className="cartImageComponent" src={cartItem.cartProductImage}/>
-            </div>
-
-            <div className="col-8 cartItemDetails">          
-              <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
-              
-              <p>${cartItem.cartProductPrice}</p>
-          
-
-              <div className="container  mb-2  justify-content-end">
-                <div className="row justify-content-end ">
-                <Button className="col-2" size="sm" variant="danger" onClick={
-                  async (event) => {
-                    event.preventDefault();    
-                    try {
-                      let {cartData} = await removeFromCart({
-                        variables: {
-                          userId: Auth.getProfile().data._id,
-                          cartId: cartItem._id
-                        }
-                      })
-                    } catch(err) {
-                      console.log(err)
-                    }
-                  }
-                }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
-                </div>
-              </div>   
-            </div>
-        </div>       
-        )) } 
-
-        <div className="text-center">
-          <h5>Total: ${cartTotalPrice}</h5>
-          <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
-          <button>Checkout</button>
-        </div>
+      <div>
+        <h5 className="text-center">Your cart is empty</h5>
+        <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3">Continue shopping</h6></Link>
       </div>
-
     )
+  }
+  return (
+    <div className="cartContainer container flex " name="cartItem"  >
+        
+      {cartItems && cartItems.map((cartItem) =>(
+        <div key={cartItem._id} className="border row mb-2" >
+          <div className="col-4 border">
+            <img className="cartImageComponent" src={cartItem.cartProductImage}/>
+          </div>
+
+          <div className="col-8 cartItemDetails">          
+            <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
+            
+            <p>${cartItem.cartProductPrice}</p>
+        
+
+            <div className="container  mb-2  justify-content-end">
+              <div className="row justify-content-end ">
+              <Button className="col-2" size="sm" variant="danger" onClick={
+                async (event) => {
+                  event.preventDefault();    
+                  try {
+                    let {cartData} = await removeFromCart({
+                      variables: {
+                        userId: Auth.getProfile().data._id,
+                        cartId: cartItem._id
+                      }
+                    })
+                  } catch(err) {
+                    console.log(err)
+                  }
+                }
+              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
+              </div>
+            </div>   
+          </div>
+      </div>       
+      )) } 
+
+      <div className="text-center">
+        <h5>Total: ${cartTotalPrice}</h5>
+        <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
+        <button>Checkout</button>
+      </div>
+    </div>
+
+  )
 }
 
 export default CartList;
