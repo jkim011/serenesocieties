@@ -14,6 +14,7 @@ const LocalCart = () => {
 
   const handleDeleteCartItem = (index) => {
     const existingCartEntries = JSON.parse(localStorage.getItem("allCartItems"));
+    
     existingCartEntries.splice(index, 1);
     localStorage.setItem("allCartItems", JSON.stringify(existingCartEntries));
     navigate(0)
@@ -25,6 +26,9 @@ const LocalCart = () => {
     cartTotalPrice += parseInt(parsedCart[i].cartProductPrice)
   }
   console.log(cartTotalPrice)
+
+  let index = parsedCart.findIndex(cartItemIndex => cartItemIndex == "0.011746889873882838")
+  console.log(index)
 
   if(cartTotalPrice === 0) {
     return (

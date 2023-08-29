@@ -78,10 +78,12 @@ function SingleProduct() {
     } 
   }
 
+
   const handleAddToCartLocal = async (event) =>{
     event.preventDefault();
     let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
     if(existingLocalCartItems == null) existingLocalCartItems = []
+    var cartItemIndex = Math.random()
 
     let cartItem = {
       'cartProductId': productId, 
@@ -89,7 +91,8 @@ function SingleProduct() {
       "cartProductSizeId": sizeId, 
       "cartProductSize": sizeName, 
       "cartProductImage": product.image, 
-      "cartProductPrice": product.price
+      "cartProductPrice": product.price,
+      "cartItemIndex": cartItemIndex
     }
     localStorage.setItem("cartItem", JSON.stringify(cartItem))
     existingLocalCartItems.push(cartItem)
