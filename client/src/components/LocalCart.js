@@ -12,13 +12,17 @@ const LocalCart = () => {
   const parsedCart = JSON.parse(cartItems)
   console.log(parsedCart, "parsedCart")
 
-  const handleDeleteCartItem = (index) => {
-    const existingCartEntries = JSON.parse(localStorage.getItem("allCartItems"));
+  // const handleDeleteCartItem = (index) => {
+  //   const existingCartEntries = JSON.parse(localStorage.getItem("allCartItems"));
     
-    existingCartEntries.splice(index, 1);
-    localStorage.setItem("allCartItems", JSON.stringify(existingCartEntries));
-    navigate(0)
-  }
+  //   existingCartEntries.splice(index, 1);
+  //   localStorage.setItem("allCartItems", JSON.stringify(existingCartEntries));
+  //   navigate(0)
+  // }
+  // let productIndex = parsedCart.findIndex(function(object){
+  //   return object.cartItemIndex === cartItemIndex
+  // })
+  // console.log(productIndex, "Index")
 
   let cartTotalPrice = 0
   for ( let i=0; i < parsedCart.length; i++) {
@@ -27,8 +31,7 @@ const LocalCart = () => {
   }
   console.log(cartTotalPrice)
 
-  let index = parsedCart.findIndex(cartItemIndex => cartItemIndex == "0.011746889873882838")
-  console.log(index)
+ 
 
   if(cartTotalPrice === 0) {
     return (
@@ -38,17 +41,20 @@ const LocalCart = () => {
       </div>
     )
   }
+
+ 
+
   return (
     <div className="cartContainer container flex " name="cartItem"  >
         
-      {parsedCart && parsedCart.map((cartItem) =>(
+      {parsedCart && parsedCart.map((cartItem, index) =>(
         <div key={cartItem._id} className="border row mb-2" >
           <div className="col-4 border">
             <img className="cartImageComponent" src={cartItem.cartProductImage}/>
           </div>
 
           <div className="col-8 cartItemDetails">          
-            <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
+            <p><strong>{cartItem.cartProductName} </strong> - {cartItem.cartProductSize}</p>
             
             <p>${cartItem.cartProductPrice}</p>
         
@@ -56,7 +62,18 @@ const LocalCart = () => {
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
               <Button className="col-2" size="sm" variant="danger" 
-              onClick={handleDeleteCartItem}
+              onClick={
+                async(event) => {
+                  event.preventDefault();
+                  parsedCart.splice(index, 1)
+                  localStorage.setItem("allCartItems", JSON.stringify(parsedCart))
+                  navigate(0)
+                }
+             
+              }
+
+
+              
               ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
               </div>
             </div>   
