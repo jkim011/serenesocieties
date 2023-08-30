@@ -13,19 +13,7 @@ db.once('open', async () => {
     {name: "Summer Special", routeName: "summer-special"}
   ]);
   console.log("categories seeded");
-
-  // await Stock.deleteMany();
-  // const inventory = await Stock.insertMany([
-  //   {size: "S", quantity: 10},
-  //   {size: "M", quantity: 8},
-  //   {size: "L", quantity: 12},
-  //   {size: "M", quantity: 5},
-  //   {size: "L", quantity: 8},
-  //   {size: "10x12 in", quantity: 15},
-  //   {size: "13x15 in", quantity: 8}
-  // ]);
-  // console.log("inventory seeded")
-
+  
   await Product.deleteMany();
   const products = await Product.insertMany([
     {
@@ -75,21 +63,18 @@ db.once('open', async () => {
     {
       name: "Seeded poster",
       image: "../../images/posters/toxicPalmtree.jpg",
+      image2: "../../images/posters/toxicPalmtree.jpg",
       description: "testing seeded data poster",
       price: 10.00,
       categories: [categories[3]._id],
       inventory: [
         {
-          size: "Small",
+          size: "10x12",
           quantity: 10
         },
         {
-          size: "Medium",
+          size: "13x16",
           quantity: 18
-        },
-        {
-          size: "Large",
-          quantity: 9
         }
       ]
     }    

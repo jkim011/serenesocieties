@@ -27,7 +27,6 @@ const ProductList = () => {
       }
     }
   }
-
   matchingCategories()
 
   if (loading) {
@@ -45,12 +44,15 @@ const ProductList = () => {
         <div id="productHead">
           <Link to={`/shop/products/${product._id}`}>
             <img className="productImg" src={product.image} alt="" />
+            </Link>
+
+            <Link to={`/shop/products/${product._id}`}>
             <img
               className="productImg productImg2"
               src={product.image2}
               alt=""
             />
-          </Link>
+            </Link>
         </div>
 
         <div className="container ">
