@@ -15,26 +15,36 @@ import Auth from "../utils/auth";
 const CartList = () => {
     
   const {loading, data, error} = useQuery(QUERY_ME);
-  const cartItems = data?.me.cartItems || []
+  let cartItems = data?.me.cartItems || []
   console.log(cartItems, "cartItems")
 
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
 
-  const handleRemoveFromCart = async (event) => {
-    event.preventDefault();
-    
+  // const handleRemoveFromCart = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     let {cartData} = await removeFromCart({
+  //       variables: {
+  //         userId: Auth.getProfile().data._id,
+  //         // cartId: cart._id
+  //       }
+  //     })
+  //   } catch(err) {
+  //     console.log(err)
+  //   }
+  // }
 
-    try {
-      let {cartData} = await removeFromCart({
-        variables: {
-          userId: Auth.getProfile().data._id,
-          // cartId: cart._id
-        }
-      })
-    } catch(err) {
-      console.log(err)
+  const addLocalCartItems = () => {
+    let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+
+    if(localStorage.getItem("allCartItems")) {
+      console.log(localCartItems, "from localStorage")
+
+      // cartItems.push(...localCartItems)
     }
   }
+  addLocalCartItems()
+
 
   // To calculate cart total
   let cartTotalPrice = 0
@@ -42,7 +52,6 @@ const CartList = () => {
       console.log(cartItems[i].cartProductPrice, "forloop")
       cartTotalPrice += parseInt(cartItems[i].cartProductPrice)
   }
-  console.log(cartTotalPrice)
 
   if(cartTotalPrice === 0) {
     return (
