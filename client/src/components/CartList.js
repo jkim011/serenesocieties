@@ -18,7 +18,8 @@ const CartList = () => {
   const {loading, data, error} = useQuery(QUERY_ME);
   let cartItems = data?.me.cartItems || []
   console.log(cartItems, "cartItems")
-
+  const userId = Auth.getProfile().data._id
+  console.log(userId, "UIDDD")
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
@@ -48,7 +49,7 @@ const CartList = () => {
           const {cartData} = addCartItem({
             variables:
             {
-              userId: Auth.getProfile().data._id,
+              userId: userId,
               cartProductId: localCartItems[i].cartProductId,
               cartProductName: localCartItems[i].cartProductName,
               cartProductSizeId: localCartItems[i].cartProductSizeId,
