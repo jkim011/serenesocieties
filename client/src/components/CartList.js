@@ -4,6 +4,7 @@ import { QUERY_ME } from "../utils/queries";
 import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button"
+import { ADD_TO_CART } from "../utils/mutations";
 
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +20,7 @@ const CartList = () => {
   console.log(cartItems, "cartItems")
 
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
+  const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
   // const handleRemoveFromCart = async (event) => {
   //   event.preventDefault();
@@ -34,16 +36,40 @@ const CartList = () => {
   //   }
   // }
 
-  const addLocalCartItems = () => {
+
     let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
 
-    if(localStorage.getItem("allCartItems")) {
+  if(localStorage.getItem("allCartItems")) {
       console.log(localCartItems, "from localStorage")
 
-      // cartItems.push(...localCartItems)
+      for(let i = 0; i<localCartItems.length;i++){
+        console.log(localCartItems[i].cartProductName, "NAME")
+        try {
+          const {cartData} = addCartItem({
+            variables:
+            {
+              userId: Auth.getProfile().data._id,
+              cartProductId: localCartItems[i].cartProductId,
+              cartProductName: localCartItems[i].cartProductName,
+              cartProductSizeId: localCartItems[i].cartProductSizeId,
+              cartProductSize: localCartItems[i].cartProductSize,
+              cartProductImage: localCartItems[i].cartProductImage,
+              cartProductPrice: localCartItems[i].cartProductPrice,
+            },
+          });
+          
+        } catch(err){
+          console.log(err)
+        } 
+        
+
+      }
+      localStorage.clear()
+
+     
     }
-  }
-  addLocalCartItems()
+  
+ 
 
 
   // To calculate cart total
