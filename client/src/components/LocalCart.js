@@ -24,16 +24,11 @@ const LocalCart = () => {
   // })
   // console.log(productIndex, "Index")
 
-  let cartTotalPrice = 0
-  for ( let i=0; i < parsedCart.length; i++) {
-    console.log(parsedCart[i].cartProductPrice, "forloop")
-    cartTotalPrice += parseInt(parsedCart[i].cartProductPrice)
-  }
-  console.log(cartTotalPrice)
+  
 
  
 
-  if(cartTotalPrice === 0) {
+  if(!parsedCart) {
     return (
       <div>
         <h5 className="text-center">Your cart is empty</h5>
@@ -42,6 +37,14 @@ const LocalCart = () => {
     )
   }
 
+  else{
+
+  let cartTotalPrice = 0
+  for ( let i=0; i < parsedCart.length; i++) {
+    console.log(parsedCart[i].cartProductPrice, "forloop")
+    cartTotalPrice += parseInt(parsedCart[i].cartProductPrice)
+  }
+  console.log(cartTotalPrice)
  
 
   return (
@@ -89,5 +92,6 @@ const LocalCart = () => {
     </div>
 
   )
-}
+}}
+
 export default LocalCart; 
