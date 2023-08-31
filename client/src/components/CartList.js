@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
 import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
@@ -8,12 +7,12 @@ import { ADD_TO_CART } from "../utils/mutations";
 
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
 
 const CartList = () => {
+  const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
   let cartItems = data?.me.cartItems || []
@@ -22,27 +21,12 @@ const CartList = () => {
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
-  // const handleRemoveFromCart = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     let {cartData} = await removeFromCart({
-  //       variables: {
-  //         userId: Auth.getProfile().data._id,
-  //         // cartId: cart._id
-  //       }
-  //     })
-  //   } catch(err) {
-  //     console.log(err)
-  //   }
-  // }
-
-
-    let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
-
-  if(localStorage.getItem("allCartItems")) {
+  let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  const combineCarts = () => {
+    if(localStorage.getItem("allCartItems")) {
       console.log(localCartItems, "from localStorage")
 
-      for(let i = 0; i<localCartItems.length;i++){
+      for(let i = 0; i < localCartItems.length; i++) {
         console.log(localCartItems[i].cartProductName, "NAME")
         try {
           const {cartData} = addCartItem({
@@ -57,20 +41,14 @@ const CartList = () => {
               cartProductPrice: localCartItems[i].cartProductPrice,
             },
           });
-          
+          navigate(0)
         } catch(err){
           console.log(err)
         } 
-        
-
       }
-      localStorage.clear()
-
-     
+      localStorage.removeItem("allCartItems")
     }
-  
- 
-
+  }
 
   // To calculate cart total
   let cartTotalPrice = 0
@@ -87,6 +65,9 @@ const CartList = () => {
       </div>
     )
   }
+
+  combineCarts()
+
   return (
     <div className="cartContainer container flex " name="cartItem"  >
         
