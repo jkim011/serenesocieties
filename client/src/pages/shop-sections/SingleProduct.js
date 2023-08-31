@@ -71,7 +71,6 @@ function SingleProduct() {
           cartProductPrice: product.price,
         },
       });
-      navigate(0)
       showCheckMark();
     } catch(err){
       console.log(err)
