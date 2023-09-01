@@ -26,6 +26,10 @@ function NavBar() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  //for local. need to make one for logged in cart
+  const cartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  let cartItemCount = cartItems.length
   
 
   if(window.location.pathname === '/') {
@@ -87,6 +91,7 @@ function NavBar() {
           </li>
           <li class="nav-item">
             <Link class="nav-link" as={Link} to="/cart"><FontAwesomeIcon icon="fa-solid fa-cart-shopping"></FontAwesomeIcon></Link>
+            {cartItemCount}
           </li>
         </ul>
       </div>
