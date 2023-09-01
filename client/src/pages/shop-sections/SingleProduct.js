@@ -77,10 +77,9 @@ function SingleProduct() {
     } 
   }
 
-
+  let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
     event.preventDefault();
-    let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
     if(existingLocalCartItems == null) existingLocalCartItems = []
     var cartItemIndex = Math.random()
 
@@ -99,6 +98,8 @@ function SingleProduct() {
       
     showCheckMark();
   }
+
+  console.log(existingLocalCartItems.length)
 
   if(loading){
     return(
