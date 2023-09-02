@@ -97,6 +97,7 @@ function SingleProduct() {
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
       
     showCheckMark();
+
   }
 
   console.log(existingLocalCartItems.length)
