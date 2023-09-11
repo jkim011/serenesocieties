@@ -100,8 +100,6 @@ function SingleProduct() {
 
   }
 
-  console.log(existingLocalCartItems.length)
-
   if(loading){
     return(
       <div>
