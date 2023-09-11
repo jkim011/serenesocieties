@@ -22,6 +22,8 @@ const CartList = () => {
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  console.log(localCartItems, "from localStorage")
+ 
   const combineCarts = () => {
     if(localStorage.getItem("allCartItems")) {
       console.log(localCartItems, "from localStorage")
@@ -50,6 +52,8 @@ const CartList = () => {
     }
   }
 
+  combineCarts()
+
   // To calculate cart total
   let cartTotalPrice = 0
   for ( let i=0; i < cartItems.length; i++) {
@@ -66,7 +70,7 @@ const CartList = () => {
     )
   }
 
-  combineCarts()
+ 
 
   return (
     <div className="cartContainer container flex " name="cartItem"  >
