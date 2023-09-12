@@ -1,6 +1,4 @@
-
 import React from 'react';
-
 import {
   ApolloClient,
   InMemoryCache,
@@ -35,7 +33,8 @@ import OrdersDash from './pages/admin/OrdersDash';
 import AnalyticsDash from './pages/admin/AnalyticsDash';
 import Login from './components/Login';
 import EditProduct from './pages/admin/EditProduct';
-import Checkout from './components/Checkout';
+import Success from './components/Success';
+import Cancel from './components/Cancel';
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -145,8 +144,12 @@ function App() {
                 element={<Cart/>}
               />
               <Route
-                path="/checkout"
-                element={<Checkout/>}
+                path="/success"
+                element={<Success/>}
+              />
+              <Route
+                path="/cancel"
+                element={<Cancel/>}
               />
             </Routes>
           </div>
