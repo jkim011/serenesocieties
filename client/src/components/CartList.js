@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
 import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
@@ -11,8 +11,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+
 ////////////////////////////////////////////////
-console.log(`${process.env.REACT_APP_STRIPE_KEY}`, " stripe key")
 let stripePromise;
 const getStripe = () => {
   if(!stripePromise) {
@@ -22,6 +22,9 @@ const getStripe = () => {
 }
 
 const CartList = () => {
+  const [stripeError, setStripeError] = useState(null)
+  const [isLoading, setLoading] = useState(false)
+
   const item = {
     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
     quantity: 1
@@ -35,11 +38,16 @@ const CartList = () => {
   }
 
   const redirectToCheckout = async () => {
+    setLoading(true);
     console.log("redirect");
     const stripe = await getStripe()
     const {error} = await stripe.redirectToCheckout(checkoutOptions)
     console.log("stripe checkout err", error)
+
+    if(error) setStripeError(error.message);
+    setLoading(false);
   }
+  if(stripeError) alert(stripeError)
 /////////////////////////////////////////////////////
   const navigate = useNavigate()
     
@@ -143,7 +151,7 @@ const CartList = () => {
       <div className="text-center">
         <h5>Total: ${cartTotalPrice}</h5>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
-        <button onClick={redirectToCheckout}>Checkout</button>
+        <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
       </div>
     </div>
 
