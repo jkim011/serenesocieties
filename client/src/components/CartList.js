@@ -4,14 +4,43 @@ import { REMOVE_FROM_CART } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button"
 import { ADD_TO_CART } from "../utils/mutations";
+import { loadStripe } from "@stripe/stripe-js"
 
 import  "../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
+////////////////////////////////////////////////
+console.log(`${process.env.REACT_APP_STRIPE_KEY}`, " stripe key")
+let stripePromise;
+const getStripe = () => {
+  if(!stripePromise) {
+    stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+  }
+  return stripePromise;
+}
 
 const CartList = () => {
+  const item = {
+    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+    quantity: 1
+  };
+
+  const checkoutOptions = {
+    lineItems: [item],
+    mode: "payment",
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cancel`
+  }
+
+  const redirectToCheckout = async () => {
+    console.log("redirect");
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout(checkoutOptions)
+    console.log("stripe checkout err", error)
+  }
+/////////////////////////////////////////////////////
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
@@ -53,6 +82,7 @@ const CartList = () => {
   }
 
   combineCarts()
+
 
   // To calculate cart total
   let cartTotalPrice = 0
@@ -113,7 +143,7 @@ const CartList = () => {
       <div className="text-center">
         <h5>Total: ${cartTotalPrice}</h5>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
-        <button>Checkout</button>
+        <button onClick={redirectToCheckout}>Checkout</button>
       </div>
     </div>
 
