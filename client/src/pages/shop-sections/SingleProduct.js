@@ -95,8 +95,10 @@ function SingleProduct() {
     localStorage.setItem("cartItem", JSON.stringify(cartItem))
     existingLocalCartItems.push(cartItem)
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
-      
+    // navigate(0)
+    localStorage.getItem("allCartItems")
     showCheckMark();
+    
 
   }
 
