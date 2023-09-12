@@ -71,6 +71,7 @@ function SingleProduct() {
           cartProductPrice: product.price,
         },
       });
+      navigate(0)
       showCheckMark();
     } catch(err){
       console.log(err)
@@ -95,8 +96,8 @@ function SingleProduct() {
     localStorage.setItem("cartItem", JSON.stringify(cartItem))
     existingLocalCartItems.push(cartItem)
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
-    // navigate(0)
-    localStorage.getItem("allCartItems")
+    navigate(0)
+    // localStorage.getItem("allCartItems")
     showCheckMark();
     
 

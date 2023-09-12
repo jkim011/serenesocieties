@@ -1,10 +1,13 @@
+
 import React from 'react';
+
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+import "@stripe/stripe-js";
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
@@ -32,6 +35,7 @@ import OrdersDash from './pages/admin/OrdersDash';
 import AnalyticsDash from './pages/admin/AnalyticsDash';
 import Login from './components/Login';
 import EditProduct from './pages/admin/EditProduct';
+import Checkout from './components/Checkout';
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -137,9 +141,13 @@ function App() {
                 element={<Terms />}
               />
               <Route
-              path="/cart"
-              element={<Cart/>}
-              ></Route>
+                path="/cart"
+                element={<Cart/>}
+              />
+              <Route
+                path="/checkout"
+                element={<Checkout/>}
+              />
             </Routes>
           </div>
           <Footer />
