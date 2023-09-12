@@ -27,7 +27,6 @@ const ProductList = () => {
       }
     }
   }
-
   matchingCategories()
 
   if (loading) {
@@ -36,20 +35,24 @@ const ProductList = () => {
   return(
     <div
       id="productCardContainer"
-      className="d-flex flex-row flex-wrap justify-content-around"
+      className="d-flex flex-row flex-wrap align-content-start"
     >
-      {params.routeName == "all-products" ? products && products.map((product) =>(
+      <div className="row row-cols-4 grid-container justify-content-center ">
 
-      <div key={product._id} className="m-2 productCard">
+      {params.routeName == "all-products" ? products && products.map((product) =>(
+      <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
         <div id="productHead">
           <Link to={`/shop/products/${product._id}`}>
             <img className="productImg" src={product.image} alt="" />
+            </Link>
+
+            <Link to={`/shop/products/${product._id}`}>
             <img
               className="productImg productImg2"
               src={product.image2}
               alt=""
             />
-          </Link>
+            </Link>
         </div>
 
         <div className="container ">
@@ -64,31 +67,32 @@ const ProductList = () => {
         </div>
       </div>
       )) : <></> }
+      </div>
 
       {selectProductArr.map(product => (
-          <div key={product._id} className="m-2 productCard">
-            <div id="productHead">
-              <Link to={`/shop/products/${product._id}`}>
-                <img className="productImg" src={product.image} alt="" />
-                <img
-                  className="productImg productImg2"
-                  src={product.image2}
-                  alt=""
-                />
-              </Link>
-            </div>
-
-            <div className="container ">
-              <div id="productDetails" className="column">
-                <h5 className="col text-center productText">
-                  {product.name}
-                </h5>
-                <h5 className="col text-center productText">
-                  ${product.price}
-                </h5>
-              </div>
+          <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
+          <div id="productHead">
+            <Link to={`/shop/products/${product._id}`}>
+              <img className="productImg" src={product.image} alt="" />
+              <img
+                className="productImg productImg2"
+                src={product.image2}
+                alt=""
+              />
+            </Link>
+          </div>
+  
+          <div className="container ">
+            <div id="productDetails" className="column">
+              <h5 className="col text-center productText">
+                {product.name}
+              </h5>
+              <h5 className="col text-center productText">
+                ${product.price}
+              </h5>
             </div>
           </div>
+        </div>
         ))}
 
     </div>

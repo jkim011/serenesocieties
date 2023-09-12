@@ -14,23 +14,16 @@ function SingleProduct() {
     variables: { productId: productId }
   });
   const navigate = useNavigate()
-  
- 
+
   const product = data?.product || {};
   const inventory = product.inventory
  
-
   const sizeDataName = data?.product.inventory[0].size
   const sizeDataId = data?.product.inventory[0]._id
   const sizeData = [sizeDataName, sizeDataId]
   const useStateData = sizeData.toString()
 
-// console.log(sizeDataName,"console.log")
-// console.log(sizeDataId,"console.log")
   const [size, setSize] = useState("--")
-  // const [sizeId, setSizeId] = useState("")
-
-  
 
   const handleSizeSelect = (event) => {
     const {name, value} = event.target;
@@ -41,30 +34,31 @@ function SingleProduct() {
   const sizeFields = size.split(',')
   const sizeName = sizeFields[0]
   const sizeId = sizeFields[1]
-  // console.log(sizeName, "sizeName")
-  // console.log(sizeId, "sizeId")
-  // console.log(size, "size")
-  // console.log(productId, "ProductID")
-  console.log(product)
-  console.log("*************************")
-  console.log("userID", Auth.getProfile().data._id)
+
+  console.log("__________________________________________")
   console.log("CartProductId", productId)
   console.log("product name", product.name)
   console.log("image", product.image)
   console.log("price", product.price)
-  console.log("sizeId", sizeId, )
-  console.log("sizeName", sizeName, )
+  console.log("sizeId", sizeId )
+  console.log("sizeName", sizeName )
   console.log("__________________________________________")
 
-  // const sizeIdValue = document.querySelector(".sizeId")
-  // console.log(sizeIdValue)
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
 
+  const [cartBtnText, setCartBtnText] = useState("Add to cart")
+  const showCheckMark = () => {
+    setCartBtnText("Added ✓")
+    setTimeout(removeCheckMark, 2000)
+  }
+  const removeCheckMark = () => {
+    setCartBtnText("Add to cart")
+  }
+
   const handleAddToCart = async (event) => {
     event.preventDefault();
-
-    try{
+    try {
       const {cartData} = await addCartItem({
         variables:
         {
@@ -75,33 +69,47 @@ function SingleProduct() {
           cartProductSize: sizeName,
           cartProductImage: product.image,
           cartProductPrice: product.price,
-         
-          
-          
         },
       });
       navigate(0)
+      showCheckMark();
     } catch(err){
       console.log(err)
-    }
+    } 
   }
 
- 
-console.log("SIZE", size)
+  let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  const handleAddToCartLocal = async (event) =>{
+    event.preventDefault();
+    if(existingLocalCartItems == null) existingLocalCartItems = []
+    var cartItemIndex = Math.random()
 
-const blankOption = document.querySelector("#blankOption")
-const addCartBtn = document.querySelector("#addCartBtn")
+    let cartItem = {
+      'cartProductId': productId, 
+      "cartProductName": product.name, 
+      "cartProductSizeId": sizeId, 
+      "cartProductSize": sizeName, 
+      "cartProductImage": product.image, 
+      "cartProductPrice": product.price,
+      "cartItemIndex": cartItemIndex
+    }
+    localStorage.setItem("cartItem", JSON.stringify(cartItem))
+    existingLocalCartItems.push(cartItem)
+    localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
+    navigate(0)
+    // localStorage.getItem("allCartItems")
+    showCheckMark();
+    
 
-
-
-
+  }
 
   if(loading){
     return(
-    <div>
-      <p>Loading</p>
-    </div>)
-  }else 
+      <div>
+        <p>Loading</p>
+      </div>
+    )
+  } else 
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
@@ -137,18 +145,19 @@ const addCartBtn = document.querySelector("#addCartBtn")
             <option id="blankOption">--</option> 
               {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
             </select>
-
-          <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>Add to cart</button>
+          <div className="testing">
+          {Auth.loggedIn() ? (
+            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>{cartBtnText}</button>
+          ):(
+            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--"}>{cartBtnText}</button>
+          )}
+          </div>
+          
         </form>
       </div>
       
     </div>
   )
-
- 
-
- 
- 
 }
 
 export default SingleProduct;

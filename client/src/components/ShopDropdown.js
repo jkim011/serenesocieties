@@ -18,8 +18,8 @@ const ShopDropdown = ({ categories }) => {
   }
 
   return (
-    <div>
-      <Dropdown>
+    <div className="shop-dropdown">
+      <Dropdown className="justify-content-center">
       <Dropdown.Toggle
         id="dropdownBtn"
         className="dropdown page-header"
@@ -52,7 +52,6 @@ const ShopDropdown = ({ categories }) => {
           
       </Dropdown>
       
-
     </div>
   );
 };
