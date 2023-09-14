@@ -26,12 +26,16 @@ const CartList = () => {
   const [isLoading, setLoading] = useState(false)
 
   const item = {
-    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+    price: "price_1NpxMGGsTkNkjE8UwaptAEQK",
     quantity: 1
   };
+  const item2 = {
+    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+    quantity: 1
+  }
 
   const checkoutOptions = {
-    lineItems: [item],
+    lineItems: [item, item2],
     mode: "payment",
     successUrl: `${window.location.origin}/success`,
     cancelUrl: `${window.location.origin}/cancel`
