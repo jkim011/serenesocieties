@@ -8,6 +8,7 @@ export const QUERY_PRODUCTS = gql`
       image
       image2
       price
+      priceId
       inventory {
         _id
         size
@@ -32,6 +33,7 @@ export const QUERY_SINGLE_PRODUCT = gql`
       image2
       description
       price
+      priceId
       inventory {
         _id
         size
@@ -83,6 +85,8 @@ export const QUERY_ME = gql`
         cartProductSize
         cartProductImage
         cartProductPrice
+        cartProductPriceId
+        cartProductQuantity
       }
     }
   }
@@ -104,7 +108,8 @@ export const QUERY_USER = gql`
         cartProductSize
         cartProductImage
         cartProductPrice
-        
+        cartProductPriceId
+        cartProductQuantity
       }
     }
   }

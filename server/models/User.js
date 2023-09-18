@@ -45,8 +45,13 @@ const userSchema = new Schema({
       },
       cartProductPrice: {
         type: Number
+      },
+      cartProductPriceId: {
+        type: String
+      },
+      cartProductQuantity: {
+        type: Number
       }
-
       
     } 
   ], 

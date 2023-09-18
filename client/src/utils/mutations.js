@@ -25,14 +25,15 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-  mutation addProduct($name: String!, $image: String, $description: String!, $price: Int!, $category: Category, $stock: Stock) {
-    addProduct(name: $name, image: $image, description: $description, price: $price, category: $category, stock: $stock) {
+  mutation addProduct($name: String!, $image: String, $description: String!, $price: Int!, $priceId: String!, $category: Category, $stock: Stock) {
+    addProduct(name: $name, image: $image, description: $description, price: $price, priceId: $priceId, category: $category, stock: $stock) {
         _id
         name
         image
         image2
         description
         price
+        priceId
         category {
           _id
           name
@@ -48,8 +49,8 @@ export const ADD_PRODUCT = gql`
 `;
 
 export const ADD_TO_CART = gql `
-  mutation addToCart($userId: ID!, $cartProductId: String!, $cartProductName: String!, $cartProductSizeId: String!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Int!) {
-    addToCart(userId: $userId, cartProductId: $cartProductId, cartProductName: $cartProductName, cartProductSizeId: $cartProductSizeId, cartProductSize: $cartProductSize, cartProductImage: $cartProductImage, cartProductPrice: $cartProductPrice) {
+  mutation addToCart($userId: ID!, $cartProductId: String!, $cartProductName: String!, $cartProductSizeId: String!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Int!, $cartProductPriceId: String!, $cartProductQuantity: Int) {
+    addToCart(userId: $userId, cartProductId: $cartProductId, cartProductName: $cartProductName, cartProductSizeId: $cartProductSizeId, cartProductSize: $cartProductSize, cartProductImage: $cartProductImage, cartProductPrice: $cartProductPrice, cartProductPriceId: $cartProductPriceId, cartProductQuantity: $cartProductQuantity) {
       _id
       email
       firstName
@@ -61,6 +62,8 @@ export const ADD_TO_CART = gql `
         cartProductSize
         cartProductImage
         cartProductPrice
+        cartProductPriceId
+        cartProductQuantity
       }
     }
   }
@@ -81,6 +84,8 @@ export const REMOVE_FROM_CART = gql `
         cartProductSize
         cartProductImage
         cartProductPrice
+        cartProductPriceId
+        cartProductQuantity
       }
     }
   }
