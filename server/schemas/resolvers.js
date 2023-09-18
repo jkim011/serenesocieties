@@ -69,17 +69,17 @@ const resolvers = {
     
         return { token, user };
         },
-        addProduct: async (parent, { name, description, image, image2, price, categories }, context) => {
+        addProduct: async (parent, { name, description, image, image2, price, priceId, categories }, context) => {
 
-            const product = await Product.create({ name, description, image, image2, price, categories });
+            const product = await Product.create({ name, description, image, image2, price, priceId, categories });
 
             return product;
 
         },
-        updateProduct: async (parent, { productId, name, description, image, image2, price, categories }, context) => {
+        updateProduct: async (parent, { productId, name, description, image, image2, price, priceId, categories }, context) => {
             return Product.findOneAndUpdate(
                 { _id: productId },
-                { name, description, image, image2, price, categories }
+                { name, description, image, image2, price, priceId, categories }
             )
         },
         deleteProduct: async (parent, { productId }, context) => {
@@ -126,13 +126,13 @@ const resolvers = {
                 { name, routeName }
             )
         },
-        addToCart: async (parent, { userId, cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice }, context) => {
+        addToCart: async (parent, { userId, cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice, cartProductPriceId, cartProductQuantity }, context) => {
             const cart = await User.findOneAndUpdate(
                 {_id: userId},
                 {
                   $addToSet: 
                     { 
-                      cartItems: { cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice } 
+                      cartItems: { cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice, cartProductPriceId, cartProductQuantity } 
                     } 
                 },
             )

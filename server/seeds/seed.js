@@ -22,6 +22,7 @@ db.once('open', async () => {
       image2: "../../images/clothes/testShirtFront.jpg",
       description: "testing seeded data shirt",
       price: 20.00,
+      priceId: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
       categories: [categories[1]._id],
       inventory: [
         {
@@ -44,6 +45,7 @@ db.once('open', async () => {
       image2: "../../images/clothes/halloween-hoodie-model.jpg",
       description: "testing seeded data hoodie",
       price: 50.00,
+      priceId: "price_1NpxMGGsTkNkjE8UwaptAEQK",
       categories: [categories[2]._id, categories[4]._id],
       inventory: [
         {
@@ -66,6 +68,7 @@ db.once('open', async () => {
       image2: "../../images/posters/toxicPalmtree.jpg",
       description: "testing seeded data poster",
       price: 10.00,
+      priceId: "price_1NrlevGsTkNkjE8USOBX5FGC",
       categories: [categories[3]._id],
       inventory: [
         {

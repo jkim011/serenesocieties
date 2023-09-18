@@ -40,6 +40,7 @@ function SingleProduct() {
   console.log("product name", product.name)
   console.log("image", product.image)
   console.log("price", product.price)
+  console.log("priceId", product.priceId)
   console.log("sizeId", sizeId )
   console.log("sizeName", sizeName )
   console.log("__________________________________________")
@@ -69,6 +70,7 @@ function SingleProduct() {
           cartProductSize: sizeName,
           cartProductImage: product.image,
           cartProductPrice: product.price,
+          cartProductPriceId: product.priceId
         },
       });
       navigate(0)
@@ -91,6 +93,7 @@ function SingleProduct() {
       "cartProductSize": sizeName, 
       "cartProductImage": product.image, 
       "cartProductPrice": product.price,
+      "cartProductPriceId": product.priceId,
       "cartItemIndex": cartItemIndex
     }
     localStorage.setItem("cartItem", JSON.stringify(cartItem))

@@ -20,39 +20,10 @@ const getStripe = () => {
   }
   return stripePromise;
 }
+///////////////////////////////////////////
 
 const CartList = () => {
-  const [stripeError, setStripeError] = useState(null)
-  const [isLoading, setLoading] = useState(false)
-
-  const item = {
-    price: "price_1NpxMGGsTkNkjE8UwaptAEQK",
-    quantity: 1
-  };
-  const item2 = {
-    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-    quantity: 1
-  }
-
-  const checkoutOptions = {
-    lineItems: [item, item2],
-    mode: "payment",
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cancel`
-  }
-
-  const redirectToCheckout = async () => {
-    setLoading(true);
-    console.log("redirect");
-    const stripe = await getStripe()
-    const {error} = await stripe.redirectToCheckout(checkoutOptions)
-    console.log("stripe checkout err", error)
-
-    if(error) setStripeError(error.message);
-    setLoading(false);
-  }
-  if(stripeError) alert(stripeError)
-/////////////////////////////////////////////////////
+  
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
@@ -82,6 +53,7 @@ const CartList = () => {
               cartProductSize: localCartItems[i].cartProductSize,
               cartProductImage: localCartItems[i].cartProductImage,
               cartProductPrice: localCartItems[i].cartProductPrice,
+              cartProductPriceId: localCartItems[i].cartProductPriceId,
             },
           });
           navigate(0)
@@ -95,6 +67,48 @@ const CartList = () => {
 
   combineCarts()
 
+  ///////////////////////////////////////////
+  const [stripeError, setStripeError] = useState(null)
+  const [isLoading, setLoading] = useState(false)
+
+  const item = {
+    price: "price_1NpxMGGsTkNkjE8UwaptAEQK",
+    quantity: 1
+  };
+  const item2 = {
+    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+    quantity: 2
+  }
+  // NEED TO FIGURE OUT HOW TO MAP THRU TO SET EACH ITEM'S PRICE AND QUANTITY
+  // const items = {
+  //   cartItems.map((cartItem) => (
+  //     console.log(cartItem.cartProductPriceId, " MAP --------")
+  //     price: cartItem.cartProductPriceId,
+  //     quantity: 1
+
+  //   ) )
+  // }
+
+  const checkoutOptions = {
+    lineItems: [item, item2],
+    mode: "payment",
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cart`
+  }
+
+  const redirectToCheckout = async () => {
+    setLoading(true);
+    console.log("redirect");
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout(checkoutOptions)
+    console.log("stripe checkout err", error)
+
+    if(error) setStripeError(error.message);
+    setLoading(false);
+  }
+  if(stripeError) alert(stripeError)
+  /////////////////////////////////////////////////////
+// console.log(cartItems[1].cartProductPriceId, "-----------------")
 
   // To calculate cart total
   let cartTotalPrice = 0
@@ -126,7 +140,7 @@ const CartList = () => {
           <div className="col-8 cartItemDetails">          
             <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
             
-            <p>${cartItem.cartProductPrice}</p>
+            <p>${cartItem.cartProductPrice} {cartItem.cartProductPriceId}</p>
         
 
             <div className="container  mb-2  justify-content-end">
