@@ -71,26 +71,19 @@ const CartList = () => {
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
-  const item = {
-    price: "price_1NpxMGGsTkNkjE8UwaptAEQK",
-    quantity: 1
-  };
-  const item2 = {
-    price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-    quantity: 2
+  let allItems = []
+  for(let i = 0; i < cartItems.length; i++) {
+    const items = 
+      {
+        price: cartItems[i].cartProductPriceId,
+        quantity: 1 // will be cartItems[i].cartProductQuantity  also need to make quantity editable in stripe checkout
+      }
+    allItems.push(items)
   }
-  // NEED TO FIGURE OUT HOW TO MAP THRU TO SET EACH ITEM'S PRICE AND QUANTITY
-  // const items = {
-  //   cartItems.map((cartItem) => (
-  //     console.log(cartItem.cartProductPriceId, " MAP --------")
-  //     price: cartItem.cartProductPriceId,
-  //     quantity: 1
-
-  //   ) )
-  // }
+  console.log(allItems, "ALL ITEMS ")
 
   const checkoutOptions = {
-    lineItems: [item, item2],
+    lineItems: allItems,
     mode: "payment",
     successUrl: `${window.location.origin}/success`,
     cancelUrl: `${window.location.origin}/cart`
@@ -108,7 +101,6 @@ const CartList = () => {
   }
   if(stripeError) alert(stripeError)
   /////////////////////////////////////////////////////
-// console.log(cartItems[1].cartProductPriceId, "-----------------")
 
   // To calculate cart total
   let cartTotalPrice = 0
