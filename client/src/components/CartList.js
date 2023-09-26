@@ -68,14 +68,14 @@ const CartList = () => {
   combineCarts()
   
 
-  const findMatchingCartItems = (cartItems) => { //// only matches with cartProductId. needs to match size too
+  const findMatchingCartItems = (cartItems) => {
     let counts = {}
 
     for(let i = 0; i < cartItems.length; i++) { 
-      if(counts[cartItems[i].cartProductId]) {
-        counts[cartItems[i].cartProductId] += 1
+      if(counts[cartItems[i].cartProductSizeId]) {
+        counts[cartItems[i].cartProductSizeId] += 1
       } else {
-        counts[cartItems[i].cartProductId] = 1
+        counts[cartItems[i].cartProductSizeId] = 1
       }
     }  
     for (let prop in counts){
@@ -87,6 +87,7 @@ const CartList = () => {
   }
 
   findMatchingCartItems(cartItems)
+
 
 
   ///////////////////////////////////////////
