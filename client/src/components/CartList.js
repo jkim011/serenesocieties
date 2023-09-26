@@ -68,7 +68,7 @@ const CartList = () => {
   combineCarts()
   
 
-  const findMatchingCartItems = (cartItems) => {
+  const findMatchingCartItems = (cartItems) => { //// only matches with cartProductId. needs to match size too
     let counts = {}
 
     for(let i = 0; i < cartItems.length; i++) { 
