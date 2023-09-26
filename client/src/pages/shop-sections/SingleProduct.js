@@ -4,13 +4,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useState } from "react";
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
+import { QUERY_ME } from "../../utils/queries";
 import {ADD_TO_CART} from "../../utils/mutations"
 import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
 function SingleProduct() {
   const { productId } = useParams();
-  const { loading, data } = useQuery(QUERY_SINGLE_PRODUCT, {
+  const { loading, data, err } = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
   const navigate = useNavigate()
@@ -102,7 +103,6 @@ function SingleProduct() {
     navigate(0)
     // localStorage.getItem("allCartItems")
     showCheckMark();
-    
 
   }
 

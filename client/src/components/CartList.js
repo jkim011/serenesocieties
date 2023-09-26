@@ -66,6 +66,28 @@ const CartList = () => {
   }
 
   combineCarts()
+  
+
+  const findMatchingCartItems = (cartItems) => {
+    let counts = {}
+
+    for(let i = 0; i < cartItems.length; i++) { 
+      if(counts[cartItems[i].cartProductId]) {
+        counts[cartItems[i].cartProductId] += 1
+      } else {
+        counts[cartItems[i].cartProductId] = 1
+      }
+    }  
+    for (let prop in counts){
+      if (counts[prop] >= 2){
+        console.log(prop + " counted: " + counts[prop] + " times.")
+      }
+    }
+    console.log(counts)
+  }
+
+  findMatchingCartItems(cartItems)
+
 
   ///////////////////////////////////////////
   const [stripeError, setStripeError] = useState(null)
@@ -118,8 +140,6 @@ const CartList = () => {
     )
   }
 
- 
-
   return (
     <div className="cartContainer container flex " name="cartItem"  >
         
@@ -132,8 +152,7 @@ const CartList = () => {
           <div className="col-8 cartItemDetails">          
             <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
             
-            <p>${cartItem.cartProductPrice} {cartItem.cartProductPriceId}</p>
-        
+            <p>${cartItem.cartProductPrice}</p>
 
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
