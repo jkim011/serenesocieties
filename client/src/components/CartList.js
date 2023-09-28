@@ -68,36 +68,34 @@ const CartList = () => {
   combineCarts()
   
 
-  // const findMatchingCartItems = (cartItems) => {
-  //   let counts = {}
+  const findMatchingCartItems = (cartItems) => {
+    let counts = {}
+    let testQuant = []
 
-  //   for(let i = 0; i < cartItems.length; i++) { 
-  //     var productId = cartItems[i].cartProductId
+    for(let i = 0; i < cartItems.length; i++) { 
+      var productId = cartItems[i].cartProductId
       
-  //     if(counts[cartItems[i].cartProductSizeId]) {
-  //       // const countsItems = counts[cartItems[i].cartProductSizeId]
-  //       counts[cartItems[i].cartProductSizeId] += 1
-  //       // cartItems[i].cartProductQuantity += 1
-  //     } else {
-  //       counts[cartItems[i].cartProductSizeId] = 1
-  //       // cartItems[i].cartProductQuantity = 1
-  //     }
-  //     console.log(cartItems[i].cartProductName, counts[cartItems[i].cartProductSizeId], "console")
-  //     // cartItems[i].cartProductQuantity.push(counts[cartItems[i].cartProductSizeId])
-  //   }  
+      if(counts[cartItems[i].cartProductSizeId]) {
+        // const countsItems = counts[cartItems[i].cartProductSizeId]
+        counts[cartItems[i].cartProductSizeId] += 1
+      } else {
+        counts[cartItems[i].cartProductSizeId] = 1
+      }
+      console.log(cartItems[i].cartProductName, counts[cartItems[i].cartProductSizeId], "console")
+    }  
 
-  //   for (let prop in counts){
-  //     if (counts[prop] >= 2){
-  //       console.log(prop + " counted: " + counts[prop] + " times.")
-  //       console.log(productId)
-  //     }
-  //   }
-  //   console.log(counts)
+    for (let prop in counts){
+      if (counts[prop] >= 2){
+        console.log(prop + " counted: " + counts[prop] + " times.")
+        console.log(productId)
+      }
+    }
+    console.log(counts)
+    console.log(testQuant, "test quant")
 
-  // }
+  }
 
-  // findMatchingCartItems(cartItems)
-
+  findMatchingCartItems(cartItems)
 
 
   ///////////////////////////////////////////
