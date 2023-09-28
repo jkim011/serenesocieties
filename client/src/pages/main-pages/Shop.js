@@ -14,7 +14,6 @@ function Shop() {
   const {loading, data} = useQuery(QUERY_CATEGORIES);
 
   const categories = data?.categories || []
- 
   
   console.log("SHOP CAT", categories)
   

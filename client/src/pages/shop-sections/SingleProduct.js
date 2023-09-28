@@ -10,19 +10,24 @@ import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
 function SingleProduct() {
-  const { productId } = useParams();
-  const { loading, data, err } = useQuery(QUERY_SINGLE_PRODUCT, {
-    variables: { productId: productId }
-  });
   const navigate = useNavigate()
 
-  const product = data?.product || {};
-  const inventory = product.inventory
- 
-  const sizeDataName = data?.product.inventory[0].size
-  const sizeDataId = data?.product.inventory[0]._id
-  const sizeData = [sizeDataName, sizeDataId]
-  const useStateData = sizeData.toString()
+  // const { productId } = useParams();
+  // const { loading, data, err } = useQuery(QUERY_SINGLE_PRODUCT, {
+  //   variables: { productId: productId }
+  // });
+  // const navigate = useNavigate()
+
+  // const product = data?.product || {};
+  // const inventory = product.inventory
+  const { productId } = useParams();
+  const product = useQuery(QUERY_SINGLE_PRODUCT, {
+    variables: { productId: productId }
+  });
+  const me = useQuery(QUERY_ME);
+
+  const inventory = product.data?.product.inventory
+  let loggedInCartItems = me.data?.me.cartItems
 
   const [size, setSize] = useState("--")
 
@@ -66,14 +71,21 @@ function SingleProduct() {
         {
           userId: Auth.getProfile().data._id,
           cartProductId: productId,
-          cartProductName: product.name,
+          cartProductName: product.data?.product.name,
           cartProductSizeId: sizeId,
           cartProductSize: sizeName,
-          cartProductImage: product.image,
-          cartProductPrice: product.price,
-          cartProductPriceId: product.priceId
+          cartProductImage: product.data?.product.image,
+          cartProductPrice: product.data?.product.price,
+          cartProductPriceId: product.data?.product.priceId,
+          cartProductQuantity: 1
         },
-      });
+      });    
+      for(let i = 0; i < loggedInCartItems.length; i++) {
+        if(sizeId === loggedInCartItems[i].cartProductSizeId) {
+          window.alert("duplicate")
+          // up the quantity count here. also need to stop item from being added again
+        }      
+      }
       navigate(0)
       showCheckMark();
     } catch(err){
@@ -106,20 +118,20 @@ function SingleProduct() {
 
   }
 
-  if(loading){
-    return(
-      <div>
-        <p>Loading</p>
-      </div>
-    )
-  } else 
+  // if(loading){
+  //   return(
+  //     <div>
+  //       <p>Loading</p>
+  //     </div>
+  //   )
+  // } else 
   return (
     <div className="single-product-container">
       <Carousel className="product-image" interval={null} variant="dark">
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={product.image}
+            src={product.data?.product.image}
             alt="image1"
           />
         </Carousel.Item>
@@ -127,16 +139,16 @@ function SingleProduct() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src={product.image2}
+            src={product.data?.product.image2}
             alt="image2"
           />
         </Carousel.Item>
       </Carousel>
 
       <div className="product-info">
-        <h3>{product.name} <span style={{marginLeft:"30px"}}>${product.price}</span></h3>
+        <h3>{product.data?.product.name} <span style={{marginLeft:"30px"}}>${product.data?.product.price}</span></h3>
         <ul className="product-description">
-          <li>{product.description}</li>
+          <li>{product.data?.product.description}</li>
           <li>Desc </li>
           <li>Desc </li>
           <li>Desc </li>
