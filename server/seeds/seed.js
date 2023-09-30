@@ -22,20 +22,22 @@ db.once('open', async () => {
       image2: "../../images/clothes/testShirtFront.jpg",
       description: "testing seeded data shirt",
       price: 20.00,
-      priceId: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
       categories: [categories[1]._id],
       inventory: [
         {
           size: "Small",
-          quantity: 10
+          quantity: 10,
+          priceId: "price_1NTqMAGsTkNkjE8Ul9sJek5Y"
         },
         {
           size: "Medium",
-          quantity: 15
+          quantity: 15,
+          priceId: "price_1Nvn4HGsTkNkjE8UJJfaw8nJ"
         },
         {
           size: "Large",
-          quantity: 5
+          quantity: 5,
+          priceId: "price_1Nvn59GsTkNkjE8UJ3mddxaf"
         }
       ]
     },
@@ -45,20 +47,22 @@ db.once('open', async () => {
       image2: "../../images/clothes/halloween-hoodie-model.jpg",
       description: "testing seeded data hoodie",
       price: 50.00,
-      priceId: "price_1NpxMGGsTkNkjE8UwaptAEQK",
       categories: [categories[2]._id, categories[4]._id],
       inventory: [
         {
           size: "Small",
-          quantity: 12
+          quantity: 12,
+          priceId: "price_1NpxMGGsTkNkjE8UwaptAEQK"
         },
         {
           size: "Medium",
-          quantity: 13
+          quantity: 13,
+          priceId: "price_1NpxhsGsTkNkjE8UmrSKV7P2"
         },
         {
           size: "Large",
-          quantity: 8
+          quantity: 8,
+          priceId: "price_1NvnGpGsTkNkjE8UPsaaqvRH"
         }
       ]
     },
@@ -68,16 +72,17 @@ db.once('open', async () => {
       image2: "../../images/posters/toxicPalmtree.jpg",
       description: "testing seeded data poster",
       price: 10.00,
-      priceId: "price_1NrlevGsTkNkjE8USOBX5FGC",
       categories: [categories[3]._id],
       inventory: [
         {
           size: "10x12",
-          quantity: 10
+          quantity: 10,
+          priceId: "price_1NrlevGsTkNkjE8USOBX5FGC"
         },
         {
           size: "13x16",
-          quantity: 18
+          quantity: 18,
+          priceId: "price_1NvnHwGsTkNkjE8UrUb0M8Qf"
         }
       ]
     }    

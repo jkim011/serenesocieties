@@ -40,6 +40,7 @@ function SingleProduct() {
   const sizeFields = size.split(',')
   const sizeName = sizeFields[0]
   const sizeId = sizeFields[1]
+  const sizePriceId = sizeFields[2]
 
   console.log("__________________________________________")
   console.log("CartProductId", productId)
@@ -49,8 +50,8 @@ function SingleProduct() {
   console.log("priceId", product.priceId)
   console.log("sizeId", sizeId )
   console.log("sizeName", sizeName )
+  console.log("sizePriceId", sizePriceId )
   console.log("__________________________________________")
-
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
 
@@ -76,7 +77,7 @@ function SingleProduct() {
           cartProductSize: sizeName,
           cartProductImage: product.data?.product.image,
           cartProductPrice: product.data?.product.price,
-          cartProductPriceId: product.data?.product.priceId,
+          cartProductPriceId: sizePriceId,
           cartProductQuantity: 1
         },
       });    
@@ -84,6 +85,8 @@ function SingleProduct() {
         if(sizeId === loggedInCartItems[i].cartProductSizeId) {
           window.alert("duplicate")
           // up the quantity count here. also need to stop item from being added again
+          const addToQuantity = () => loggedInCartItems[i].cartProductQuantity + 1
+          addToQuantity();
         }      
       }
       navigate(0)
@@ -92,7 +95,7 @@ function SingleProduct() {
       console.log(err)
     } 
   }
-
+  
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
     event.preventDefault();
@@ -158,7 +161,7 @@ function SingleProduct() {
             <label>Size: </label>
             <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
             <option id="blankOption">--</option> 
-              {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id]} key={stock._id}>{stock.size}</option>)}
+              {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id, stock.priceId]} key={stock._id}>{stock.size}</option>)}
             </select>
           <div className="testing">
           {Auth.loggedIn() ? (

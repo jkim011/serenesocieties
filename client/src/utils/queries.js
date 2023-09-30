@@ -8,11 +8,12 @@ export const QUERY_PRODUCTS = gql`
       image
       image2
       price
-      priceId
+      
       inventory {
         _id
         size
         quantity
+        priceId
       }
       categories {
         _id
@@ -33,11 +34,12 @@ export const QUERY_SINGLE_PRODUCT = gql`
       image2
       description
       price
-      priceId
+      
       inventory {
         _id
         size
         quantity
+        priceId
       }
       categories {
         _id

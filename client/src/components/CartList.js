@@ -68,34 +68,26 @@ const CartList = () => {
   combineCarts()
   
 
-  const findMatchingCartItems = (cartItems) => {
-    let counts = {}
-    let testQuant = []
+  // const findMatchingCartItems = (cartItems) => {
+  //   let counts = {}
 
-    for(let i = 0; i < cartItems.length; i++) { 
-      var productId = cartItems[i].cartProductId
+  //   for(let i = 0; i < cartItems.length; i++) { 
       
-      if(counts[cartItems[i].cartProductSizeId]) {
-        // const countsItems = counts[cartItems[i].cartProductSizeId]
-        counts[cartItems[i].cartProductSizeId] += 1
-      } else {
-        counts[cartItems[i].cartProductSizeId] = 1
-      }
-      console.log(cartItems[i].cartProductName, counts[cartItems[i].cartProductSizeId], "console")
-    }  
+  //     if(counts[cartItems[i].cartProductSizeId]) {
+  //       counts[cartItems[i].cartProductSizeId] += 1
+  //     } 
+  //   }  
 
-    for (let prop in counts){
-      if (counts[prop] >= 2){
-        console.log(prop + " counted: " + counts[prop] + " times.")
-        console.log(productId)
-      }
-    }
-    console.log(counts)
-    console.log(testQuant, "test quant")
+  //   for (let prop in counts){
+  //     if (counts[prop] >= 2){
+  //       console.log(prop + " counted: " + counts[prop] + " times.")
+  //     }
+  //   }
+  //   console.log(counts)
 
-  }
+  // }
 
-  findMatchingCartItems(cartItems)
+  // findMatchingCartItems(cartItems)
 
 
   ///////////////////////////////////////////
@@ -107,7 +99,8 @@ const CartList = () => {
     const items = 
       {
         price: cartItems[i].cartProductPriceId,
-        quantity: 1 // will be cartItems[i].cartProductQuantity  also need to make quantity editable in stripe checkout
+        quantity: cartItems[i].cartProductQuantity,
+        // add adjustable quantity for checkout page
       }
     allItems.push(items)
   }
@@ -161,7 +154,8 @@ const CartList = () => {
           <div className="col-8 cartItemDetails">          
             <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
             
-            <p>${cartItem.cartProductPrice}</p>
+            <p>Price: ${cartItem.cartProductPrice}</p>
+            <p>Quantity: {cartItem.cartProductQuantity}</p>
 
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
@@ -187,7 +181,7 @@ const CartList = () => {
       )) } 
 
       <div className="text-center">
-        <h5>Total: ${cartTotalPrice}</h5>
+        <h5>Subtotal: ${cartTotalPrice}</h5>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
         <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
       </div>
