@@ -9,7 +9,6 @@ const typeDefs = gql`
         image2: String
         description: String!
         price: Float!
-        priceId: String!
         categories: [Category]   
         inventory: [Stock]
     }
@@ -24,6 +23,7 @@ const typeDefs = gql`
         _id: ID
         size: String!
         quantity: Int!
+        priceId: String!
     }
 
     type cartItem {
@@ -70,16 +70,17 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-        addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, priceId: String!, categories: [ID]): Product
-        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!, priceId: String!): Product
+        addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [ID]): Product
+        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!): Product
         deleteProduct(productId: ID!): Product
         addCategory(productId: ID! name: String!, routeName: String!): Category
         updateCategory(categoryId: ID!, name: String!, routeName: String!): Category
-        addStock(productId: ID!, size: String!, quantity: Int!): Stock
-        updateStock(stockId: ID!, size: String!, quantity: Int!): Stock
+        addStock(productId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
+        updateStock(stockId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         deleteStock(stockId: ID!): Stock
         addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Int!, cartProductPriceId: String! cartProductQuantity: Int): User
         removeFromCart(userId: ID!, cartId: ID!): User
+        addToCartQuantity(userId: ID!, cartId: ID!, cartProductQuantity: Int!): User
     }
 
 `;

@@ -91,3 +91,21 @@ export const REMOVE_FROM_CART = gql `
   }
 
 `;
+
+export const ADD_TO_CART_QUANTITY = gql `
+  mutation addToCartQuantity($userId: ID!, $cartId: ID!, $cartProductQuantity: Int!) {
+    addToCartQuantity(userId: $userId, cartId: $cartId, cartProductQuantity: $cartProductQuantity) {
+      _id
+      cartItems{
+        cartProductId
+        cartProductName
+        cartProductSizeId
+        cartProductSize
+        cartProductImage
+        cartProductPrice
+        cartProductPriceId
+        cartProductQuantity
+      }
+    }
+  }
+`;
