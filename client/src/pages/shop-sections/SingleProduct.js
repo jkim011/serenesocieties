@@ -64,6 +64,10 @@ function SingleProduct() {
     setCartBtnText("Add to cart")
   }
 
+
+// const [myCartItems, setMyCartItems] = useState(loggedInCartItems)
+
+
   const handleAddToCart = async (event) => {
     event.preventDefault();
     try {
@@ -81,14 +85,25 @@ function SingleProduct() {
           cartProductQuantity: 1
         },
       });    
-      for(let i = 0; i < loggedInCartItems.length; i++) {
-        if(sizeId === loggedInCartItems[i].cartProductSizeId) {
-          window.alert("duplicate")
-          // up the quantity count here. also need to stop item from being added again
-          const addToQuantity = () => loggedInCartItems[i].cartProductQuantity + 1
-          addToQuantity();
-        }      
-      }
+      // for(let i = 0; i < loggedInCartItems.length; i++) {
+      //   if(sizeId === loggedInCartItems[i].cartProductSizeId) {
+      //     window.alert("duplicate")
+      //     // up the quantity count here. also need to stop item from being added again
+      //     const addToQuantity = () => loggedInCartItems[i].cartProductQuantity + 1
+      //     addToQuantity();
+      //   }      
+      // }
+      
+      // const increaseQuantity = (loggedInCartItems) => {
+      //   const updatedCart = loggedInCartItems.map((loggedInCartItem) => {
+      //     if(sizeId === loggedInCartItem.cartProductSizeId) {
+      //       return {...loggedInCartItem, cartProductQuantity: loggedInCartItem.cartProductQuantity + 1}
+      //     }
+      //     return loggedInCartItem
+      //   });
+      //   setMyCartItems(updatedCart)
+      // }
+      // increaseQuantity(sizeId)
       navigate(0)
       showCheckMark();
     } catch(err){
