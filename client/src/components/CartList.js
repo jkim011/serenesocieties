@@ -70,7 +70,6 @@ const CartList = () => {
 
   // const findMatchingCartItems = (cartItems) => {
   //   let counts = {}
-
   //   for(let i = 0; i < cartItems.length; i++) { 
       
   //     if(counts[cartItems[i].cartProductSizeId]) {
@@ -86,8 +85,18 @@ const CartList = () => {
   //   console.log(counts)
 
   // }
-
   // findMatchingCartItems(cartItems)
+
+  // const [myCartItems, setMyCartItems] = useState(cartItems)
+  // const increaseQuantity = (cartProductSizeId) => {
+  //   const updatedCart = cartItems.map((cartItem) => {
+  //     if(cartProductSizeId === cartItem.cartProductSizeId) {
+  //       return {...cartItem, cartProductQuantity: cartItem.cartProductQuantity + 1}
+  //     }
+  //     return cartItem
+  //   });
+  //   setMyCartItems(updatedCart)
+  // }
 
 
   ///////////////////////////////////////////
@@ -156,6 +165,7 @@ const CartList = () => {
             
             <p>Price: ${cartItem.cartProductPrice}</p>
             <p>Quantity: {cartItem.cartProductQuantity}</p>
+            {/* <button onClick={() => increaseQuantity(myCartItems.cartProductSizeId)}>increase</button> */}
 
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
