@@ -65,7 +65,7 @@ function SingleProduct() {
   }
 
 
-// const [myCartItems, setMyCartItems] = useState(loggedInCartItems)
+const [myCartItems, setMyCartItems] = useState([])
 
 
   const handleAddToCart = async (event) => {
@@ -91,6 +91,7 @@ function SingleProduct() {
       //     // up the quantity count here. also need to stop item from being added again
       //     const addToQuantity = () => loggedInCartItems[i].cartProductQuantity + 1
       //     addToQuantity();
+      //     addToQuantity();
       //   }      
       // }
       
@@ -104,12 +105,14 @@ function SingleProduct() {
       //   setMyCartItems(updatedCart)
       // }
       // increaseQuantity(sizeId)
+
       navigate(0)
       showCheckMark();
     } catch(err){
       console.log(err)
     } 
   }
+  console.log(loggedInCartItems)
   
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{

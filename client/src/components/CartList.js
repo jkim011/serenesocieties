@@ -97,6 +97,7 @@ const CartList = () => {
   //   });
   //   setMyCartItems(updatedCart)
   // }
+  // increaseQuantity()
 
 
   ///////////////////////////////////////////

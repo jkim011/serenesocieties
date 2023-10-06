@@ -51,7 +51,7 @@ const userSchema = new Schema({
       },
       cartProductQuantity: {
         type: Number,
-        // default: 1
+        default: 1
       }
       
     } 
