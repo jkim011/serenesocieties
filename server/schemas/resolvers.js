@@ -151,12 +151,12 @@ const resolvers = {
         },
         addToCartQuantity: async (parent, { userId, cartId, cartProductQuantity }, context) => {
             return User.findOneAndUpdate(
-                { _id: userId },
+
+                { _id: userId, cartId },
+                
                 {  
-                  $set:
-                  {
-                    cartId, cartProductQuantity
-                  }
+                  $set: {cartItems: { cartProductQuantity} }
+                  //can try $inc. but says value provided is not a number
                 }
             )
         }
