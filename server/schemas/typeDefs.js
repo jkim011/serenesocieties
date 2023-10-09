@@ -81,6 +81,7 @@ const typeDefs = gql`
         addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Int!, cartProductPriceId: String! cartProductQuantity: Int): User
         removeFromCart(userId: ID!, cartId: ID!): User
         addToCartQuantity(userId: ID, cartId: ID!): User
+        removeCartQuantity(userId: ID, cartId: ID!): User
     }
 
 `;
