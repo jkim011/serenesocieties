@@ -151,10 +151,18 @@ const resolvers = {
         },
         addToCartQuantity: async (parent, { userId, cartId }, context) => {
             const cart = await User.findOneAndUpdate(
-
                 { _id: userId, 'cartItems._id': cartId },                
                 {  
                   $inc: {'cartItems.$.cartProductQuantity': 1 }
+                }
+            )
+            return cart
+        },
+        removeCartQuantity: async (parent, { userId, cartId }, context) => {
+            const cart = await User.findOneAndUpdate(
+                { _id: userId, 'cartItems._id': cartId },                
+                {  
+                  $inc: {'cartItems.$.cartProductQuantity': -1 }
                 }
             )
             return cart

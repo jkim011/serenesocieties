@@ -109,3 +109,21 @@ export const ADD_TO_CART_QUANTITY = gql `
     }
   }
 `;
+
+export const REMOVE_CART_QUANTITY = gql `
+  mutation removeCartQuantity($userId: ID!, $cartId: ID!) {
+    removeCartQuantity(userId: $userId, cartId: $cartId) {
+      _id
+      cartItems{
+        cartProductId
+        cartProductName
+        cartProductSizeId
+        cartProductSize
+        cartProductImage
+        cartProductPrice
+        cartProductPriceId
+        cartProductQuantity
+      }
+    }
+  }
+`;
