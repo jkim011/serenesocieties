@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { QUERY_ME } from "../utils/queries";
-import { REMOVE_FROM_CART } from "../utils/mutations";
+import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY } from "../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button"
-import { ADD_TO_CART } from "../utils/mutations";
 import { loadStripe } from "@stripe/stripe-js"
 
 import  "../styles/cartList.css"
@@ -23,7 +22,6 @@ const getStripe = () => {
 ///////////////////////////////////////////
 
 const CartList = () => {
-  
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
@@ -32,6 +30,9 @@ const CartList = () => {
 
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
+
+  const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
+  const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
 
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
@@ -166,7 +167,37 @@ const CartList = () => {
             
             <p>Price: ${cartItem.cartProductPrice}</p>
             <p>Quantity: {cartItem.cartProductQuantity}</p>
-            {/* <button onClick={() => increaseQuantity(myCartItems.cartProductSizeId)}>increase</button> */}
+            <button onClick={
+              async (event) => {
+                event.preventDefault();
+                try {
+                  let {cartData} = await addToCartQuantity({
+                    variables: {
+                      userId: Auth.getProfile().data._id,
+                      cartId: cartItem._id
+                    }
+                  })
+                } catch(addQuantError) {
+                  console.log(addQuantError)
+                }
+              }
+            }>Increase</button>
+
+            <button onClick={
+              async (event) => {
+                event.preventDefault();
+                try {
+                  let {cartData} = await removeCartQuantity({
+                    variables: {
+                      userId: Auth.getProfile().data._id,
+                      cartId: cartItem._id
+                    }
+                  })
+                } catch(rmvQuantError) {
+                  console.log(rmvQuantError)
+                }
+              }
+            }>Decrease</button>
 
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
