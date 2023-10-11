@@ -141,7 +141,7 @@ const CartList = () => {
   let cartTotalPrice = 0
   for ( let i=0; i < cartItems.length; i++) {
       console.log(cartItems[i].cartProductPrice, "forloop")
-      cartTotalPrice += parseInt(cartItems[i].cartProductPrice)
+      cartTotalPrice += parseInt(cartItems[i].cartProductPrice) * cartItems[i].cartProductQuantity
   }
 
   if(cartTotalPrice === 0) {
