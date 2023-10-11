@@ -163,41 +163,47 @@ const CartList = () => {
           </div>
 
           <div className="col-8 cartItemDetails">          
-            <p><strong>{cartItem.cartProductName}</strong> - {cartItem.cartProductSize}</p>
+            <p><strong>{cartItem.cartProductName}</strong></p>
+            <p>Size: {cartItem.cartProductSize}</p>
             
             <p>Price: ${cartItem.cartProductPrice}</p>
-            <p>Quantity: {cartItem.cartProductQuantity}</p>
-            <button onClick={
-              async (event) => {
-                event.preventDefault();
-                try {
-                  let {cartData} = await addToCartQuantity({
-                    variables: {
-                      userId: Auth.getProfile().data._id,
-                      cartId: cartItem._id
-                    }
-                  })
-                } catch(addQuantError) {
-                  console.log(addQuantError)
-                }
-              }
-            }>Increase</button>
 
-            <button onClick={
-              async (event) => {
-                event.preventDefault();
-                try {
-                  let {cartData} = await removeCartQuantity({
-                    variables: {
-                      userId: Auth.getProfile().data._id,
-                      cartId: cartItem._id
-                    }
-                  })
-                } catch(rmvQuantError) {
-                  console.log(rmvQuantError)
+            <div className="d-flex align-items-center">
+              
+              <button className="w-15" onClick={
+                async (event) => {
+                  event.preventDefault();
+                  try {
+                    let {cartData} = await removeCartQuantity({
+                      variables: {
+                        userId: Auth.getProfile().data._id,
+                        cartId: cartItem._id
+                      }
+                    })
+                  } catch(rmvQuantError) {
+                    console.log(rmvQuantError)
+                  }
                 }
-              }
-            }>Decrease</button>
+              }><strong>-</strong></button>
+
+              <p>{cartItem.cartProductQuantity}</p>
+
+              <button className="w-15" onClick={
+                async (event) => {
+                  event.preventDefault();
+                  try {
+                    let {cartData} = await addToCartQuantity({
+                      variables: {
+                        userId: Auth.getProfile().data._id,
+                        cartId: cartItem._id
+                      }
+                    })
+                  } catch(addQuantError) {
+                    console.log(addQuantError)
+                  }
+                }
+              }><strong>+</strong></button>     
+            </div>
 
             <div className="container  mb-2  justify-content-end">
               <div className="row justify-content-end ">
