@@ -5,32 +5,25 @@ import { useQuery, useMutation } from '@apollo/client';
 import { useState } from "react";
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { QUERY_ME } from "../../utils/queries";
-import {ADD_TO_CART} from "../../utils/mutations"
+import {ADD_TO_CART, ADD_TO_CART_QUANTITY} from "../../utils/mutations"
 import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
 function SingleProduct() {
   const navigate = useNavigate()
 
-  // const { productId } = useParams();
-  // const { loading, data, err } = useQuery(QUERY_SINGLE_PRODUCT, {
-  //   variables: { productId: productId }
-  // });
-  // const navigate = useNavigate()
-
-  // const product = data?.product || {};
-  // const inventory = product.inventory
   const { productId } = useParams();
   const product = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
   });
-  const me = useQuery(QUERY_ME);
-
   const inventory = product.data?.product.inventory
+
+  const me = useQuery(QUERY_ME);
   let loggedInCartItems = me.data?.me.cartItems
 
-  const [size, setSize] = useState("--")
+  const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
 
+  const [size, setSize] = useState("--")
   const handleSizeSelect = (event) => {
     const {name, value} = event.target;
     if(name === "Size"){
@@ -64,53 +57,50 @@ function SingleProduct() {
     setCartBtnText("Add to cart")
   }
 
-
-const [myCartItems, setMyCartItems] = useState([])
-
-
   const handleAddToCart = async (event) => {
     event.preventDefault();
-    try {
-      const {cartData} = await addCartItem({
-        variables:
-        {
-          userId: Auth.getProfile().data._id,
-          cartProductId: productId,
-          cartProductName: product.data?.product.name,
-          cartProductSizeId: sizeId,
-          cartProductSize: sizeName,
-          cartProductImage: product.data?.product.image,
-          cartProductPrice: product.data?.product.price,
-          cartProductPriceId: sizePriceId,
-          cartProductQuantity: 1
-        },
-      });    
-      // for(let i = 0; i < loggedInCartItems.length; i++) {
-      //   if(sizeId === loggedInCartItems[i].cartProductSizeId) {
-      //     window.alert("duplicate")
-      //     // up the quantity count here. also need to stop item from being added again
-      //     const addToQuantity = () => loggedInCartItems[i].cartProductQuantity + 1
-      //     addToQuantity();
-      //     addToQuantity();
-      //   }      
-      // }
-      
-      // const increaseQuantity = (loggedInCartItems) => {
-      //   const updatedCart = loggedInCartItems.map((loggedInCartItem) => {
-      //     if(sizeId === loggedInCartItem.cartProductSizeId) {
-      //       return {...loggedInCartItem, cartProductQuantity: loggedInCartItem.cartProductQuantity + 1}
-      //     }
-      //     return loggedInCartItem
-      //   });
-      //   setMyCartItems(updatedCart)
-      // }
-      // increaseQuantity(sizeId)
 
-      navigate(0)
-      showCheckMark();
-    } catch(err){
-      console.log(err)
-    } 
+    const cartProductId = productId;
+    const cartProductSizeId = sizeId;
+    const duplicateCartItem = loggedInCartItems.find(loggedInCartItem => loggedInCartItem.cartProductId === cartProductId && loggedInCartItem.cartProductSizeId === cartProductSizeId)
+
+    if(duplicateCartItem) {
+      try {
+        let {cartData} = await addToCartQuantity({
+          variables: {
+            userId: Auth.getProfile().data._id,
+            cartId: duplicateCartItem._id
+          }
+        });
+        
+        navigate(0)
+        showCheckMark();
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      try {
+        const {cartData} = await addCartItem({
+          variables:
+          {
+            userId: Auth.getProfile().data._id,
+            cartProductId,
+            cartProductName: product.data?.product.name,
+            cartProductSizeId,
+            cartProductSize: sizeName,
+            cartProductImage: product.data?.product.image,
+            cartProductPrice: product.data?.product.price,
+            cartProductPriceId: sizePriceId,
+            cartProductQuantity: 1
+          },
+        });    
+
+        navigate(0)
+        showCheckMark();
+      } catch(err){
+        console.log(err)
+      } 
+    }
   }
   console.log(loggedInCartItems)
   

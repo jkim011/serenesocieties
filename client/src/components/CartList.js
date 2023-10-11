@@ -67,38 +67,6 @@ const CartList = () => {
   }
 
   combineCarts()
-  
-
-  // const findMatchingCartItems = (cartItems) => {
-  //   let counts = {}
-  //   for(let i = 0; i < cartItems.length; i++) { 
-      
-  //     if(counts[cartItems[i].cartProductSizeId]) {
-  //       counts[cartItems[i].cartProductSizeId] += 1
-  //     } 
-  //   }  
-
-  //   for (let prop in counts){
-  //     if (counts[prop] >= 2){
-  //       console.log(prop + " counted: " + counts[prop] + " times.")
-  //     }
-  //   }
-  //   console.log(counts)
-
-  // }
-  // findMatchingCartItems(cartItems)
-
-  // const [myCartItems, setMyCartItems] = useState(cartItems)
-  // const increaseQuantity = (cartProductSizeId) => {
-  //   const updatedCart = cartItems.map((cartItem) => {
-  //     if(cartProductSizeId === cartItem.cartProductSizeId) {
-  //       return {...cartItem, cartProductQuantity: cartItem.cartProductQuantity + 1}
-  //     }
-  //     return cartItem
-  //   });
-  //   setMyCartItems(updatedCart)
-  // }
-  // increaseQuantity()
 
 
   ///////////////////////////////////////////
