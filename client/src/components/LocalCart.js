@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -10,6 +11,8 @@ const LocalCart = () => {
   const cartItems = localStorage.getItem("allCartItems")
   const parsedCart = JSON.parse(cartItems)
   console.log(parsedCart, "parsedCart")
+
+  const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
 
   if(!parsedCart) {
     return (
@@ -23,7 +26,7 @@ const LocalCart = () => {
   let cartTotalPrice = 0
   for ( let i=0; i < parsedCart.length; i++) {
     console.log(parsedCart[i].cartProductPrice, "forloop")
-    cartTotalPrice += parseInt(parsedCart[i].cartProductPrice)
+    cartTotalPrice += parseInt(parsedCart[i].cartProductPrice * parsedCart[i].cartProductQuantity)
   }
   if(cartTotalPrice === 0) {
     return (
@@ -43,10 +46,45 @@ const LocalCart = () => {
           </div>
 
           <div className="col-8 cartItemDetails">          
-            <p><strong>{cartItem.cartProductName} </strong> - {cartItem.cartProductSize}</p>
-            <p>${cartItem.cartProductPrice}</p>
+            <p><strong>{cartItem.cartProductName}</strong></p>
+            <p>Size: {cartItem.cartProductSize}</p>   
+            <p>Price: ${cartItem.cartProductPrice}</p>
 
-            <div className="container  mb-2  justify-content-end">
+            <div className="d-flex align-items-center">
+              <button className="w-15" onClick={
+                () => {
+                  const updatedLocalCart = [...localCart];
+                  const itemToUpdate = updatedLocalCart[index];
+
+                  if (itemToUpdate && itemToUpdate.cartProductQuantity > 1) {
+                    itemToUpdate.cartProductQuantity -= 1;
+                    localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+                    setLocalCart(updatedLocalCart);
+                  }
+                }
+              }>
+                <strong>-</strong>
+              </button>
+
+              <p>{cartItem.cartProductQuantity}</p>
+
+              <button name="increment" className="w-15" onClick={
+                () => {
+                  const updatedLocalCart = [...localCart];
+                  const itemToUpdate = updatedLocalCart[index];
+              
+                  if (itemToUpdate) {
+                    itemToUpdate.cartProductQuantity += 1;
+                    localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+                    setLocalCart(updatedLocalCart);
+                  }
+                }
+              }>
+                <strong>+</strong>
+              </button>
+            </div>
+
+            <div className="container mb-2 justify-content-end">
               <div className="row justify-content-end ">
               <Button className="col-2" size="sm" variant="danger" 
                 onClick={
@@ -71,7 +109,6 @@ const LocalCart = () => {
       </div>
     </div>
   )
-
 }
 
 export default LocalCart; 
