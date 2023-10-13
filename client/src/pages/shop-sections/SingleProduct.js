@@ -59,7 +59,6 @@ function SingleProduct() {
 
   const handleAddToCart = async (event) => {
     event.preventDefault();
-
     const cartProductId = productId;
     const cartProductSizeId = sizeId;
     const duplicateCartItem = loggedInCartItems.find(loggedInCartItem => loggedInCartItem.cartProductId === cartProductId && loggedInCartItem.cartProductSizeId === cartProductSizeId)
@@ -71,8 +70,7 @@ function SingleProduct() {
             userId: Auth.getProfile().data._id,
             cartId: duplicateCartItem._id
           }
-        });
-        
+        });    
         navigate(0)
         showCheckMark();
       } catch (err) {
@@ -94,7 +92,6 @@ function SingleProduct() {
             cartProductQuantity: 1
           },
         });    
-
         navigate(0)
         showCheckMark();
       } catch(err){
@@ -108,23 +105,21 @@ function SingleProduct() {
   const handleAddToCartLocal = async (event) =>{
     event.preventDefault();
     if(existingLocalCartItems == null) existingLocalCartItems = []
-    var cartItemIndex = Math.random()
 
     let cartItem = {
       'cartProductId': productId, 
-      "cartProductName": product.name, 
+      "cartProductName": product.data?.product.name, 
       "cartProductSizeId": sizeId, 
       "cartProductSize": sizeName, 
-      "cartProductImage": product.image, 
-      "cartProductPrice": product.price,
-      "cartProductPriceId": product.priceId,
-      "cartItemIndex": cartItemIndex
+      "cartProductImage": product.data?.product.image, 
+      "cartProductPrice": product.data?.product.price,
+      "cartProductPriceId": sizePriceId,
+      "cartProductQuantity": 1
     }
     localStorage.setItem("cartItem", JSON.stringify(cartItem))
     existingLocalCartItems.push(cartItem)
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
     navigate(0)
-    // localStorage.getItem("allCartItems")
     showCheckMark();
 
   }
@@ -173,9 +168,9 @@ function SingleProduct() {
             </select>
           <div className="testing">
           {Auth.loggedIn() ? (
-            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--"}>{cartBtnText}</button>
+            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
           ):(
-            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--"}>{cartBtnText}</button>
+            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
           )}
           </div>
           

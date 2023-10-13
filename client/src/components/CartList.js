@@ -132,8 +132,7 @@ const CartList = () => {
 
           <div className="col-8 cartItemDetails">          
             <p><strong>{cartItem.cartProductName}</strong></p>
-            <p>Size: {cartItem.cartProductSize}</p>
-            
+            <p>Size: {cartItem.cartProductSize}</p> 
             <p>Price: ${cartItem.cartProductPrice}</p>
 
             <div className="d-flex align-items-center">
