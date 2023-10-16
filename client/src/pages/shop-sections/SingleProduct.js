@@ -106,22 +106,33 @@ function SingleProduct() {
     event.preventDefault();
     if(existingLocalCartItems == null) existingLocalCartItems = []
 
-    let cartItem = {
-      'cartProductId': productId, 
-      "cartProductName": product.data?.product.name, 
-      "cartProductSizeId": sizeId, 
-      "cartProductSize": sizeName, 
-      "cartProductImage": product.data?.product.image, 
-      "cartProductPrice": product.data?.product.price,
-      "cartProductPriceId": sizePriceId,
-      "cartProductQuantity": 1
-    }
-    localStorage.setItem("cartItem", JSON.stringify(cartItem))
-    existingLocalCartItems.push(cartItem)
-    localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems))
-    navigate(0)
-    showCheckMark();
+    const cartProductId = productId;
+    const cartProductSizeId = sizeId;
+    const duplicateCartItem = existingLocalCartItems.find(existingLocalCartItem => existingLocalCartItem.cartProductId === cartProductId && existingLocalCartItem.cartProductSizeId === cartProductSizeId)
 
+    if(duplicateCartItem) {
+      try {
+        duplicateCartItem.cartProductQuantity += 1
+      } catch (err) {
+        console.log(err)
+      }
+    } else {
+      let cartItem = {
+        'cartProductId': productId, 
+        "cartProductName": product.data?.product.name, 
+        "cartProductSizeId": sizeId, 
+        "cartProductSize": sizeName, 
+        "cartProductImage": product.data?.product.image, 
+        "cartProductPrice": product.data?.product.price,
+        "cartProductPriceId": sizePriceId,
+        "cartProductQuantity": 1
+      }
+      localStorage.setItem("cartItem", JSON.stringify(cartItem));
+      existingLocalCartItems.push(cartItem);
+    }
+    localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
+    navigate(0);
+    showCheckMark();
   }
 
   // if(loading){
