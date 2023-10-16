@@ -4,17 +4,60 @@ import Button from "react-bootstrap/esm/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { loadStripe } from "@stripe/stripe-js"
+
+let stripePromise;
+const getStripe = () => {
+  if(!stripePromise) {
+    stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+  }
+  return stripePromise;
+}
 
 const LocalCart = () => {
   const navigate = useNavigate();
 
-  const cartItems = localStorage.getItem("allCartItems")
-  const parsedCart = JSON.parse(cartItems)
-  console.log(parsedCart, "parsedCart")
+  const getLocalCartItems = localStorage.getItem("allCartItems")
+  const localCartItems = JSON.parse(getLocalCartItems)
+  console.log(localCartItems, "localCartItems")
 
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
 
-  if(!parsedCart) {
+  const [stripeError, setStripeError] = useState(null)
+  const [isLoading, setLoading] = useState(false)
+
+  let allItems = []
+  for(let i = 0; i < localCartItems.length; i++) {
+    const items = 
+      {
+        price: localCartItems[i].cartProductPriceId,
+        quantity: localCartItems[i].cartProductQuantity,
+        // add adjustable quantity for checkout page
+      }
+    allItems.push(items)
+  }
+  console.log(allItems, "ALL ITEMS ")
+
+  const checkoutOptions = {
+    lineItems: allItems,
+    mode: "payment",
+    successUrl: `${window.location.origin}/success`,
+    cancelUrl: `${window.location.origin}/cart`
+  }
+
+  const redirectToCheckout = async () => {
+    setLoading(true);
+    console.log("redirect");
+    const stripe = await getStripe()
+    const {error} = await stripe.redirectToCheckout(checkoutOptions)
+    console.log("stripe checkout err", error)
+
+    if(error) setStripeError(error.message);
+    setLoading(false);
+  }
+  if(stripeError) alert(stripeError)
+
+  if(!localCartItems) {
     return (
       <div>
         <h5 className="text-center">Your cart is empty</h5>
@@ -24,9 +67,9 @@ const LocalCart = () => {
   } 
 
   let cartTotalPrice = 0
-  for ( let i=0; i < parsedCart.length; i++) {
-    console.log(parsedCart[i].cartProductPrice, "forloop")
-    cartTotalPrice += parseInt(parsedCart[i].cartProductPrice * parsedCart[i].cartProductQuantity)
+  for ( let i=0; i < localCartItems.length; i++) {
+    console.log(localCartItems[i].cartProductPrice, "forloop")
+    cartTotalPrice += parseInt(localCartItems[i].cartProductPrice * localCartItems[i].cartProductQuantity)
   }
   if(cartTotalPrice === 0) {
     return (
@@ -39,7 +82,7 @@ const LocalCart = () => {
  
   return (
     <div className="cartContainer container flex " name="cartItem"  >    
-      {parsedCart && parsedCart.map((cartItem, index) =>(
+      {localCartItems && localCartItems.map((cartItem, index) =>(
         <div key={cartItem._id} className="border row mb-2" >
           <div className="col-4 border">
             <img className="cartImageComponent" src={cartItem.cartProductImage}/>
@@ -90,8 +133,8 @@ const LocalCart = () => {
                 onClick={
                   async(event) => {
                     event.preventDefault();
-                    parsedCart.splice(index, 1)
-                    localStorage.setItem("allCartItems", JSON.stringify(parsedCart))
+                    localCartItems.splice(index, 1)
+                    localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
                     navigate(0)
                   }
                 } 
@@ -105,7 +148,7 @@ const LocalCart = () => {
       <div className="text-center">
         <h5>Total: ${cartTotalPrice}</h5>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
-        <button>Checkout</button>
+        <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
       </div>
     </div>
   )
