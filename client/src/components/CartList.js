@@ -39,35 +39,45 @@ const CartList = () => {
  
   const combineCarts = () => {
     if(localStorage.getItem("allCartItems")) {
-      console.log(localCartItems, "from localStorage")
-
       for(let i = 0; i < localCartItems.length; i++) {
-        console.log(localCartItems[i].cartProductName, "NAME")
-        try {
-          const {cartData} = addCartItem({
-            variables:
-            {
-              userId: Auth.getProfile().data._id,
-              cartProductId: localCartItems[i].cartProductId,
-              cartProductName: localCartItems[i].cartProductName,
-              cartProductSizeId: localCartItems[i].cartProductSizeId,
-              cartProductSize: localCartItems[i].cartProductSize,
-              cartProductImage: localCartItems[i].cartProductImage,
-              cartProductPrice: localCartItems[i].cartProductPrice,
-              cartProductPriceId: localCartItems[i].cartProductPriceId,
-            },
-          });
-          navigate(0)
-        } catch(err){
-          console.log(err)
-        } 
+        if(cartItems.find(cartItem => cartItem.cartProductId === localCartItems[i].cartProductId && cartItem.cartProductSizeId === localCartItems[i].cartProductSizeId)) {
+          try {
+            let {cartData} = addToCartQuantity({
+              variables: {
+                userId: Auth.getProfile().data._id,
+                cartId: cartItems[i]._id
+              }
+            });    
+          } catch (err) {
+            console.log(err)
+          }
+        } else {
+
+          try {
+            const {cartData} = addCartItem({
+              variables:
+              {
+                userId: Auth.getProfile().data._id,
+                cartProductId: localCartItems[i].cartProductId,
+                cartProductName: localCartItems[i].cartProductName,
+                cartProductSizeId: localCartItems[i].cartProductSizeId,
+                cartProductSize: localCartItems[i].cartProductSize,
+                cartProductImage: localCartItems[i].cartProductImage,
+                cartProductPrice: localCartItems[i].cartProductPrice,
+                cartProductPriceId: localCartItems[i].cartProductPriceId,
+              },
+            });
+            navigate(0)
+          } catch(err){
+            console.log(err)
+          } 
+        }
       }
       localStorage.removeItem("allCartItems")
     }
   }
 
   combineCarts()
-
 
   ///////////////////////////////////////////
   const [stripeError, setStripeError] = useState(null)

@@ -17,24 +17,24 @@ const getStripe = () => {
 const LocalCart = () => {
   const navigate = useNavigate();
 
-  const getLocalCartItems = localStorage.getItem("allCartItems")
-  const localCartItems = JSON.parse(getLocalCartItems)
+  const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
-
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
 
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
   let allItems = []
-  for(let i = 0; i < localCartItems.length; i++) {
-    const items = 
-      {
-        price: localCartItems[i].cartProductPriceId,
-        quantity: localCartItems[i].cartProductQuantity,
-        // add adjustable quantity for checkout page
-      }
-    allItems.push(items)
+  if(localCartItems) {
+    for(let i = 0; i < localCartItems.length; i++) {
+      const items = 
+        {
+          price: localCartItems[i].cartProductPriceId,
+          quantity: localCartItems[i].cartProductQuantity,
+          // add adjustable quantity for checkout page
+        }
+      allItems.push(items)
+    }
   }
   console.log(allItems, "ALL ITEMS ")
 
