@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js"
+import NavBar from "./Nav";
+import CartCount from "./CartCount";
 
 let stripePromise;
 const getStripe = () => {
@@ -79,9 +81,15 @@ const LocalCart = () => {
       </div>
     )
   }
+
+  let count = 0
+  for ( let i=0; i < localCartItems.length; i++) {
+    count += parseInt(localCartItems[i].cartProductQuantity)
+  }
  
   return (
-    <div className="cartContainer container flex " name="cartItem"  >    
+    <div className="cartContainer container flex " name="cartItem" >
+    <CartCount />
       {localCartItems && localCartItems.map((cartItem, index) =>(
         <div key={cartItem._id} className="border row mb-2" >
           <div className="col-4 border">

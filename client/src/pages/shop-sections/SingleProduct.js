@@ -56,6 +56,15 @@ function SingleProduct() {
   const removeCheckMark = () => {
     setCartBtnText("Add to cart")
   }
+////////// cart count /////////////////
+  const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  let count = 0
+  if(localCartItems) {
+    for ( let i=0; i < localCartItems.length; i++) {
+      count += parseInt(localCartItems[i].cartProductQuantity)
+    }
+  }
+
 
   const handleAddToCart = async (event) => {
     event.preventDefault();
@@ -70,8 +79,9 @@ function SingleProduct() {
             userId: Auth.getProfile().data._id,
             cartId: duplicateCartItem._id
           }
-        });    
-        navigate(0)
+        });
+        
+        // navigate(0)
         showCheckMark();
       } catch (err) {
         console.log(err)
@@ -79,8 +89,7 @@ function SingleProduct() {
     } else {
       try {
         const {cartData} = await addCartItem({
-          variables:
-          {
+          variables: {
             userId: Auth.getProfile().data._id,
             cartProductId,
             cartProductName: product.data?.product.name,
@@ -92,7 +101,7 @@ function SingleProduct() {
             cartProductQuantity: 1
           },
         });    
-        navigate(0)
+        // navigate(0)
         showCheckMark();
       } catch(err){
         console.log(err)
@@ -131,7 +140,7 @@ function SingleProduct() {
       existingLocalCartItems.push(cartItem);
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
-    navigate(0);
+    // navigate(0);
     showCheckMark();
   }
 
@@ -186,6 +195,7 @@ function SingleProduct() {
           </div>
           
         </form>
+        {count}
       </div>
       
     </div>

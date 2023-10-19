@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
@@ -16,8 +16,10 @@ import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CartCount from './CartCount';
+import LocalCart from './LocalCart';
 
-function NavBar() {
+function NavBar(props) {
   const { loading, data, error } = useQuery(QUERY_ME);
   const me = data?.me || [];
 
@@ -27,8 +29,37 @@ function NavBar() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   let cartItems = data?.me.cartItems || []
+  let loggedInCartCount = 0;
+  const updateLoggedInCartCount = async (event) => {
+    if(cartItems) {
+      for(let i = 0; i < cartItems.length; i++) {
+        loggedInCartCount += cartItems[i].cartProductQuantity;
+      }
+    }
+  }
+  updateLoggedInCartCount();
+
+  const [cartCount, setCartCount] = useState(0)
+  let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  // const updateCartCount = () => {
+  //   let count = 0;
+  //   if(localCartItems) {
+  //     for(let i = 0; i < localCartItems.length; i++) {
+  //       count += localCartItems[i].cartProductQuantity;
+  //     }
+  //   }
+  //   setCartCount(count)
+  // };
+  // useEffect(() => {
+  //   updateCartCount();
+  // }, []);
+  let count = 0
+  if(localCartItems) {
+    for ( let i=0; i < localCartItems.length; i++) {
+      count += parseInt(localCartItems[i].cartProductQuantity)
+    }
+  }
 
   if(window.location.pathname === '/') {
     return null
@@ -68,11 +99,11 @@ function NavBar() {
                 <Link className="nav-link" as={Link} to="/cart"><FontAwesomeIcon icon="fa-solid fa-cart-shopping"></FontAwesomeIcon></Link>
                 {!Auth.loggedIn() && localCartItems ? (
                   <div>
-                    {JSON.parse(localStorage.getItem("allCartItems")).length}
+                    <CartCount />
                   </div>
                 ) : (
                   <div>
-                    {cartItems.length}
+                    {loggedInCartCount}
                   </div>
                 )}
               </div>
