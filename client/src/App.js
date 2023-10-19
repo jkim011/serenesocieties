@@ -24,17 +24,17 @@ import Cart from "./pages/main-pages/Cart"
 import Footer from './components/Footer';
 import About from './pages/misc-pages/About';
 import Terms from './pages/misc-pages/Terms';
-import Signup from './components/CreateUser';
+import Signup from './components/user/CreateUser';
+import Login from './components/user/Login';
 import AdminDash from './pages/admin/AdminDash';
 import ProductsDash from './pages/admin/ProductsDash';
 import CategoriesDash from './pages/admin/CategoriesDash';
 import InventoryDash from './pages/admin/InventoryDash';
 import OrdersDash from './pages/admin/OrdersDash';
 import AnalyticsDash from './pages/admin/AnalyticsDash';
-import Login from './components/Login';
 import EditProduct from './pages/admin/EditProduct';
-import Success from './components/Success';
-import Cancel from './components/Cancel';
+import Success from './components/cart/Success';
+import Cancel from './components/cart/Cancel';
 
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

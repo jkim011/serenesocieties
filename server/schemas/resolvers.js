@@ -2,7 +2,6 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User, Product, Category, Stock, Cart } = require('../models');
 const { signToken } = require('../utils/auth');
 
-
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {

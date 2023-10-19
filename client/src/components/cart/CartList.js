@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { QUERY_ME } from "../utils/queries";
-import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY } from "../utils/mutations";
+import { QUERY_ME } from "../../utils/queries";
+import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY } from "../../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button"
 import { loadStripe } from "@stripe/stripe-js"
 
-import  "../styles/cartList.css"
+import  "../../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
-import Auth from "../utils/auth";
+import Auth from "../../utils/auth";
 
 ////////////////////////////////////////////////
 let stripePromise;

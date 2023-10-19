@@ -3,10 +3,10 @@ import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useState } from "react";
-import { QUERY_SINGLE_PRODUCT } from "../utils/queries";
-import { QUERY_ME } from "../utils/queries";
-import {ADD_TO_CART, ADD_TO_CART_QUANTITY} from "../utils/mutations"
-import Auth from "../utils/auth";
+import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
+import { QUERY_ME } from "../../utils/queries";
+import {ADD_TO_CART, ADD_TO_CART_QUANTITY} from "../../utils/mutations"
+import Auth from "../../utils/auth";
 import "../styles/singleProduct.css"
 
 function AddToCart() {

@@ -3,6 +3,8 @@ import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { QUERY_ME } from "../../utils/queries";
 import {ADD_TO_CART, ADD_TO_CART_QUANTITY} from "../../utils/mutations"
@@ -64,6 +66,9 @@ function SingleProduct() {
       count += parseInt(localCartItems[i].cartProductQuantity)
     }
   }
+////////////////////////////////////////
+
+  const dispatch = useDispatch();
 
 
   const handleAddToCart = async (event) => {
@@ -80,7 +85,7 @@ function SingleProduct() {
             cartId: duplicateCartItem._id
           }
         });
-        
+        // dispatch(increment())
         // navigate(0)
         showCheckMark();
       } catch (err) {
@@ -102,6 +107,7 @@ function SingleProduct() {
           },
         });    
         // navigate(0)
+        // dispatch(increment())
         showCheckMark();
       } catch(err){
         console.log(err)
@@ -141,6 +147,7 @@ function SingleProduct() {
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
     // navigate(0);
+    dispatch(increment())
     showCheckMark();
   }
 

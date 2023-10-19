@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import React from 'react';
-import ShopDropdown from '../../components/ShopDropdown';
-import ProductList from '../../components/ProductList';
+import ShopDropdown from '../../components/products/ShopDropdown';
+import ProductList from '../../components/products/ProductList';
 import shirt from "../../assets/clothes/testShirt.png"
 
 import { QUERY_PRODUCTS } from '../../utils/queries';
