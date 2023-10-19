@@ -11,7 +11,7 @@ import { ADD_PRODUCT } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
 import { QUERY_PRODUCTS } from '../../utils/queries';
-import ProductList from '../../components/ProductList';
+import ProductList from '../../components/products/ProductList';
 
 function ProductsDash() {
   const [showModal, setShowModal] = useState(false);

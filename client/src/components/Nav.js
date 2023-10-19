@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import {useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -16,8 +17,8 @@ import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CartCount from './CartCount';
-import LocalCart from './LocalCart';
+import CartCount from './cart/CartCount';
+import LocalCart from './cart/LocalCart';
 
 function NavBar(props) {
   const { loading, data, error } = useQuery(QUERY_ME);
@@ -40,7 +41,7 @@ function NavBar(props) {
   }
   updateLoggedInCartCount();
 
-  const [cartCount, setCartCount] = useState(0)
+  // const [cartCount, setCartCount] = useState(0)
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   // const updateCartCount = () => {
   //   let count = 0;
@@ -60,6 +61,8 @@ function NavBar(props) {
       count += parseInt(localCartItems[i].cartProductQuantity)
     }
   }
+
+  const { cartCount } = useSelector((state) => state.cartCounter);
 
   if(window.location.pathname === '/') {
     return null
@@ -104,6 +107,7 @@ function NavBar(props) {
                 ) : (
                   <div>
                     {loggedInCartCount}
+                    {/* {cartCount} */}
                   </div>
                 )}
               </div>

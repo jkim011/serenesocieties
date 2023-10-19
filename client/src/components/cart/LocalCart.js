@@ -1,11 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import Button from "react-bootstrap/esm/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js"
-import NavBar from "./Nav";
+import NavBar from "../Nav";
 import CartCount from "./CartCount";
 
 let stripePromise;
@@ -17,6 +19,8 @@ const getStripe = () => {
 }
 
 const LocalCart = () => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
@@ -112,6 +116,7 @@ const LocalCart = () => {
                     localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
                     setLocalCart(updatedLocalCart);
                   }
+
                 }
               }>
                 <strong>-</strong>
@@ -144,6 +149,8 @@ const LocalCart = () => {
                     localCartItems.splice(index, 1)
                     localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
                     navigate(0)
+                    dispatch(increment())
+
                   }
                 } 
               ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>

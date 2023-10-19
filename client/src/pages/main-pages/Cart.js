@@ -1,6 +1,6 @@
-import CartList from '../../components/CartList';
+import CartList from '../../components/cart/CartList';
 import Auth from '../../utils/auth';
-import LocalCart from '../../components/LocalCart';
+import LocalCart from '../../components/cart/LocalCart';
 
 function Cart() {
     return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { QUERY_PRODUCTS, QUERY_SINGLE_CATEGORY } from "../utils/queries";
-import { QUERY_CATEGORIES } from "../utils/queries";
+import { QUERY_PRODUCTS, QUERY_SINGLE_CATEGORY } from "../../utils/queries";
+import { QUERY_CATEGORIES } from "../../utils/queries";
 import { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
