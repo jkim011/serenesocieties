@@ -93,7 +93,6 @@ const LocalCart = () => {
  
   return (
     <div className="cartContainer container flex " name="cartItem" >
-    <CartCount />
       {localCartItems && localCartItems.map((cartItem, index) =>(
         <div key={cartItem._id} className="border row mb-2" >
           <div className="col-4 border">
@@ -116,7 +115,7 @@ const LocalCart = () => {
                     localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
                     setLocalCart(updatedLocalCart);
                   }
-
+                  dispatch(decrement())
                 }
               }>
                 <strong>-</strong>
@@ -134,6 +133,7 @@ const LocalCart = () => {
                     localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
                     setLocalCart(updatedLocalCart);
                   }
+                  dispatch(increment())
                 }
               }>
                 <strong>+</strong>
@@ -149,8 +149,7 @@ const LocalCart = () => {
                     localCartItems.splice(index, 1)
                     localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
                     navigate(0)
-                    dispatch(increment())
-
+                    dispatch(decrement(cartItem.cartProductQuantity))
                   }
                 } 
               ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
