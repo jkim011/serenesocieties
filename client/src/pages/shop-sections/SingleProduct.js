@@ -52,7 +52,7 @@ function SingleProduct() {
 
   const [cartBtnText, setCartBtnText] = useState("Add to cart")
   const showCheckMark = () => {
-    setCartBtnText("Added ✓")
+    setCartBtnText("Adding")
     setTimeout(removeCheckMark, 2000)
   }
   const removeCheckMark = () => {
@@ -195,14 +195,12 @@ function SingleProduct() {
             </select>
           <div className="testing">
           {Auth.loggedIn() ? (
-            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
+            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Adding"}>{cartBtnText}</button>
           ):(
-            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
+            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Adding"}>{cartBtnText}</button>
           )}
-          </div>
-          
+          </div> 
         </form>
-        {count}
       </div>
       
     </div>
