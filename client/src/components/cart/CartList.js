@@ -42,13 +42,13 @@ const CartList = () => {
       for(let i = 0; i < localCartItems.length; i++) {
         if(cartItems.find(cartItem => cartItem.cartProductId === localCartItems[i].cartProductId && cartItem.cartProductSizeId === localCartItems[i].cartProductSizeId)) {
           try {
-            // let {cartData} = addToCartQuantity({
-            //   variables: {
-            //     userId: Auth.getProfile().data._id,
-            //     cartId: cartItems[i]._id
-            //   }
-            // });
-            cartItems[i].cartProductQuantity += localCartItems[i].cartProductQuantity
+            let {cartData} = addToCartQuantity({
+              variables: {
+                userId: Auth.getProfile().data._id,
+                cartId: cartItems[i]._id,
+                cartProductQuantity: localCartItems[i].cartProductQuantity
+              }
+            });
           } catch (err) {
             console.log(err)
           }
@@ -66,6 +66,7 @@ const CartList = () => {
                 cartProductImage: localCartItems[i].cartProductImage,
                 cartProductPrice: localCartItems[i].cartProductPrice,
                 cartProductPriceId: localCartItems[i].cartProductPriceId,
+                cartProductQuantity: localCartItems[i].cartProductQuantity
               },
             });
             navigate(0)
@@ -173,7 +174,8 @@ const CartList = () => {
                     let {cartData} = await addToCartQuantity({
                       variables: {
                         userId: Auth.getProfile().data._id,
-                        cartId: cartItem._id
+                        cartId: cartItem._id,
+                        cartProductQuantity: 1
                       }
                     })
                   } catch(addQuantError) {
