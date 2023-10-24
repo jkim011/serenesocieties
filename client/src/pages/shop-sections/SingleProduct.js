@@ -12,8 +12,6 @@ import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
 function SingleProduct() {
-  const navigate = useNavigate()
-
   const { productId } = useParams();
   const product = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
@@ -67,9 +65,7 @@ function SingleProduct() {
     }
   }
 ////////////////////////////////////////
-
   const dispatch = useDispatch();
-
 
   const handleAddToCart = async (event) => {
     event.preventDefault();
@@ -82,11 +78,10 @@ function SingleProduct() {
         let {cartData} = await addToCartQuantity({
           variables: {
             userId: Auth.getProfile().data._id,
-            cartId: duplicateCartItem._id
+            cartId: duplicateCartItem._id,
+            cartProductQuantity: 1
           }
         });
-        // dispatch(increment())
-        // navigate(0)
         showCheckMark();
       } catch (err) {
         console.log(err)
@@ -105,12 +100,18 @@ function SingleProduct() {
             cartProductPriceId: sizePriceId,
             cartProductQuantity: 1
           },
+          refetchQueries: [
+            {
+              query: QUERY_ME,
+              variables: {
+                cartProductId
+              }
+            }
+          ],
         });    
-        // navigate(0)
-        // dispatch(increment())
         showCheckMark();
-      } catch(err){
-        console.log(err)
+      } catch(error){
+        console.log(error)
       } 
     }
   }
@@ -146,7 +147,6 @@ function SingleProduct() {
       existingLocalCartItems.push(cartItem);
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
-    // navigate(0);
     dispatch(increment())
     showCheckMark();
   }
