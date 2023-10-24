@@ -53,7 +53,7 @@ function SingleProduct() {
   const [cartBtnText, setCartBtnText] = useState("Add to cart")
   const showCheckMark = () => {
     setCartBtnText("Adding")
-    setTimeout(removeCheckMark, 2000)
+    setTimeout(removeCheckMark, 1500)
   }
   const removeCheckMark = () => {
     setCartBtnText("Add to cart")
