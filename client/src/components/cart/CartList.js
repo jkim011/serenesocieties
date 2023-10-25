@@ -134,7 +134,7 @@ const CartList = () => {
   }
 
   return (
-    <div className="cartContainer container flex " name="cartItem"  >
+    <div className="w-50 container flex " name="cartItem"  >
         
       {cartItems && cartItems.map((cartItem) =>(
         <div key={cartItem._id} className="border row mb-2" >
