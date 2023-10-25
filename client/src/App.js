@@ -40,8 +40,8 @@ import Cancel from './components/cart/Cancel';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core'
 // import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faTrashCan, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons'
-library.add(faTrashCan, faCartShopping, faUser)
+import { faTrashCan, faCartShopping, faUser, faXmark } from '@fortawesome/free-solid-svg-icons'
+library.add(faTrashCan, faCartShopping, faUser, faXmark)
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
