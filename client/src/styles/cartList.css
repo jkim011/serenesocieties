@@ -1,5 +1,6 @@
 .cartImageComponent{
-    width: 140px;
+    /* width: 140px; */
+    height: 170px;
 }
 .cartItemDetails{ 
     display: flex;
@@ -7,14 +8,23 @@
     justify-content: center;
     
 }
+.cartItemHeight{
+    height: 175px;
+}
 
+.cartListWidth{
+    width: 50%;
+}
 @media screen and (max-width: 900px) {
-    .cartContainer{
-        width: 90%;
+    .cartListWidth{
+        width: 75%;
     }
 }
 
 @media screen and (max-width: 500px) {
+    .cartListWidth {
+        width: 95%;
+    }
     .cartImageComponent{
         /* margin: 10%; */
         width: 100%;

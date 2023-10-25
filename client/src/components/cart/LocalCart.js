@@ -92,15 +92,15 @@ const LocalCart = () => {
   }
  
   return (
-    <div className="w-75 container inline-sm-flex d-lg-flex justify-content-center" name="cartItem">
-      <div className="col-lg-5 col-md-5">
+    <div className="container flex justify-content-center cartListWidth" name="cartItem">
+      <div className="col">
         {localCartItems && localCartItems.map((cartItem, index) =>(
-          <div key={cartItem._id} className="border row mb-2" >
-            <div className="col-4 border">
+          <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
+            <div className="col d-flex justify-content-start align-items-start">
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="col-8 cartItemDetails">          
+            <div className="col-8 flex flex-column justify-content-center">          
               <p><strong>{cartItem.cartProductName}</strong></p>
               <p>Size: {cartItem.cartProductSize}</p>   
               <p>Price: ${cartItem.cartProductPrice}</p>
@@ -122,7 +122,7 @@ const LocalCart = () => {
                   <strong>-</strong>
                 </button>
 
-                <p>{cartItem.cartProductQuantity}</p>
+                <p className="ms-1 me-1 pt-2">{cartItem.cartProductQuantity}</p>
 
                 <button name="increment" className="w-15" onClick={
                   () => {
@@ -141,27 +141,25 @@ const LocalCart = () => {
                 </button>
               </div>
 
-              <div className="container mb-2 justify-content-end">
-                <div className="row justify-content-end ">
-                <Button className="col-2" size="sm" variant="danger" 
-                  onClick={
-                    async(event) => {
-                      event.preventDefault();
-                      localCartItems.splice(index, 1)
-                      localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
-                      navigate(0)
-                      dispatch(decrement(cartItem.cartProductQuantity))
-                    }
-                  } 
-                ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
-                </div>
-              </div>   
+              <Link className="position-absolute top-0 end-0 text-decoration-none text-red"
+                onClick={
+                  async(event) => {
+                    event.preventDefault();
+                    localCartItems.splice(index, 1)
+                    localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
+                    navigate(0)
+                    dispatch(decrement(cartItem.cartProductQuantity))
+                  }
+                } 
+              >
+                <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
+              </Link>
             </div>
         </div>       
         )) } 
       </div>
 
-      <div className="flex-shrink-5 text-center col-lg-4 col-md-4">
+      <div className="text-center col">
         <h4>Subtotal: ${cartTotalPrice}</h4>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>
