@@ -92,76 +92,79 @@ const LocalCart = () => {
   }
  
   return (
-    <div className="cartContainer container flex " name="cartItem" >
-      {localCartItems && localCartItems.map((cartItem, index) =>(
-        <div key={cartItem._id} className="border row mb-2" >
-          <div className="col-4 border">
-            <img className="cartImageComponent" src={cartItem.cartProductImage}/>
-          </div>
-
-          <div className="col-8 cartItemDetails">          
-            <p><strong>{cartItem.cartProductName}</strong></p>
-            <p>Size: {cartItem.cartProductSize}</p>   
-            <p>Price: ${cartItem.cartProductPrice}</p>
-
-            <div className="d-flex align-items-center">
-              <button className="w-15" onClick={
-                () => {
-                  const updatedLocalCart = [...localCart];
-                  const itemToUpdate = updatedLocalCart[index];
-
-                  if (itemToUpdate && itemToUpdate.cartProductQuantity > 1) {
-                    itemToUpdate.cartProductQuantity -= 1;
-                    localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
-                    setLocalCart(updatedLocalCart);
-                  }
-                  dispatch(decrement())
-                }
-              }>
-                <strong>-</strong>
-              </button>
-
-              <p>{cartItem.cartProductQuantity}</p>
-
-              <button name="increment" className="w-15" onClick={
-                () => {
-                  const updatedLocalCart = [...localCart];
-                  const itemToUpdate = updatedLocalCart[index];
-              
-                  if (itemToUpdate) {
-                    itemToUpdate.cartProductQuantity += 1;
-                    localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
-                    setLocalCart(updatedLocalCart);
-                  }
-                  dispatch(increment())
-                }
-              }>
-                <strong>+</strong>
-              </button>
+    <div className="w-75 container inline-sm-flex d-lg-flex justify-content-center" name="cartItem">
+      <div className="col-lg-5 col-md-5">
+        {localCartItems && localCartItems.map((cartItem, index) =>(
+          <div key={cartItem._id} className="border row mb-2" >
+            <div className="col-4 border">
+              <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="container mb-2 justify-content-end">
-              <div className="row justify-content-end ">
-              <Button className="col-2" size="sm" variant="danger" 
-                onClick={
-                  async(event) => {
-                    event.preventDefault();
-                    localCartItems.splice(index, 1)
-                    localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
-                    navigate(0)
-                    dispatch(decrement(cartItem.cartProductQuantity))
-                  }
-                } 
-              ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
-              </div>
-            </div>   
-          </div>
-      </div>       
-      )) } 
+            <div className="col-8 cartItemDetails">          
+              <p><strong>{cartItem.cartProductName}</strong></p>
+              <p>Size: {cartItem.cartProductSize}</p>   
+              <p>Price: ${cartItem.cartProductPrice}</p>
 
-      <div className="text-center">
-        <h5>Total: ${cartTotalPrice}</h5>
-        <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
+              <div className="d-flex align-items-center">
+                <button className="w-15" onClick={
+                  () => {
+                    const updatedLocalCart = [...localCart];
+                    const itemToUpdate = updatedLocalCart[index];
+
+                    if (itemToUpdate && itemToUpdate.cartProductQuantity > 1) {
+                      itemToUpdate.cartProductQuantity -= 1;
+                      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+                      setLocalCart(updatedLocalCart);
+                    }
+                    dispatch(decrement())
+                  }
+                }>
+                  <strong>-</strong>
+                </button>
+
+                <p>{cartItem.cartProductQuantity}</p>
+
+                <button name="increment" className="w-15" onClick={
+                  () => {
+                    const updatedLocalCart = [...localCart];
+                    const itemToUpdate = updatedLocalCart[index];
+                
+                    if (itemToUpdate) {
+                      itemToUpdate.cartProductQuantity += 1;
+                      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+                      setLocalCart(updatedLocalCart);
+                    }
+                    dispatch(increment())
+                  }
+                }>
+                  <strong>+</strong>
+                </button>
+              </div>
+
+              <div className="container mb-2 justify-content-end">
+                <div className="row justify-content-end ">
+                <Button className="col-2" size="sm" variant="danger" 
+                  onClick={
+                    async(event) => {
+                      event.preventDefault();
+                      localCartItems.splice(index, 1)
+                      localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
+                      navigate(0)
+                      dispatch(decrement(cartItem.cartProductQuantity))
+                    }
+                  } 
+                ><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
+                </div>
+              </div>   
+            </div>
+        </div>       
+        )) } 
+      </div>
+
+      <div className="flex-shrink-5 text-center col-lg-4 col-md-4">
+        <h4>Subtotal: ${cartTotalPrice}</h4>
+        <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
+        <p>Shipping & taxes calculated at checkout</p>
         <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
       </div>
     </div>

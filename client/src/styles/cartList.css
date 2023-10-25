@@ -1,9 +1,6 @@
 .cartImageComponent{
     width: 140px;
 }
-.cartContainer{
-    width: 50%;
-}
 .cartItemDetails{ 
     display: flex;
     flex-direction: column;
