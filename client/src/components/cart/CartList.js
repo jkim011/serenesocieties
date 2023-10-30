@@ -134,60 +134,58 @@ const CartList = () => {
   }
 
   return (
-    <div className="w-50 container flex " name="cartItem"  >
-        
-      {cartItems && cartItems.map((cartItem) =>(
-        <div key={cartItem._id} className="border row mb-2" >
-          <div className="col-4 border">
-            <img className="cartImageComponent" src={cartItem.cartProductImage}/>
-          </div>
-
-          <div className="col-8 cartItemDetails">          
-            <p><strong>{cartItem.cartProductName}</strong></p>
-            <p>Size: {cartItem.cartProductSize}</p> 
-            <p>Price: ${cartItem.cartProductPrice}</p>
-
-            <div className="d-flex align-items-center">
-              
-              <button className="w-15" onClick={
-                async (event) => {
-                  event.preventDefault();
-                  try {
-                    let {cartData} = await removeCartQuantity({
-                      variables: {
-                        userId: Auth.getProfile().data._id,
-                        cartId: cartItem._id
-                      }
-                    })
-                  } catch(rmvQuantError) {
-                    console.log(rmvQuantError)
-                  }
-                }
-              }><strong>-</strong></button>
-
-              <p>{cartItem.cartProductQuantity}</p>
-
-              <button className="w-15" onClick={
-                async (event) => {
-                  event.preventDefault();
-                  try {
-                    let {cartData} = await addToCartQuantity({
-                      variables: {
-                        userId: Auth.getProfile().data._id,
-                        cartId: cartItem._id,
-                        cartProductQuantity: 1
-                      }
-                    })
-                  } catch(addQuantError) {
-                    console.log(addQuantError)
-                  }
-                }
-              }><strong>+</strong></button>     
+    <div className="container flex justify-content-center cartListWidth" name="cartItem">
+      <div className="col">
+        {cartItems && cartItems.map((cartItem) =>(
+          <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
+            <div className="col d-flex justify-content-start align-items-start">
+              <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="container  mb-2  justify-content-end">
-              <div className="row justify-content-end ">
-              <Button className="col-2" size="sm" variant="danger" onClick={
+            <div className="col-8 flex flex-column justify-content-center">          
+              <p><strong>{cartItem.cartProductName}</strong></p>
+              <p>Size: {cartItem.cartProductSize}</p> 
+              <p>Price: ${cartItem.cartProductPrice}</p>
+
+              <div className="d-flex align-items-center">
+                
+                <button className="w-15" onClick={
+                  async (event) => {
+                    event.preventDefault();
+                    try {
+                      let {cartData} = await removeCartQuantity({
+                        variables: {
+                          userId: Auth.getProfile().data._id,
+                          cartId: cartItem._id
+                        }
+                      })
+                    } catch(rmvQuantError) {
+                      console.log(rmvQuantError)
+                    }
+                  }
+                }><strong>-</strong></button>
+
+                <p className="ms-1 me-1 pt-2">{cartItem.cartProductQuantity}</p>
+
+                <button className="w-15" onClick={
+                  async (event) => {
+                    event.preventDefault();
+                    try {
+                      let {cartData} = await addToCartQuantity({
+                        variables: {
+                          userId: Auth.getProfile().data._id,
+                          cartId: cartItem._id,
+                          cartProductQuantity: 1
+                        }
+                      })
+                    } catch(addQuantError) {
+                      console.log(addQuantError)
+                    }
+                  }
+                }><strong>+</strong></button>     
+              </div>
+
+              <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={
                 async (event) => {
                   event.preventDefault();    
                   try {
@@ -201,16 +199,18 @@ const CartList = () => {
                     console.log(err)
                   }
                 }
-              }><FontAwesomeIcon icon="fa-solid fa-trash-can" /></Button>
-              </div>
-            </div>   
-          </div>
-      </div>       
-      )) } 
+              }>
+                <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
+              </Link>
+            </div>
+        </div>       
+        )) }
+      </div> 
 
-      <div className="text-center">
+      <div className="text-center col">
         <h5>Subtotal: ${cartTotalPrice}</h5>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h6 className="text-center mt-3 mb-2">Continue shopping</h6></Link>
+        <p>Shipping & taxes calculated at checkout</p>
         <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
       </div>
     </div>
