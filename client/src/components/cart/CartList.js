@@ -76,10 +76,8 @@ const CartList = () => {
       localStorage.removeItem("allCartItems")
     }
   }
-
   combineCarts()
 
-  ///////////////////////////////////////////
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
@@ -89,7 +87,6 @@ const CartList = () => {
       {
         price: cartItems[i].cartProductPriceId,
         quantity: cartItems[i].cartProductQuantity,
-        // add adjustable quantity for checkout page
       }
     allItems.push(items)
   }
@@ -113,7 +110,6 @@ const CartList = () => {
     setLoading(false);
   }
   if(stripeError) alert(stripeError)
-  /////////////////////////////////////////////////////
 
   // To calculate cart total
   let cartTotalPrice = 0
@@ -140,7 +136,7 @@ const CartList = () => {
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="col-8 flex flex-column justify-content-center">          
+            <div className="col-lg-7 col flex flex-column justify-content-center">          
               <p><strong>{cartItem.cartProductName}</strong></p>
               <p>Size: {cartItem.cartProductSize}</p> 
               <p>Price: ${cartItem.cartProductPrice}</p>
