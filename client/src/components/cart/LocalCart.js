@@ -96,8 +96,8 @@ const LocalCart = () => {
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="col-lg-7 col flex flex-column justify-content-center">          
-              <p><strong>{cartItem.cartProductName}</strong></p>
+            <div className="col-xl-7 col-lg-6 col flex flex-column justify-content-center">          
+              <div className="flex flex-column"><p><strong>{cartItem.cartProductName}</strong></p></div>
               <p>Size: {cartItem.cartProductSize}</p>   
               <p>Price: ${cartItem.cartProductPrice}</p>
 

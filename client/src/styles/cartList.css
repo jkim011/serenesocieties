@@ -20,6 +20,11 @@
     .cartListWidth{
         width: 75%;
     }
+    .cartImageComponent{
+        height: 150px;
+        width: auto;
+       
+    }
 }
 
 @media screen and (max-width: 500px) {
