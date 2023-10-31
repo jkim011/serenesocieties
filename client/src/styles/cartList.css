@@ -13,8 +13,9 @@
 }
 
 .cartListWidth{
-    width: 50%;
+    width: 40%;
 }
+
 @media screen and (max-width: 900px) {
     .cartListWidth{
         width: 75%;
@@ -26,8 +27,8 @@
         width: 95%;
     }
     .cartImageComponent{
-        /* margin: 10%; */
-        width: 100%;
+        height: 150px;
+        width: auto;
        
     }
  

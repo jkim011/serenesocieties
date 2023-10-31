@@ -11,7 +11,6 @@ import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
 import Auth from "../../utils/auth";
 
-////////////////////////////////////////////////
 let stripePromise;
 const getStripe = () => {
   if(!stripePromise) {
@@ -19,7 +18,6 @@ const getStripe = () => {
   }
   return stripePromise;
 }
-///////////////////////////////////////////
 
 const CartList = () => {
   const navigate = useNavigate()

@@ -2,13 +2,10 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
-import Button from "react-bootstrap/esm/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { loadStripe } from "@stripe/stripe-js"
-import NavBar from "../Nav";
-import CartCount from "./CartCount";
+import { loadStripe } from "@stripe/stripe-js";
 
 let stripePromise;
 const getStripe = () => {
@@ -20,7 +17,6 @@ const getStripe = () => {
 
 const LocalCart = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
@@ -37,7 +33,6 @@ const LocalCart = () => {
         {
           price: localCartItems[i].cartProductPriceId,
           quantity: localCartItems[i].cartProductQuantity,
-          // add adjustable quantity for checkout page
         }
       allItems.push(items)
     }
@@ -90,6 +85,7 @@ const LocalCart = () => {
   for ( let i=0; i < localCartItems.length; i++) {
     count += parseInt(localCartItems[i].cartProductQuantity)
   }
+
  
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
@@ -100,7 +96,7 @@ const LocalCart = () => {
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="col-8 flex flex-column justify-content-center">          
+            <div className="col-lg-7 col flex flex-column justify-content-center">          
               <p><strong>{cartItem.cartProductName}</strong></p>
               <p>Size: {cartItem.cartProductSize}</p>   
               <p>Price: ${cartItem.cartProductPrice}</p>
