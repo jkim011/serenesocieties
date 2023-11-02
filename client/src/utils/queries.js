@@ -7,6 +7,7 @@ export const QUERY_PRODUCTS = gql`
       name
       image
       image2
+      description
       price
       
       inventory {
