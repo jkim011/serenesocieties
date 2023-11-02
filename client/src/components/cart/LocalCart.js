@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { QUERY_PRODUCTS } from "../../utils/queries";
+import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,6 +21,10 @@ const LocalCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const {loading, data, error} = useQuery(QUERY_PRODUCTS);
+  const products = data?.products;
+  console.log(products, "QUERY PRODUCTS")
+
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
@@ -37,7 +43,6 @@ const LocalCart = () => {
       allItems.push(items)
     }
   }
-  console.log(allItems, "ALL ITEMS ")
 
   const checkoutOptions = {
     lineItems: allItems,
@@ -52,11 +57,15 @@ const LocalCart = () => {
     const stripe = await getStripe()
     const {error} = await stripe.redirectToCheckout(checkoutOptions)
     console.log("stripe checkout err", error)
-
+    
     if(error) setStripeError(error.message);
     setLoading(false);
   }
   if(stripeError) alert(stripeError)
+  if(window.location.pathname === `${checkoutOptions.successUrl}`){
+    localStorage.removeItem("allCartItems")
+  }
+
 
   if(!localCartItems) {
     return (
