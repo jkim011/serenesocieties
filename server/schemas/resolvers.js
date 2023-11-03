@@ -165,7 +165,8 @@ const resolvers = {
                 }
             )
             return cart
-        }
+        },
+        // updateProductInventory: async ()
     }
 }
 
