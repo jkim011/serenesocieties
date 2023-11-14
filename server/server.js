@@ -17,8 +17,6 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 //////////////////////////////////////////////// test 1
 // app.use(bodyParser.raw({ type: 'application/json' }));
@@ -81,11 +79,24 @@ app.use(express.json());
 // });
 ///////////////////////////////////////////////////
 
-app.use(bodyParser.raw({ type: 'application/json' }));
-// Webhook endpoint to listen for Stripe events
-app.post('/webhook', (req, res) => {
+///////////////////////////////////////
+const handlePaymentIntentSucceeded = async (event) => {
+  const paymentIntent = event.data.object;
+  const items = clearItemsFromPaymentIntent(paymentIntent);
+
+  // Update inventory here
+  console.log("Inventory will be updated here")
+};
+
+const clearItemsFromPaymentIntent = (paymentIntent) => {
+  // Clear cart here
+
+  return []; // Return array of purchased items
+};
+
+app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   const sig = req.headers['stripe-signature'];
-  let event;
+  let event = req.body;
 
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, 'whsec_bd479958e581bb6cfb04ec9746336f01034c90ce245fbe734e9c2cb33ba0dca9');
@@ -96,7 +107,7 @@ app.post('/webhook', (req, res) => {
 
   switch (event.type) {
     case 'payment_intent.succeeded':
-      console.log("payment succeeded!")
+      console.log("Payment intent succeeded!")
       handlePaymentIntentSucceeded(event);
       break;
     default:
@@ -106,19 +117,11 @@ app.post('/webhook', (req, res) => {
   res.sendStatus(200);
 });
 
-const handlePaymentIntentSucceeded = async (event) => {
-  const paymentIntent = event.data.object;
-  const items = clearItemsFromPaymentIntent(paymentIntent);
 
-  // Update inventory here
-  console.log("Payment success!")
-};
+////////////////////////////////
 
-const clearItemsFromPaymentIntent = (paymentIntent) => {
-  // Clear cart here
-
-  return []; // Return array of purchased items
-};
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 
 
