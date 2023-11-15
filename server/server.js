@@ -6,6 +6,10 @@ const path = require('path');
 const db = require('./config/connection');
 require('dotenv').config();
 const bodyParser = require('body-parser');
+// const useQuery = require("apollo-client");
+// const useMutation = require("apollo-client");
+// const QUERY_ME = require("../../utils/queries");
+// const UPDATE_PRODUCT_INVENTORY = require("../../utils/mutations");
 
 const stripe = require('stripe')(process.env.REACT_APP_STRIPE_KEY);
 
@@ -17,21 +21,53 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
+app.use(bodyParser.json());
+
 ///////////////////////////////////////
 const handlePaymentIntentSucceeded = async (event) => {
+  // const {loading, data, error} = useQuery(QUERY_ME);
+  // let cartItems = data?.me.cartItems || []
+
+  // const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
+
   const paymentIntent = event.data.object;
   const items = clearItemsFromPaymentIntent(paymentIntent);
 
   // Update inventory here
   console.log("Inventory will be updated here")
-  
+  // for(let i = 0; i < cartItems.length; i++) {
+  //   try {
+  //     let {cartData} = updateProductInventory({
+  //       variables: {
+  //         productId: cartItems[i].cartProductId,
+  //         stockId: cartItems[i].cartProductSizeId,
+  //         cartProductQuantity: cartItems[i].cartProductQuantity
+  //       }
+  //     })
+  //   } catch(err) {
+  //     console.log(err)
+  //   }
+  // } 
 };
 
 const clearItemsFromPaymentIntent = (paymentIntent) => {
   // Clear cart here
-
   return []; // Return array of purchased items
 };
+
+//////////// need cors ////////////////////////////
+// app.post('/success', (req, res) => {
+//   // Simulate processing payment on the server
+//   const simulatePayment = () => {
+//     // Simulate success after a delay
+//     setTimeout(() => {
+//       res.json({ success: true });
+//     }, 5000); // Simulate after 5 seconds, adjust as needed
+//   };
+
+//   simulatePayment();
+// });
+//////////////////////////////////////////////////
 
 app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   const sig = req.headers['stripe-signature'];
@@ -49,6 +85,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
       console.log("Payment intent succeeded!")
       handlePaymentIntentSucceeded(event);
       break;
+    case 'payment_intent.payment_failed':
+      console.log("Payment intent failed")
     default:
       console.log(`Unhandled event type: ${event.type}`);
   }
@@ -56,12 +94,10 @@ app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
   res.sendStatus(200);
 });
 
-
 ////////////////////////////////
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 
 
 // if we're in production, serve client/build as static assets
