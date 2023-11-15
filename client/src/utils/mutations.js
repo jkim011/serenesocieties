@@ -127,3 +127,26 @@ export const REMOVE_CART_QUANTITY = gql `
     }
   }
 `;
+
+export const UPDATE_PRODUCT_INVENTORY = gql `
+  mutation updateProductInventory($productId: ID!, $stockId: ID!, $cartProductQuantity: Int!) {
+    updateProductInventory(productId: $productId, stockId: $stockId, cartProductQuantity: $cartProductQuantity) {
+      _id
+      name
+      image
+      image2
+      description
+      price
+      priceId
+      category {
+        _id
+        name
+      }
+      stock {
+        _id
+        size
+        stock
+      }
+    }
+  }
+`;
