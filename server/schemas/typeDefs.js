@@ -82,6 +82,7 @@ const typeDefs = gql`
         removeFromCart(userId: ID!, cartId: ID!): User
         addToCartQuantity(userId: ID, cartId: ID!, cartProductQuantity: Int): User
         removeCartQuantity(userId: ID, cartId: ID!): User
+        updateProductInventory(productId: ID, stockId: ID, cartProductQuantity: Int): Product
     }
 
 `;

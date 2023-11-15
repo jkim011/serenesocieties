@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 const ProductList = () => {
   const { loading, data, error } = useQuery(QUERY_PRODUCTS);
   const products = data?.products || [];
+  console.log(products[0].inventory[0].quantity)
   
   const params = useParams()
   
