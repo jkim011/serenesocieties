@@ -17,68 +17,6 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-
-//////////////////////////////////////////////// test 1
-// app.use(bodyParser.raw({ type: 'application/json' }));
-
-// const successRedirect = '/success';
-
-// const handlePaymentSucceeded = (event) => {
-//   const paymentIntent = event.data.object;
-//   console.log('Payment succeeded');
-// };
-
-// app.post('/success', (req, res) => {
-//   const sig = req.headers['stripe-signature'];
-
-//   let event;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(req.body, sig, 'your_webhook_secret');
-//   } catch (err) {
-//     console.error('Webhook signature verification failed.');
-//     return res.sendStatus(400);
-//   }
-
-//   if (event.type === 'payment_intent.succeeded') {
-//     handlePaymentSucceeded(event);
-//   }
-
-//   res.sendStatus(200);
-// });
-///////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////test 2
-// const paymentIntentSucceeded = (event) => {
-//   window.alert("Payment success")
-//   console.log("Payment successful")
-// }
-
-// let endpointSecret = "whsec_bd479958e581bb6cfb04ec9746336f01034c90ce245fbe734e9c2cb33ba0dca9";
-// app.post('http://localhost:3000/webhook', express.raw({type: 'application/json'}), (request, response) => {
-//   const sig = request.headers['stripe-signature'];
-
-//   let event;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
-//   } catch (err) {
-//     response.status(400).send(`Webhook Error: ${err.message}`);
-//     return;
-//   }
-
-//   // Handle the event
-//   if (event.type === 'payment_intent.succeeded') {
-//     paymentIntentSucceeded(event)
-//   } else {
-//     console.log(err)
-//   }
-  
-//   // Return a 200 response to acknowledge receipt of the event
-//   response.send();
-// });
-///////////////////////////////////////////////////
-
 ///////////////////////////////////////
 const handlePaymentIntentSucceeded = async (event) => {
   const paymentIntent = event.data.object;
@@ -86,6 +24,7 @@ const handlePaymentIntentSucceeded = async (event) => {
 
   // Update inventory here
   console.log("Inventory will be updated here")
+  
 };
 
 const clearItemsFromPaymentIntent = (paymentIntent) => {

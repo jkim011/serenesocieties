@@ -166,7 +166,15 @@ const resolvers = {
             )
             return cart
         },
-        // updateProductInventory: async ()
+        updateProductInventory: async (parent, { productId, stockId, cartProductQuantity }, context) => {
+            const product = Product.findOneAndUpdate(
+                { _id: productId, 'inventory._id': stockId },
+                {
+                  $inc: {'inventory.$.quantity': -cartProductQuantity}
+                }
+            )
+            return product
+        }
     }
 }
 
