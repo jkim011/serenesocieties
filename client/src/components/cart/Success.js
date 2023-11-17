@@ -13,27 +13,28 @@ const getStripe = () => {
 }
 
 const Success = () => {
-  const dispatch = useDispatch();
-  const paymentSuccess = useSelector((state) => state.payment.paymentSuccess);
+  // const dispatch = useDispatch();
+  // const paymentSuccess = useSelector((state) => state.payment.paymentSuccess);
   
-  useEffect(() => {
-    const handleWebhookResponse = (response) => {
-      if (response.success) {
-        dispatch(paymentSucceeded());
-      } else {
-        dispatch(resetPaymentStatus());
-      }
-    };
+  // useEffect(() => {
+  //   const handleWebhookResponse = (response) => {
+  //     if (response.success) {
+  //       dispatch(paymentSucceeded());
+  //     } else {
+  //       dispatch(resetPaymentStatus());
+  //     }
+  //   };
 
-    // // Attach the event listener when the component mounts
-    window.addEventListener('payment_intent.succeeded', handleWebhookResponse({ success: true }));
-    // handleWebhookResponse({ success: true });
+  //   // // Attach the event listener when the component mounts
+  //   window.addEventListener('payment_intent.succeeded', handleWebhookResponse({ success: true }));
+  //   // handleWebhookResponse({ success: true });
 
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('payment_intent.succeeded', handleWebhookResponse({ success: false }));
-    };
-  }, [dispatch]); // Empty dependency array to ensure the effect runs only once
+  //   // Clean up the event listener when the component unmounts
+  //   return () => {
+  //     window.removeEventListener('payment_intent.succeeded', handleWebhookResponse({ success: false }));
+  //   };
+  // }, [dispatch]); // Empty dependency array to ensure the effect runs only once
+
 
 //////////////// blocked by cors. needs to be public link ////////////
   // useEffect(() => {
@@ -72,33 +73,35 @@ const Success = () => {
   /////////////////////////////////////////////
   
 
+  /////////////////////// client secret. need to figure that out ///////
   // const paymentStatus = async () => {
   //   const stripe = await getStripe()
 
-  //   const response = await fetch('/secret');
+  //   const response = await fetch('/get-payment-intent/:paymentIntentId');
   //   const {client_secret: clientSecret} = await response.json();
+  //   console.log(clientSecret, "client secret ")
 
   //   const {paymentIntent, error} = await stripe.confirmCardPayment(clientSecret);
   //   if (error) {
-  //     // Handle error here
   //     console.log("Failed")
   //   } else if (paymentIntent && paymentIntent.status === 'succeeded') {
   //     console.log("Success")
   //   }
   // };
   // paymentStatus();
+  /////////////////////////////////////////////////////////
 
   return(
     <div className="text-center mt-5">
-      {paymentSuccess ? (
+      {/* {paymentSuccess ? ( */}
         <div>
           <h1>Thank you for your purchase!</h1>
           <p className="fs-5">Check email for order confirmation</p>
           <h3><Link as={Link} to="/shop/all-products" className="text-decoration-none text-black">Browse more products</Link></h3>
         </div>
-      ) : (
+      {/* ) : (
         <h1>Payment failed</h1>
-      )}
+      )} */}
       
     </div>
   )
