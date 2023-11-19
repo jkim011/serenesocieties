@@ -19,6 +19,7 @@ const server = new ApolloServer({
 const fulfillOrder = (lineItems) => {
   // TODO: fill me in
   console.log("Fulfilling order", lineItems);
+  console.log(lineItems.data) //pull price id out to match with inventory and update 
 }
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
