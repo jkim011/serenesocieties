@@ -17,9 +17,11 @@ const server = new ApolloServer({
 });
 
 const fulfillOrder = (lineItems) => {
-  // TODO: fill me in
   console.log("Fulfilling order", lineItems);
-  console.log(lineItems.data) //pull price id out to match with inventory and update 
+  for (let i = 0; i < lineItems.data.length; i++) {
+    console.log("Line item price id:", lineItems.data[i].price.id, " Quantity:", lineItems.data[i].quantity) //pull price id out to match with inventory and update
+    // send email to user with receipt and tracking 
+  }
 }
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
