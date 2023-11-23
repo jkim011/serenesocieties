@@ -39,7 +39,7 @@ const LocalCart = () => {
         {
           price: localCartItems[i].cartProductPriceId,
           quantity: localCartItems[i].cartProductQuantity,
-          productId: localCartItems[i].cartProductId
+          // productId: localCartItems[i].cartProductId
         }
       allItems.push(items)
     }
