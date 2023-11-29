@@ -144,20 +144,20 @@ const handleAddToCartLocal = async (event) =>{
 
 return (
     <form className="product-btns">
-            <label>Size: </label>
-            <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
-            <option id="blankOption">--</option> 
-              {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id, stock.priceId]} key={stock._id}>{stock.size}</option>)}
-            </select>
-          <div className="testing">
-          {Auth.loggedIn() ? (
-            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
-          ):(
-            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
-          )}
-          </div>
-          {count}
-        </form>
+      <label>Size: </label>
+      <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
+        <option id="blankOption">--</option> 
+          {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id, stock.priceId]} key={stock._id}>{stock.size}</option>)}
+      </select>
+      <div className="testing">
+        {Auth.loggedIn() ? (
+          <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
+        ):(
+          <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Added ✓"}>{cartBtnText}</button>
+        )}
+      </div>
+      {count}
+    </form>
         
 )
 
