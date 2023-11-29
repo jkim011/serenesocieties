@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 let stripePromise;
 const getStripe = () => {
@@ -66,7 +67,7 @@ const LocalCart = () => {
   if(window.location.pathname === `${checkoutOptions.successUrl}`){
     localStorage.removeItem("allCartItems")
   }
-
+  
 
   if(!localCartItems) {
     return (
@@ -96,7 +97,6 @@ const LocalCart = () => {
     count += parseInt(localCartItems[i].cartProductQuantity)
   }
 
- 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
       <div className="col">

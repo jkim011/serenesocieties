@@ -18,7 +18,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CartCount from './cart/CartCount';
-import LocalCart from './cart/LocalCart';
+import LocalCart from '../pages/main-pages/LocalCart';
 
 function NavBar(props) {
   const { loading, data, error } = useQuery(QUERY_ME);
