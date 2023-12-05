@@ -7,48 +7,54 @@ const db = require('./config/connection');
 require('dotenv').config();
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
+const cors = require("cors")
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+// const PORT = process.env.PORT || 3001;
+const PORT = 3001;
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
 });
 
-const fulfillOrder = (lineItems) => {
-  console.log("Fulfilling order", lineItems);
-  for (let i = 0; i < lineItems.data.length; i++) {
-    console.log("Line item price id:", lineItems.data[i].price.id, " Quantity:", lineItems.data[i].quantity) //pull price id out to match with inventory and update
-    // send email to user with receipt and tracking 
-  }
-}
+// const fulfillOrder = (lineItems) => {
+//   console.log("Fulfilling order", lineItems);
+//   for (let i = 0; i < lineItems.data.length; i++) {
+//     console.log("Line item price id:", lineItems.data[i].price.id, " Quantity:", lineItems.data[i].quantity) //pull price id out to match with inventory and update
+//     // send email to user with receipt and tracking 
+//   }
+// }
+app.use(bodyParser.json());
 
-app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
-  const payload = request.body;
-  const sig = request.headers['stripe-signature'];
 
-  let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(payload, sig, process.env.ENDPOINT_SECRET);
-  } catch (err) {
-    return response.status(400).send(`Webhook Error: ${err.message}`);
-  }
+// app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
+//   const payload = request.body;
+//   const sig = request.headers['stripe-signature'];
 
-  if (event.type === 'checkout.session.completed') {
-    const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-      event.data.object.id,
-      {
-        expand: ['line_items'],
-      }
-    );
-    const lineItems = sessionWithLineItems.line_items;
+//   let event;
 
-    fulfillOrder(lineItems);
-  }
-  response.status(200).end();
-});
+//   try {
+//     event = stripe.webhooks.constructEvent(payload, sig, process.env.ENDPOINT_SECRET);
+//   } catch (err) {
+//     return response.status(400).send(`Webhook Error: ${err.message}`);
+//   }
+
+//   if (event.type === 'checkout.session.completed') {
+//     const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+//       event.data.object.id,
+//       {
+//         expand: ['line_items'],
+//       }
+//     );
+//     const lineItems = sessionWithLineItems.line_items;
+
+//     fulfillOrder(lineItems);
+//   }
+//   response.status(200).end();
+// });
 
 ////////////////////////////////////
 // app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
@@ -81,57 +87,36 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request,
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(
+  cors()
+)
 
-//////////////////// for client secret //////////////////////////
-// app.get('/secret', async (req, res) => {
-//   const intent = // ... Fetch or create the PaymentIntent
-//   res.json({client_secret: intent.client_secret});
-// });
-// another way below? //
-// app.get('/get-payment-intent/:paymentIntentId', async (req, res) => {
-//   try {
-//     const paymentIntentId = req.params.paymentIntentId;
-//     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
 
-//     res.json({ paymentIntent });
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-// another nother way? //
-// app.post('/create-payment-intent', async (req, res) => {
-//   try {
-//     const { amount, currency } = req.body;
+app.post('/create-checkout-session', async (req, res) => {
+  res.json({url: 'hi'})
+  // const { lineItems } = req.body;
+  // try {
+  //   // Create a Checkout Session
+  //   const session = await stripe.checkout.sessions.create({
+  //     payment_method_types: ['card'],
+  //     line_items: [
+  //       {
+  //         price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+  //         quantity: 2
+  //       }
+  //     ],
+  //     mode: 'payment',
+  //     success_url: `${window.location.origin}/success`,
+  //     cancel_url: `${window.location.origin}/cart`,
+  //   });
 
-//     // Create a PaymentIntent
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount,
-//       currency,
-//     });
-
-//     // Send the client secret to the frontend
-//     res.json({ clientSecret: paymentIntent.client_secret });
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
-// Endpoint to fetch a PaymentIntent
-// app.get('/get-payment-intent/:paymentIntentId', async (req, res) => {
-//   try {
-//     const paymentIntentId = req.params.paymentIntentId;
-//     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-//     res.json({ paymentIntent });
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-////////////////////////////////////////////////////////////
-
+  //   // Send the session ID back to the client
+  //   res.json({ id: session.id });
+  // } catch (error) {
+  //   console.error('Error creating Checkout Session:', error.message);
+  //   res.status(500).json({ error: 'Internal server error' });
+  // }
+});
 
 // if we're in production, serve client/build as static assets
 if (process.env.NODE_ENV === 'production') {

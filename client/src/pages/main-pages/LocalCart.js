@@ -17,8 +17,9 @@ const getStripe = () => {
   }
   return stripePromise;
 }
+getStripe()
 
-const LocalCart = () => {
+const LocalCart = ({ lineItems }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -53,12 +54,58 @@ const LocalCart = () => {
     cancelUrl: `${window.location.origin}/cart`
   }
 
-  const redirectToCheckout = async () => {
-    setLoading(true);
-    console.log("redirect");
-    const stripe = await getStripe()
-    const {error} = await stripe.redirectToCheckout(checkoutOptions)
-    console.log("stripe checkout err", error)
+  // const redirectToCheckout = async () => {
+  //   setLoading(true);
+  //   // const stripe = await getStripe()
+
+  //   const session = await fetch('http://localhost:3000/create-checkout-session', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       lineItems: allItems,
+  //     }),
+  //   }).then(res => { //.then((res) => res.json());
+  //     if(res.ok) return res.json()
+  //     return res.json().then(json => Promise.reject(json))
+  //   })
+  //   .then(({url}) => {
+  //     console.log(url)
+  //     console.log("hi from client")
+  //   })  
+  //   .catch(e => {
+  //     console.error(e.error)
+  //   })
+  const redirectToCheckout = (e) => {
+    e.preventDefault();
+    
+    fetch('http://localhost:3000/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        lineItems: allItems,
+      }),
+    }).then(res => { //.then((res) => res.json());
+      if(res.ok) return res.json()
+      return res.json().then(json => Promise.reject(json))
+    })
+    .then(({url}) => {
+      console.log(url)
+      window.location = url
+    })  
+    .catch(e => {
+      console.error(e.error)
+      alert("Create stripe checkout:" + error)
+    })
+
+    // const { error } = await stripe.redirectToCheckout({
+    //   sessionId: session.id,
+    // });
+
+    // const {error} = await stripe.redirectToCheckout(checkoutOptions)
     
     if(error) setStripeError(error.message);
     setLoading(false);
@@ -170,6 +217,11 @@ const LocalCart = () => {
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>
         <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
+        {/* <form action="http://localhost:3000/create-checkout-session" method="POST">
+          <button type="submit">
+            Checkout
+          </button>
+        </form> */}
       </div>
     </div>
   )
