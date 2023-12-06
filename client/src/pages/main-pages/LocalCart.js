@@ -77,7 +77,7 @@ const LocalCart = ({ lineItems }) => {
   //   .catch(e => {
   //     console.error(e.error)
   //   })
-  const redirectToCheckout = (e) => {
+  const redirectToCheckout = (e) => { //try with useeffect next
     e.preventDefault();
     
     fetch('http://localhost:3000/create-checkout-session', {
