@@ -77,7 +77,7 @@ const LocalCart = ({ lineItems }) => {
   //   .catch(e => {
   //     console.error(e.error)
   //   })
-  const redirectToCheckout = (e) => { //try with useeffect next
+  const redirectToCheckout = (e) => { //try with useeffect next. and put in separate component. cart list component in localcart.js
     e.preventDefault();
     
     fetch('http://localhost:3000/create-checkout-session', {
