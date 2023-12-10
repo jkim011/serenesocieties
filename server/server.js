@@ -10,8 +10,8 @@ const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const cors = require("cors")
 
 const app = express();
-// const PORT = process.env.PORT || 3001;
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
+// const PORT = 3000;
 
 const server = new ApolloServer({
   typeDefs,
@@ -95,27 +95,34 @@ app.use(
   )
 )
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
 
 app.post('/create-checkout-session', async (req, res) => {
-  res.json({url: 'hi'})
-  // const { lineItems } = req.body;
+  // res.json({url: 'hi'})
+  const { lineItems } = req.body;
   // try {
-  //   // Create a Checkout Session
-  //   const session = await stripe.checkout.sessions.create({
-  //     payment_method_types: ['card'],
-  //     line_items: [
-  //       {
-  //         price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-  //         quantity: 2
-  //       }
-  //     ],
-  //     mode: 'payment',
-  //     success_url: `${window.location.origin}/success`,
-  //     cancel_url: `${window.location.origin}/cart`,
-  //   });
+    // Create a Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items:
+      //  [
+      //   {
+      //     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+      //     quantity: 2
+      //   }
+      // ],
+      lineItems,
+      mode: 'payment',
+      // success_url: `${window.location.origin}/success`,
+      // cancel_url: `${window.location.origin}/cart`,
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cart`,
+    });
 
-  //   // Send the session ID back to the client
-  //   res.json({ id: session.id });
+    // Send the session ID back to the client
+    res.json({ id: session.id });
   // } catch (error) {
   //   console.error('Error creating Checkout Session:', error.message);
   //   res.status(500).json({ error: 'Internal server error' });
@@ -127,9 +134,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+
 
 // COMMENT OUT WHEN USING IN LOCALHOST
 // app.get('/*', (req, res) => {
