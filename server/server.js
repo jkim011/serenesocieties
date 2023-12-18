@@ -30,31 +30,31 @@ app.use(bodyParser.json());
 
 
 
-// app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
-//   const payload = request.body;
-//   const sig = request.headers['stripe-signature'];
+app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
+  const payload = request.body;
+  const sig = request.headers['stripe-signature'];
 
-//   let event;
+  let event;
 
-//   try {
-//     event = stripe.webhooks.constructEvent(payload, sig, process.env.ENDPOINT_SECRET);
-//   } catch (err) {
-//     return response.status(400).send(`Webhook Error: ${err.message}`);
-//   }
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, process.env.ENDPOINT_SECRET);
+  } catch (err) {
+    return response.status(400).send(`Webhook Error: ${err.message}`);
+  }
 
-//   if (event.type === 'checkout.session.completed') {
-//     const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-//       event.data.object.id,
-//       {
-//         expand: ['line_items'],
-//       }
-//     );
-//     const lineItems = sessionWithLineItems.line_items;
+  if (event.type === 'checkout.session.completed') {
+    const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+      event.data.object.id,
+      {
+        expand: ['line_items'],
+      }
+    );
+    const lineItems = sessionWithLineItems.line_items;
 
-//     fulfillOrder(lineItems);
-//   }
-//   response.status(200).end();
-// });
+    fulfillOrder(lineItems);
+  }
+  response.status(200).end();
+});
 
 ////////////////////////////////////
 // app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
@@ -99,6 +99,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
+// app.get('/api', (req, res) => {
+//   res.send("hello from the server")
+// })
+
 app.post('/create-checkout-session', async (req, res) => {
   // res.json({url: 'hi'})
   const { lineItems } = req.body;
@@ -107,12 +111,12 @@ app.post('/create-checkout-session', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items:
-      //  [
-      //   {
-      //     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-      //     quantity: 2
-      //   }
-      // ],
+       [
+        {
+          price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+          quantity: 2
+        }
+      ],
       lineItems,
       mode: 'payment',
       // success_url: `${window.location.origin}/success`,
