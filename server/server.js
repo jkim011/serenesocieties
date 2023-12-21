@@ -110,27 +110,38 @@ app.post('/create-checkout-session', async (req, res) => {
     // Create a Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items:
+      line_items: //lineItems,
        [
         {
           price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
           quantity: 2
         }
       ],
-      lineItems,
       mode: 'payment',
-      // success_url: `${window.location.origin}/success`,
-      // cancel_url: `${window.location.origin}/cart`,
-      success_url: `http://localhost:3000/success`,
-      cancel_url: `http://localhost:3000/cart`,
+      // shipping_address_collection: {
+      //   allowed_countries: ['US'],
+      // },
+      // custom_text: {
+      //   shipping_address: {
+      //     message: 'Please note that we can\'t guarantee 2-day delivery for PO boxes at this time.',
+      //   },
+      //   submit: {
+      //     message: 'We\'ll email you instructions on how to get started.',
+      //   },
+      // },
+      success_url: `${window.location.origin}/success`,
+      cancel_url: `${window.location.origin}/cart`,
+      
     });
 
     // Send the session ID back to the client
-    res.json({ id: session.id });
+    // res.json({ id: session.id });
   // } catch (error) {
   //   console.error('Error creating Checkout Session:', error.message);
   //   res.status(500).json({ error: 'Internal server error' });
   // }
+
+  res.redirect(303, session.url);
 });
 
 // if we're in production, serve client/build as static assets
