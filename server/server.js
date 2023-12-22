@@ -105,18 +105,22 @@ app.get('/', (req, res) => {
 
 app.post('/create-checkout-session', async (req, res) => {
   // res.json({url: 'hi'})
-  const { lineItems } = req.body;
+  const {lineItems} = req.body;
   // try {
     // Create a Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: //lineItems,
-       [
-        {
-          price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-          quantity: 2
-        }
-      ],
+      line_items: lineItems,
+      //  [
+      //   // {
+      //   //   price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+      //   //   quantity: 2
+      //   // }
+      //   // {
+      //   //   price: lineItems.cartProductPriceId,
+      //   //   quantity: lineItems.cartProductQuantity
+      //   // }
+      // ],
       mode: 'payment',
       // shipping_address_collection: {
       //   allowed_countries: ['US'],
@@ -129,8 +133,8 @@ app.post('/create-checkout-session', async (req, res) => {
       //     message: 'We\'ll email you instructions on how to get started.',
       //   },
       // },
-      success_url: `${window.location.origin}/success`,
-      cancel_url: `${window.location.origin}/cart`,
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cart`,
       
     });
 
