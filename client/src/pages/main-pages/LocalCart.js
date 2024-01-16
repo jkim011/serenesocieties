@@ -77,6 +77,7 @@ const LocalCart = ({ lineItems }) => {
   //   .catch(e => {
   //     console.error(e.error)
   //   })
+
   const redirectToCheckout = async () => { //try with useeffect next. and put in separate component. cart list component in localcart.js
     const stripe = await getStripe()
     fetch('http://localhost:3000/create-checkout-session', {
@@ -84,20 +85,21 @@ const LocalCart = ({ lineItems }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        lineItems: allItems,
-      }),
-    }).then(res => { //.then((res) => res.json());
+      body: JSON.stringify(
+        allItems
+      ),
+    }) //.then((res) => res.json())
+    .then(res => { 
       if(res.ok) return res.json()
       return res.json().then(json => Promise.reject(json))
-    })
+    })    
     // .then(({url}) => {
     //   console.log(url)
     //   window.location = url
     // })  
-    .then(() => {
-      stripe.redirectToCheckout(checkoutOptions)
-    }) 
+    // .then(() => {
+    //   stripe.redirectToCheckout(checkoutOptions)
+    // }) 
     .catch(e => {
       console.error(e.error)
       alert("Create stripe checkout:" + e.error)
@@ -116,7 +118,6 @@ const LocalCart = ({ lineItems }) => {
   if(window.location.pathname === `${checkoutOptions.successUrl}`){
     localStorage.removeItem("allCartItems")
   }
-  
 
   if(!localCartItems) {
     return (
@@ -218,12 +219,12 @@ const LocalCart = ({ lineItems }) => {
         <h4>Subtotal: ${cartTotalPrice}</h4>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>
-        <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button>
-        {/* <form action="http://localhost:3000/create-checkout-session" method="POST">
-          <button type="submit">
+        {/* <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button> */}
+        <form action="http://localhost:3000/create-checkout-session" method="POST">
+          <button type="submit" onClick={redirectToCheckout}>
             Checkout
           </button>
-        </form> */}
+        </form>
       </div>
     </div>
   )
