@@ -220,7 +220,7 @@ const LocalCart = ({ lineItems }) => {
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>
         {/* <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button> */}
-        {/* <form action="http://localhost:3000/create-checkout-session" method="POST"> */}
+        {/* <form action="http://localhost:3000/create-checkout-session" method="POST"> */} {/*this was why there was an extra {}*/}
           <button type="submit" onClick={redirectToCheckout}>
             Checkout
           </button>
