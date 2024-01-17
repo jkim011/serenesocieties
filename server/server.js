@@ -100,49 +100,47 @@ app.get('/', (req, res) => {
 });
 
 app.post('/create-checkout-session', async (req, res) => {
-  // res.json({url: 'hi'})
-  // const lineItems = await stripe.checkout.sessions.listLineItems(session.id)
-  // try {
+  try {
+   console.log(req.body)
     // Create a Checkout Session
-    // const session = await stripe.checkout.sessions.create({
-    //   payment_method_types: ['card'],
-    //   line_items: req.body,
-    //   //  [
-    //   //   // {
-    //   //   //   price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-    //   //   //   quantity: 2
-    //   //   // }
-    //   //   {
-    //   //     price: data.price,
-    //   //     quantity: data.quantity
-    //   //   }
-    //   // ],
-    //   mode: 'payment',
-    //   // shipping_address_collection: {
-    //   //   allowed_countries: ['US'],
-    //   // },
-    //   // custom_text: {
-    //   //   shipping_address: {
-    //   //     message: 'Please note that we can\'t guarantee 2-day delivery for PO boxes at this time.',
-    //   //   },
-    //   //   submit: {
-    //   //     message: 'We\'ll email you instructions on how to get started.',
-    //   //   },
-    //   // },
-    //   success_url: `http://localhost:3000/success`,
-    //   cancel_url: `http://localhost:3000/cart`,
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: req.body,
+      //  [
+      //   {
+      //     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
+      //     quantity: 2
+      //   }
+      //   // {
+      //   //   price: data.price,
+      //   //   quantity: data.quantity
+      //   // }
+      // ],
+      mode: 'payment',
+      // shipping_address_collection: {
+      //   allowed_countries: ['US'],
+      // },
+      // custom_text: {
+      //   shipping_address: {
+      //     message: 'Please note that we can\'t guarantee 2-day delivery for PO boxes at this time.',
+      //   },
+      //   submit: {
+      //     message: 'We\'ll email you instructions on how to get started.',
+      //   },
+      // },
+      success_url: `http://localhost:3000/success`,
+      cancel_url: `http://localhost:3000/cart`,
       
-    // });
-
+    });
     // Send the session ID back to the client
-    // res.json({ id: session.id });
-  // } catch (error) {
-  //   console.error('Error creating Checkout Session:', error.message);
-  //   res.status(500).json({ error: 'Internal server error' });
-  // }
-console.log("reqbody", req.body)
+    // res.json({ id: session.id });  *can only have this or res.redirect, not both
 
-  // res.redirect(303, session.url);
+    res.redirect(303, session.url);
+  } catch (error) {
+    console.error('Error creating Checkout Session:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
 });
 
 // if we're in production, serve client/build as static assets
