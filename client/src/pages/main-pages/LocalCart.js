@@ -34,25 +34,14 @@ const LocalCart = ({ lineItems }) => {
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
-  let allItems = []
-  if(localCartItems) {
-    for(let i = 0; i < localCartItems.length; i++) {
-      const items = 
-        {
-          price: localCartItems[i].cartProductPriceId,
-          quantity: localCartItems[i].cartProductQuantity,
-          // productId: localCartItems[i].cartProductId
-        }
-      allItems.push(items)
-    }
-  }
+  
 
-  const checkoutOptions = {
-    lineItems: allItems,
-    mode: "payment",
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cart`
-  }
+  // const checkoutOptions = {
+  //   lineItems: allItems,
+  //   mode: "payment",
+  //   successUrl: `${window.location.origin}/success`,
+  //   cancelUrl: `${window.location.origin}/cart`
+  // }
 
   // const redirectToCheckout = async () => {
   //   setLoading(true);
@@ -80,6 +69,18 @@ const LocalCart = ({ lineItems }) => {
 
   const redirectToCheckout = async () => { //try with useeffect next. and put in separate component. cart list component in localcart.js
     const stripe = await getStripe()
+    let allItems = []
+    if(localCartItems) {
+      for(let i = 0; i < localCartItems.length; i++) {
+        const items = 
+          {
+            price: localCartItems[i].cartProductPriceId,
+            quantity: localCartItems[i].cartProductQuantity,
+            // productId: localCartItems[i].cartProductId
+          }
+        allItems.push(items)
+      }
+    }
     fetch('http://localhost:3000/create-checkout-session', {
       method: 'POST',
       headers: {
@@ -88,11 +89,12 @@ const LocalCart = ({ lineItems }) => {
       body: JSON.stringify(
         allItems
       ),
-    }) //.then((res) => res.json())
-    .then(res => { 
-      if(res.ok) return res.json()
-      return res.json().then(json => Promise.reject(json))
-    })    
+    }).then((res) => res.json())
+    // .then(res => { 
+    //   if(res.ok) return res.json()
+    //   return res.json().then(json => Promise.reject(json))
+    // }) 
+
     // .then(({url}) => {
     //   console.log(url)
     //   window.location = url
@@ -115,9 +117,7 @@ const LocalCart = ({ lineItems }) => {
     setLoading(false);
   }
   if(stripeError) alert(stripeError)
-  if(window.location.pathname === `${checkoutOptions.successUrl}`){
-    localStorage.removeItem("allCartItems")
-  }
+
 
   if(!localCartItems) {
     return (
@@ -220,11 +220,11 @@ const LocalCart = ({ lineItems }) => {
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>
         {/* <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button> */}
-        <form action="http://localhost:3000/create-checkout-session" method="POST">
+        {/* <form action="http://localhost:3000/create-checkout-session" method="POST"> */}
           <button type="submit" onClick={redirectToCheckout}>
             Checkout
           </button>
-        </form>
+        {/* </form> */}
       </div>
     </div>
   )
