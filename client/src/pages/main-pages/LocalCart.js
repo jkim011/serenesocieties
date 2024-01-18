@@ -67,7 +67,7 @@ const LocalCart = ({ lineItems }) => {
   //     console.error(e.error)
   //   })
 
-  const redirectToCheckout = async () => { //try with useeffect next. and put in separate component. cart list component in localcart.js
+  const redirectToCheckout = async () => {
     const stripe = await getStripe()
     let allItems = []
     if(localCartItems) {
