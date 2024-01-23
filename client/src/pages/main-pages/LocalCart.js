@@ -19,7 +19,7 @@ const getStripe = () => {
 }
 getStripe()
 
-const LocalCart = ({ lineItems }) => {
+const LocalCart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,38 +34,7 @@ const LocalCart = ({ lineItems }) => {
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
-  
 
-  // const checkoutOptions = {
-  //   lineItems: allItems,
-  //   mode: "payment",
-  //   successUrl: `${window.location.origin}/success`,
-  //   cancelUrl: `${window.location.origin}/cart`
-  // }
-
-  // const redirectToCheckout = async () => {
-  //   setLoading(true);
-  //   // const stripe = await getStripe()
-
-  //   const session = await fetch('http://localhost:3000/create-checkout-session', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       lineItems: allItems,
-  //     }),
-  //   }).then(res => { //.then((res) => res.json());
-  //     if(res.ok) return res.json()
-  //     return res.json().then(json => Promise.reject(json))
-  //   })
-  //   .then(({url}) => {
-  //     console.log(url)
-  //     console.log("hi from client")
-  //   })  
-  //   .catch(e => {
-  //     console.error(e.error)
-  //   })
 
   const redirectToCheckout = async () => {
     const stripe = await getStripe()
@@ -81,21 +50,22 @@ const LocalCart = ({ lineItems }) => {
         allItems.push(items)
       }
     }
-    fetch('http://localhost:3000/create-checkout-session', {
+    
+    const res = await fetch('http://localhost:3000/create-checkout-session', {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(
         allItems
       ),
-    }).then((res) => res.json())
+    })//.then((res) => res.json())
     // .then(res => { 
     //   if(res.ok) return res.json()
     //   return res.json().then(json => Promise.reject(json))
     // }) 
-
+    const body = await res.json()
+    window.location.href = body.url
     // .then(({url}) => {
     //   console.log(url)
     //   window.location = url
@@ -103,9 +73,9 @@ const LocalCart = ({ lineItems }) => {
     // .then(() => {
     //   stripe.redirectToCheckout(checkoutOptions)
     // }) 
-    .catch(e => {
-      console.error(e.error)
-    })
+    // .catch(e => {
+    //   console.error(e.error)
+    // })
 
     // const { error } = await stripe.redirectToCheckout({
     //   sessionId: session.id,
@@ -221,8 +191,8 @@ const LocalCart = ({ lineItems }) => {
         <p>Shipping & taxes calculated at checkout</p>
         {/* <button onClick={redirectToCheckout} disabled={isLoading}>{isLoading ? "Loading..." : "Checkout"}</button> */}
         {/* <form action="http://localhost:3000/create-checkout-session" method="POST"> */} {/*this was why there was an extra {}*/}
-          <button type="submit" onClick={redirectToCheckout}>
-            Checkout
+          <button type="submit" onClick={redirectToCheckout} disabled={isLoading}>
+            {isLoading ? "Loading..." : "Checkout"}
           </button>
         {/* </form> */}
       </div>
