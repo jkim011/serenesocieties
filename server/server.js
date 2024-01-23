@@ -13,18 +13,19 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-const corsOptions ={
-  origin:'http://localhost:3000', 
-  // access:true,            
-  optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
 });
+
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  // access:true,   
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 // const fulfillOrder = (lineItems) => {
 //   console.log("Fulfilling order", lineItems);
@@ -34,8 +35,6 @@ const server = new ApolloServer({
 //   }
 // }
 app.use(bodyParser.json());
-
-
 
 app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
   const payload = request.body;
@@ -94,24 +93,16 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request,
 
 app.use(express.urlencoded({ extended: false }));
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 app.post('/create-checkout-session', async (req, res) => {
   try {
-   console.log(req.body)
-    // Create a Checkout Session
+    console.log(req.body)
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: req.body,
-      //  [
-      //   {
-      //     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
-      //     quantity: 2
-      //   }
-      // ],
       mode: 'payment',
       // shipping_address_collection: {
       //   allowed_countries: ['US'],
@@ -128,15 +119,11 @@ app.post('/create-checkout-session', async (req, res) => {
       cancel_url: `http://localhost:3000/cart`,
       
     });
-    // Send the session ID back to the client
-    // res.json({ id: session.id });
-
-    res.redirect(303, session.url);
+    res.json({url: session.url})
   } catch (error) {
     console.error('Error creating Checkout Session:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
-
 });
 
 // if we're in production, serve client/build as static assets
@@ -144,13 +131,10 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
 }
 
-
-
 // COMMENT OUT WHEN USING IN LOCALHOST
 // app.get('/*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 // });
-
 
 // create an Apollo server with the GraphQL schema
 const startApolloServer = async (typeDefs, resolvers) => {
