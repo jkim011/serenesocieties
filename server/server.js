@@ -11,7 +11,14 @@ const cors = require("cors")
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-// const PORT = 3000;
+
+app.use(express.json());
+const corsOptions ={
+  origin:'http://localhost:3000', 
+  // access:true,            
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 const server = new ApolloServer({
   typeDefs,
@@ -86,14 +93,7 @@ app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request,
 ////////////////////////////////
 
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(
-  cors(
-    // {
-    //   origin: "http://localhost:3001",
-    // }
-  )
-)
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
@@ -111,10 +111,6 @@ app.post('/create-checkout-session', async (req, res) => {
       //     price: "price_1NTqMAGsTkNkjE8Ul9sJek5Y",
       //     quantity: 2
       //   }
-      //   // {
-      //   //   price: data.price,
-      //   //   quantity: data.quantity
-      //   // }
       // ],
       mode: 'payment',
       // shipping_address_collection: {
@@ -133,7 +129,7 @@ app.post('/create-checkout-session', async (req, res) => {
       
     });
     // Send the session ID back to the client
-    // res.json({ id: session.id });  *can only have this or res.redirect, not both
+    // res.json({ id: session.id });
 
     res.redirect(303, session.url);
   } catch (error) {
