@@ -83,6 +83,7 @@ const LocalCart = ({ lineItems }) => {
     }
     fetch('http://localhost:3000/create-checkout-session', {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -104,7 +105,6 @@ const LocalCart = ({ lineItems }) => {
     // }) 
     .catch(e => {
       console.error(e.error)
-      alert("Create stripe checkout:" + e.error)
     })
 
     // const { error } = await stripe.redirectToCheckout({
