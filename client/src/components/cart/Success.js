@@ -95,8 +95,8 @@ const Success = () => {
     <div className="text-center mt-5">
       {/* {paymentSuccess ? ( */}
         <div>
-          <h1>Thank you for your purchase!</h1>
-          <p className="fs-5">Check email for order confirmation</p>
+          <h1>Thank you for your order!</h1>
+          <p className="fs-5">You will recieve an email confirmation</p>
           <h3><Link as={Link} to="/shop/all-products" className="text-decoration-none text-black">Browse more products</Link></h3>
         </div>
       {/* ) : (

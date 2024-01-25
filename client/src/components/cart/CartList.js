@@ -81,31 +81,51 @@ const CartList = () => {
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
-  let allItems = []
-  for(let i = 0; i < cartItems.length; i++) {
-    const items = 
-      {
-        price: cartItems[i].cartProductPriceId,
-        quantity: cartItems[i].cartProductQuantity,
-      }
-    allItems.push(items)
-  }
-  console.log(allItems, "ALL ITEMS ")
-
-  const checkoutOptions = {
-    lineItems: allItems,
-    mode: "payment",
-    successUrl: `${window.location.origin}/success`,
-    cancelUrl: `${window.location.origin}/cart`
-  }
-
   const redirectToCheckout = async () => {
-    setLoading(true);
-    console.log("redirect");
     const stripe = await getStripe()
-    const {error} = await stripe.redirectToCheckout(checkoutOptions)
-    console.log("stripe checkout err", error)
+    let allItems = []
+    for(let i = 0; i < cartItems.length; i++) {
+      const items = 
+        {
+          price: cartItems[i].cartProductPriceId,
+          quantity: cartItems[i].cartProductQuantity,
+        }
+      allItems.push(items)
+    }
+    console.log(allItems, "ALL ITEMS ")
 
+    const res = await fetch('http://localhost:3000/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+        allItems
+      ),
+    })//.then((res) => res.json())
+    // .then(res => { 
+    //   if(res.ok) return res.json()
+    //   return res.json().then(json => Promise.reject(json))
+    // }) 
+    const body = await res.json()
+    window.location.href = body.url
+    // .then(({url}) => {
+    //   console.log(url)
+    //   window.location = url
+    // })  
+    // .then(() => {
+    //   stripe.redirectToCheckout(checkoutOptions)
+    // }) 
+    // .catch(e => {
+    //   console.error(e.error)
+    // })
+
+    // const { error } = await stripe.redirectToCheckout({
+    //   sessionId: session.id,
+    // });
+
+    // const {error} = await stripe.redirectToCheckout(checkoutOptions)
+    
     if(error) setStripeError(error.message);
     setLoading(false);
   }
