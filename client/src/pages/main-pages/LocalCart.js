@@ -34,8 +34,6 @@ const LocalCart = () => {
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
-
-
   const redirectToCheckout = async () => {
     const stripe = await getStripe()
     let allItems = []
@@ -50,7 +48,7 @@ const LocalCart = () => {
         allItems.push(items)
       }
     }
-    
+
     const res = await fetch('http://localhost:3000/create-checkout-session', {
       method: 'POST',
       headers: {
