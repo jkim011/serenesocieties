@@ -51,7 +51,7 @@ const ShopDropdown = ({ categories }) => {
       </Dropdown.Menu>
           
       </Dropdown>
-      
+
     </div>
   );
 };

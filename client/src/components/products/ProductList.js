@@ -35,7 +35,7 @@ const ProductList = () => {
   return(
     <div
       id="productCardContainer"
-      className="d-flex flex-row flex-wrap align-content-start"
+      className="d-flex justify-content-center"
     >
       <div className="row row-cols-4 grid-container justify-content-center ">
 
@@ -57,12 +57,12 @@ const ProductList = () => {
 
         <div className="container ">
           <div id="productDetails" className="column">
-            <h5 className="col text-center productText">
+            <h6 className="col text-center productText">
               {product.name}
-            </h5>
-            <h5 className="col text-center productText">
+            </h6>
+            <h6 className="col text-center productText">
               ${product.price}
-            </h5>
+            </h6>
           </div>
         </div>
       </div>
@@ -96,6 +96,8 @@ const ProductList = () => {
         ))}
 
     </div>
+
+    
   )
 }
 

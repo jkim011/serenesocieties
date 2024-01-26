@@ -179,16 +179,11 @@ function SingleProduct() {
       </Carousel>
 
       <div className="product-info">
-        <h3>{product.data?.product.name} <span style={{marginLeft:"30px"}}>${product.data?.product.price}</span></h3>
-        <ul className="product-description">
-          <li>{product.data?.product.description}</li>
-          <li>Desc </li>
-          <li>Desc </li>
-          <li>Desc </li>
-        </ul>
+        <h3>{product.data?.product.name}</h3>
+        <h4>${product.data?.product.price}</h4>
 
-        <form className="product-btns">
-            <label>Size: </label>
+        <form className="product-btns mt-3">
+            <label>Size </label>
             <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
             <option id="blankOption">--</option> 
               {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id, stock.priceId]} key={stock._id}>{stock.size}</option>)}
@@ -201,6 +196,12 @@ function SingleProduct() {
           )}
           </div> 
         </form>
+
+        <div className="product-description mt-5">
+          <label>Details</label>
+          <p>{product.data?.product.description}</p>
+          
+        </div>
       </div>
       
     </div>
