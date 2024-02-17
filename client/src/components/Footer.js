@@ -15,15 +15,16 @@ function Footer() {
   } else {
   return (
     <div className='footer-container'>
-      <p className='footer-space'>© 2023 Serene</p>
-      <a href='/about' className='footer-about footer-space'>About</a>
-      <a href='/terms-and-conditions' className='footer-terms footer-space'>Terms & Conditions</a>
       <div className='footer-space'>
         <a href='https://www.instagram.com/serenesocieties/' target="_blank" rel="noreferrer"><img src={IgIcon} className='footer-socials'/></a>
         <a href='' target="_blank" rel="noreferrer"><img src={TiktokIcon} className='footer-socials'/></a>
         <a href='' target="_blank" rel="noreferrer"><img src={FacebookIcon} className='footer-socials'/></a>
         <a href='' target="_blank" rel="noreferrer"><img src={EmailIcon} className='footer-socials'/></a>
       </div>
+
+      <p className='footer-space'>© 2023 Serene</p>
+      <a href='/about' className='footer-about footer-space'>About</a>
+      <a href='/terms-and-conditions' className='footer-terms footer-space'>Terms & Conditions</a> 
     </div>
   )
 }
