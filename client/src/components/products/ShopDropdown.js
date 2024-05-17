@@ -21,19 +21,21 @@ const ShopDropdown = ({ categories }) => {
     <div className="shop-dropdown">
       <Dropdown className="justify-content-center">
       <Dropdown.Toggle
+        style={{backgroundColor: "black", color: "white"}}
         id="dropdownBtn"
         className="dropdown page-header"
         drop="end"
         variant="white"
         title="Shop By"
         value = {route}
-        onChange={handleChange} //works with regular select and options tags
+        // onChange={handleChange} //works with regular select and options tags
         
       >      
         Shop by
       </Dropdown.Toggle>
 
-       <Dropdown.Menu>
+       <Dropdown.Menu style={{backgroundColor: "black"}}
+>
         {categories &&
           categories.map((category) => (
             <Dropdown.Item

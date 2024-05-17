@@ -33,71 +33,66 @@ const ProductList = () => {
     return <div>Loading</div>;
   }
   return(
-    <div
-      id="productCardContainer"
-      className="d-flex justify-content-center"
-    >
+    <div id="productCardContainer" className="d-flex justify-content-center">
       <div className="row row-cols-4 grid-container justify-content-center ">
-
-      {params.routeName == "all-products" ? products && products.map((product) =>(
-      <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
-        <div id="productHead">
-          <Link to={`/shop/products/${product._id}`}>
-            <img className="productImg" src={product.image} alt="" />
-            </Link>
-
-            <Link to={`/shop/products/${product._id}`}>
-            <img
-              className="productImg productImg2"
-              src={product.image2}
-              alt=""
-            />
-            </Link>
-        </div>
-
-        <div className="container ">
-          <div id="productDetails" className="column">
-            <h6 className="col text-center productText">
-              {product.name}
-            </h6>
-            <h6 className="col text-center productText">
-              ${product.price}
-            </h6>
-          </div>
-        </div>
-      </div>
-      )) : <></> }
-      </div>
-
-      {selectProductArr.map(product => (
+        {params.routeName == "all-products" ? products && products.map((product) =>(
           <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
-          <div id="productHead">
-            <Link to={`/shop/products/${product._id}`}>
-              <img className="productImg" src={product.image} alt="" />
-              <img
-                className="productImg productImg2"
-                src={product.image2}
-                alt=""
-              />
-            </Link>
-          </div>
-  
-          <div className="container ">
-            <div id="productDetails" className="column">
-              <h5 className="col text-center productText">
-                {product.name}
-              </h5>
-              <h5 className="col text-center productText">
-                ${product.price}
-              </h5>
+            <div className="productHead">
+              <Link to={`/shop/products/${product._id}`}>
+                <img className="productImg" src={product.image} alt="" />
+              </Link>
+
+              <Link to={`/shop/products/${product._id}`}>
+                <img
+                  className="productImg productImg2"
+                  src={product.image2}
+                  alt=""
+                />
+              </Link>
+            </div>
+
+            <div className="container ">
+              <div id="productDetails" className="column">
+                <h6 className="col productText fw-bold">
+                  {product.name}
+                </h6>
+                <h6 className="col productText">
+                  ${product.price}
+                </h6>
+              </div>
             </div>
           </div>
-        </div>
-        ))}
+        )) : <></> }
+      </div>
 
-    </div>
-
+      <div className="row row-cols-4 grid-container justify-content-center ">
+        {selectProductArr.map(product => (
+          <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
+            <div className="productHead">
+              <Link to={`/shop/products/${product._id}`}>
+                <img className="productImg" src={product.image} alt="" />
+                <img
+                  className="productImg productImg2"
+                  src={product.image2}
+                  alt=""
+                />
+              </Link>
+            </div>
     
+            <div className="container ">
+              <div id="productDetails" className="column">
+                <h6 className="col productText fw-bold">
+                  {product.name}
+                </h6>
+                <h6 className="col productText">
+                  ${product.price}
+                </h6>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
 
