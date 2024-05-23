@@ -24,12 +24,9 @@ function SingleProduct() {
   const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
 
   const [size, setSize] = useState("--")
-  const handleSizeSelect = (event) => {
-    const {name, value} = event.target;
-    if(name === "Size"){
-      setSize(value)  
-    }
-  }
+  const handleSizeSelect = (size, sizeId, priceId) => {
+    setSize(`${size},${sizeId},${priceId}`);
+  };
   const sizeFields = size.split(',')
   const sizeName = sizeFields[0]
   const sizeId = sizeFields[1]
@@ -184,10 +181,18 @@ function SingleProduct() {
 
         <form className="product-btns mt-3">
             <label>Size </label>
-            <select id="product-size" className="product-size"  name="Size"  value={size}  onChange={handleSizeSelect} >
-            <option id="blankOption">--</option> 
-              {inventory?.map(stock =><option className="sizeId" value={[stock.size, stock._id, stock.priceId]} key={stock._id}>{stock.size}</option>)}
-            </select>
+            <div className="size-selector">
+            {inventory?.map(stock => (
+              <div
+                key={stock._id}
+                className={`size-box ${sizeName === stock.size ? "selected" : ""}`}
+                onClick={() => handleSizeSelect(stock.size, stock._id, stock.priceId)}
+              >
+                {stock.size}
+              </div>
+            ))}
+          </div>
+
           <div className="testing">
           {Auth.loggedIn() ? (
             <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Adding"}>{cartBtnText}</button>
