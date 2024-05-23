@@ -9,8 +9,7 @@ db.once('open', async () => {
     {name: "Tees", routeName: "tees"},
     {name: "Hoodies", routeName: "hoodies"},
     {name: "Posters", routeName: "posters"},
-    {name: "Halloween Special", routeName: "halloween-special"},
-    {name: "Summer Special", routeName: "summer-special"}
+    {name: "Halloween Special", routeName: "halloween-special"}
   ]);
   console.log("categories seeded");
   
@@ -25,19 +24,24 @@ db.once('open', async () => {
       categories: [categories[1]._id],
       inventory: [
         {
-          size: "Small",
+          size: "S",
           quantity: 10,
           priceId: "price_1NTqMAGsTkNkjE8Ul9sJek5Y"
         },
         {
-          size: "Medium",
+          size: "M",
           quantity: 15,
           priceId: "price_1Nvn4HGsTkNkjE8UJJfaw8nJ"
         },
         {
-          size: "Large",
+          size: "L",
           quantity: 5,
           priceId: "price_1Nvn59GsTkNkjE8UJ3mddxaf"
+        },
+        {
+          size: "XL",
+          quantity: 4,
+          priceId: "price_1PJiFjGsTkNkjE8UAFdMuNU8"
         }
       ]
     },
@@ -50,19 +54,24 @@ db.once('open', async () => {
       categories: [categories[2]._id, categories[4]._id],
       inventory: [
         {
-          size: "Small",
+          size: "S",
           quantity: 12,
           priceId: "price_1NpxMGGsTkNkjE8UwaptAEQK"
         },
         {
-          size: "Medium",
+          size: "M",
           quantity: 13,
           priceId: "price_1NpxhsGsTkNkjE8UmrSKV7P2"
         },
         {
-          size: "Large",
+          size: "L",
           quantity: 8,
           priceId: "price_1NvnGpGsTkNkjE8UPsaaqvRH"
+        },
+        {
+          size: "XL",
+          quantity: 8,
+          priceId: "price_1PJiGpGsTkNkjE8UvIMSX5Ca"
         }
       ]
     },
