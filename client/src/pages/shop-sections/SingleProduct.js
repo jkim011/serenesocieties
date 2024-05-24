@@ -23,7 +23,7 @@ function SingleProduct() {
 
   const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
 
-  const [size, setSize] = useState("--")
+  const [size, setSize] = useState("")
   const handleSizeSelect = (size, sizeId, priceId) => {
     setSize(`${size},${sizeId},${priceId}`);
   };
@@ -45,13 +45,13 @@ function SingleProduct() {
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
 
-  const [cartBtnText, setCartBtnText] = useState("Add to cart")
+  const [cartBtnText, setCartBtnText] = useState("ADD TO CART")
   const showCheckMark = () => {
     setCartBtnText("Adding")
     setTimeout(removeCheckMark, 1500)
   }
   const removeCheckMark = () => {
-    setCartBtnText("Add to cart")
+    setCartBtnText("ADD TO CART")
   }
 ////////// cart count /////////////////
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
@@ -157,6 +157,7 @@ function SingleProduct() {
   // } else 
   return (
     <div className="single-product-container">
+      <div>
       <Carousel className="product-image" interval={null} variant="dark">
         <Carousel.Item>
           <img
@@ -175,13 +176,13 @@ function SingleProduct() {
         </Carousel.Item>
       </Carousel>
 
-      <div className="product-info">
+      <div className="product-price-sm">
         <h3>{product.data?.product.name}</h3>
         <h4>${product.data?.product.price}</h4>
-
-        <form className="product-btns mt-3">
-            <label>Size </label>
-            <div className="size-selector">
+      </div>
+      
+      <form className="product-btns">
+          <div className="size-selector">
             {inventory?.map(stock => (
               <div
                 key={stock._id}
@@ -193,17 +194,24 @@ function SingleProduct() {
             ))}
           </div>
 
-          <div className="testing">
-          {Auth.loggedIn() ? (
-            <button id="addCartBtn" className="btns cart-btn " onClick={handleAddToCart} disabled={size === "--" || cartBtnText === "Adding"}>{cartBtnText}</button>
-          ):(
-            <button id="addCartLocalBtn" className="btns cart-btn " onClick={handleAddToCartLocal} disabled={size === "--" || cartBtnText === "Adding"}>{cartBtnText}</button>
-          )}
+          <div className="add-to-cart">
+            {Auth.loggedIn() ? (
+              <button id="addCartBtn" className= "cart-btn" onClick={handleAddToCart} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
+            ):(
+              <button id="addCartLocalBtn" className="cart-btn" onClick={handleAddToCartLocal} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
+            )}
           </div> 
-        </form>
+      </form>
+    </div>
+
+      <div className="product-info ms-lg-4">
+        <div className="product-price-lg">
+          <h3>{product.data?.product.name}</h3>
+          <h4>${product.data?.product.price}</h4>
+        </div>
 
         <div className="product-description mt-5">
-          <label>Details</label>
+          <label>Item Description</label>
           <p>{product.data?.product.description}</p>
           
         </div>
