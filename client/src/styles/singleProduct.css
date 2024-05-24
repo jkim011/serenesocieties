@@ -15,19 +15,24 @@
   }
   
   .product-image {
-    width: 500px;
+    width: 400px;
     height: auto;
   }
   
   .product-info {
-    margin-top: 60px;
-    margin-left: 70px;
+    /* margin-top: 60px;
+    margin-left: 70px; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
+
   .product-description {
     text-align: left;
   }
   
   .product-btns {
+    margin-top: 2%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -42,22 +47,42 @@
     width: 175px;
     margin-bottom: 15px;
   }
+
+  .add-to-cart {
+    position: relative;
+    transform: translate(105%, -100%);
+  }
+
   .cart-btn {
-    width: 175px;
-    height: 35px;
+    width: 230px;
+    height: 38px;
+    background-color: white;
+    transition: .3s ease;
+  }
+  .cart-btn:not(:disabled):hover {
+    background-color: black;
+    color: white;
+    cursor: pointer;
   }
 
   /* Sizes */
+  .product-price-sm {
+    display: none;
+  }
+
   .size-selector {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
+    justify-content: center;
   }
   
   .size-box {
-    padding: 10px 20px;
-    border: 1px solid #ccc;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 50px;
+    border: 2px solid black;
     cursor: pointer;
     transition: background-color 0.3s ease;
     text-align: center;
@@ -74,7 +99,7 @@
     color: white;
   }
   /*  */
-  
+
   @media only screen and (max-width: 600px) {
     .single-product-container {
       flex-direction: column;
@@ -84,6 +109,7 @@
     .product-image {
       width: 350px;
     }
+
     .product-info {
       margin-top: 0;
       margin-left: 0;
@@ -93,8 +119,20 @@
   
     .product-btns {
       align-items: center;
+      margin-top: 25px;
     }
-  
+
+    .product-price-sm {
+      display: block;
+    }
+    .product-price-lg {
+      display: none;
+    }
+
+    .add-to-cart {
+      transform: none;
+      margin-top: 30px;
+    }
   }
   
   @media only screen and (min-width: 601px) and (max-width: 991px) {
