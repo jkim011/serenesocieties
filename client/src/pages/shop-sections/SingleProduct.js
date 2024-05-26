@@ -208,6 +208,8 @@ function SingleProduct() {
         <div className="product-price-lg">
           <h3>{product.data?.product.name}</h3>
           <h4>${product.data?.product.price}</h4>
+
+          <h3>insert collection name</h3>
         </div>
 
         <div className="product-description mt-5">
