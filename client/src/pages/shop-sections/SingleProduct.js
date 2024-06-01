@@ -155,6 +155,7 @@ function SingleProduct() {
   //     </div>
   //   )
   // } else 
+  console.log(product.data?.product.categories.name, "category name")//////////
   return (
     <div className="single-product-container">
       <div>
@@ -210,6 +211,7 @@ function SingleProduct() {
           <h4>${product.data?.product.price}</h4>
 
           <h3>insert collection name</h3>
+          <h3>{product.data?.product.categories.data?.categories.name}</h3>
         </div>
 
         <div className="product-description mt-5">
