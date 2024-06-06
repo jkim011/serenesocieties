@@ -34,7 +34,7 @@ const ProductList = () => {
   }
   return(
     <div id="productCardContainer" className="d-flex justify-content-center">
-      <div className="row row-cols-4 grid-container justify-content-center ">
+      <div className="row row-cols-4 grid-container align-content-center ">
         {params.routeName == "all-products" ? products && products.map((product) =>(
           <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
             <div className="productHead">
