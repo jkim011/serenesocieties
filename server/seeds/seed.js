@@ -35,7 +35,7 @@ db.once('open', async () => {
         },
         {
           size: "L",
-          quantity: 5,
+          quantity: 0,
           priceId: "price_1Nvn59GsTkNkjE8UJ3mddxaf"
         },
         {
@@ -55,7 +55,7 @@ db.once('open', async () => {
       inventory: [
         {
           size: "S",
-          quantity: 12,
+          quantity: 0,
           priceId: "price_1NpxMGGsTkNkjE8UwaptAEQK"
         },
         {
