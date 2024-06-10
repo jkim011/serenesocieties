@@ -65,7 +65,7 @@ const ProductList = () => {
         )) : <></> }
       </div>
 
-      <div className="row row-cols-4 grid-container justify-content-center ">
+      <div className="row row-cols-4 grid-container align-content-center ">
         {selectProductArr.map(product => (
           <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
             <div className="productHead">

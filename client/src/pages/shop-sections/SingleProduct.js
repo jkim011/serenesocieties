@@ -155,19 +155,7 @@ function SingleProduct() {
   //     </div>
   //   )
   // } else 
-  
-  // const outOfStock = () => {
-  //   for(let i = 0; i < inventory?.length; i++) {
-  //     if(inventory[i].quantity === 0) {
-  //       console.log(inventory[i].size, "outta stock")
-  //       return true
-  //     } else {
-  //       console.log(inventory[i].size, inventory[i].quantity, "inv")
-  //       return false
-  //     }
-  //   }
-  // }
-  
+
   console.log(product.data?.product.categories.name, "category name")//////////
   return (
     <div className="single-product-container">
