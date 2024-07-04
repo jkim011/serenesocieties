@@ -33,16 +33,13 @@ const ProductList = () => {
     return <div>Loading</div>;
   }
   return(
-    <div id="productCardContainer" className="d-flex justify-content-center">
-      <div className="row row-cols-4 grid-container align-content-center ">
+    <div>
+      <div className="productGrid">
         {params.routeName == "all-products" ? products && products.map((product) =>(
-          <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
+          <div key={product._id} className="productCard">
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />
-              </Link>
-
-              <Link to={`/shop/products/${product._id}`}>
                 <img
                   className="productImg productImg2"
                   src={product.image2}
@@ -65,21 +62,16 @@ const ProductList = () => {
         )) : <></> }
       </div>
 
-      <div className="row row-cols-4 grid-container align-content-center ">
+      <div className="productGrid">
         {selectProductArr.map(product => (
-          <div key={product._id} className="m-lg-5 m-sm-2 productCard col">
+          <div key={product._id} className="productCard">
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />
-                <img
-                  className="productImg productImg2"
-                  src={product.image2}
-                  alt=""
-                />
+                <img className="productImg productImg2" src={product.image2} alt="" />
               </Link>
             </div>
-    
-            <div className="container ">
+            <div className="container">
               <div id="productDetails" className="column">
                 <h6 className="col productText fw-bold">
                   {product.name}
