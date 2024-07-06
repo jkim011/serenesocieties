@@ -166,6 +166,36 @@ db.once('open', async () => {
       ]
     },
     {
+      name: "Testing Hoodie",
+      image: "../../images/clothes/Ghosties_Hoodie.jpg",
+      image2: "../../images/clothes/halloween-hoodie-model.jpg",
+      description: "testing seeded data hoodie pt 2",
+      price: 50.00,
+      categories: [categories[2]._id],
+      inventory: [
+        {
+          size: "S",
+          quantity: 2,
+          priceId: "price_1PZKg6GsTkNkjE8UjwuN8WgB"
+        },
+        {
+          size: "M",
+          quantity: 9,
+          priceId: "price_1PZKkoGsTkNkjE8Uv9wj7Z1R"
+        },
+        {
+          size: "L",
+          quantity: 7,
+          priceId: "price_1PZKlBGsTkNkjE8UXwbito5S"
+        },
+        {
+          size: "XL",
+          quantity: 0,
+          priceId: "price_1PZKlTGsTkNkjE8UMLKe1kW2"
+        }
+      ]
+    },
+    {
       name: "Seeded poster",
       image: "../../images/posters/toxicPalmtree.jpg",
       image2: "../../images/posters/toxicPalmtree.jpg",
