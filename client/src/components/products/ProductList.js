@@ -59,7 +59,7 @@ const ProductList = () => {
               </div>
             </div>
           </div>
-        )) : <></> }
+        )) : null }
       </div>
 
       <div className="productGrid">
