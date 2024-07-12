@@ -27,6 +27,13 @@
     align-items: flex-start;
   }
 
+  .product-collection-name {
+    background-color: black;
+    color: white;
+    padding: 3px;
+    max-width: fit-content;
+  }
+
   .product-description {
     text-align: left;
   }

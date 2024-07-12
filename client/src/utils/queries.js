@@ -20,6 +20,7 @@ export const QUERY_PRODUCTS = gql`
         _id
         name
         routeName
+        isCollection
       }
       
     }
@@ -46,6 +47,7 @@ export const QUERY_SINGLE_PRODUCT = gql`
         _id
         name
         routeName
+        isCollection
       }
 
     }
@@ -58,6 +60,7 @@ export const QUERY_CATEGORIES = gql`
       _id
       name
       routeName
+      isCollection
     }
   }
 `;
@@ -68,6 +71,7 @@ export const QUERY_SINGLE_CATEGORY = gql`
       _id
       name
       routeName
+      isCollection
     }
   }
 `;

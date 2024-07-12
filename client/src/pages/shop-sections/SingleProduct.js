@@ -156,7 +156,15 @@ function SingleProduct() {
   //   )
   // } else 
 
-  console.log(product.data?.product.categories.name, "category name")//////////
+  // console.log(product.data?.product.categories[0].name, "category name")//////////
+  let productCollectionName 
+  for (let i = 0; i < product.data?.product.categories.length; i++) {
+    // console.log(product.data?.product.categories[i].name)
+    if(product.data?.product.categories[i].isCollection === true) {
+      console.log(product.data?.product.categories[i].name, "is collection")
+      productCollectionName = product.data?.product.categories[i].name
+    }
+  }
   return (
     <div className="single-product-container">
       <div>
@@ -211,8 +219,11 @@ function SingleProduct() {
           <h3>{product.data?.product.name}</h3>
           <h4>${product.data?.product.price}</h4>
 
-          <h3>insert collection name</h3>
-          <h3>{product.data?.product.categories.data?.categories.name}</h3>
+          {productCollectionName ? (
+            <h6 className="product-collection-name">{productCollectionName} Collection</h6>
+          ) : (
+            null
+          )}
         </div>
 
         <div className="product-description mt-5">

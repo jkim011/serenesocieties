@@ -17,6 +17,7 @@ const typeDefs = gql`
         _id: ID
         name: String!
         routeName: String!
+        isCollection: Boolean!
     }
 
     type Stock {
@@ -71,10 +72,10 @@ const typeDefs = gql`
         login(email: String!, password: String!): Auth
         addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
         addProduct(name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [ID]): Product
-        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!): Product
+        updateProduct(productId: ID!, name: String!,, description: String!, image: String, image2: String, price: Float!, categories: [ID]): Product
         deleteProduct(productId: ID!): Product
-        addCategory(productId: ID! name: String!, routeName: String!): Category
-        updateCategory(categoryId: ID!, name: String!, routeName: String!): Category
+        addCategory(name: String!, routeName: String!, isCollection: Boolean!): Category
+        updateCategory(categoryId: ID!, name: String!, routeName: String!, isCollection: Boolean!): Category
         addStock(productId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         deleteStock(stockId: ID!): Stock
