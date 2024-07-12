@@ -115,14 +115,14 @@ const resolvers = {
             return stock;
 
         },
-        addCategory: async (parent, { name, routeName }, context) => {
-            const category = await Category.create({ name, routeName });
+        addCategory: async (parent, { name, routeName, isCollection }, context) => {
+            const category = await Category.create({ name, routeName, isCollection });
             return category;
         },
-        updateCategory: async (parent, { categoryId, name, routeName }, context) => {
+        updateCategory: async (parent, { categoryId, name, routeName, isCollection }, context) => {
             return Category.findOneAndUpdate(
                 { _id: categoryId},
-                { name, routeName }
+                { name, routeName, isCollection }
             )
         },
         addToCart: async (parent, { userId, cartProductId, cartProductName, cartProductSizeId, cartProductSize, cartProductImage, cartProductPrice, cartProductPriceId, cartProductQuantity }, context) => {

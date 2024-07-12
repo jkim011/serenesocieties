@@ -20,12 +20,12 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-const corsOptions = {
-  origin:'http://localhost:3000', 
-  // access:true,   
-  optionSuccessStatus:200
-}
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin:'http://localhost:3000', 
+//   access:true,   
+//   optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
 
 // const fulfillOrder = (lineItems) => {
 //   console.log("Fulfilling order", lineItems);
