@@ -99,7 +99,7 @@ const LocalCart = () => {
   let cartTotalPrice = 0
   for ( let i=0; i < localCartItems.length; i++) {
     console.log(localCartItems[i].cartProductPrice, "forloop")
-    cartTotalPrice += parseInt(localCartItems[i].cartProductPrice * localCartItems[i].cartProductQuantity)
+    cartTotalPrice += localCartItems[i].cartProductPrice * localCartItems[i].cartProductQuantity
   }
   if(cartTotalPrice === 0) {
     return (

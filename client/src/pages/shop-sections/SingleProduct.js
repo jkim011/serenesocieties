@@ -155,11 +155,10 @@ function SingleProduct() {
   //     </div>
   //   )
   // } else 
+console.log(inventory, "inventory")
 
-  // console.log(product.data?.product.categories[0].name, "category name")//////////
   let productCollectionName 
   for (let i = 0; i < product.data?.product.categories.length; i++) {
-    // console.log(product.data?.product.categories[i].name)
     if(product.data?.product.categories[i].isCollection === true) {
       console.log(product.data?.product.categories[i].name, "is collection")
       productCollectionName = product.data?.product.categories[i].name
@@ -168,30 +167,29 @@ function SingleProduct() {
   return (
     <div className="single-product-container">
       <div>
-      <Carousel className="product-image" interval={null} variant="dark">
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={product.data?.product.image}
-            alt="image1"
-          />
-        </Carousel.Item>
+        <Carousel className="product-image" interval={null} variant="dark">
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={product.data?.product.image}
+              alt="image1"
+            />
+          </Carousel.Item>
+          <Carousel.Item>
+            <img
+              className="d-block w-100"
+              src={product.data?.product.image2}
+              alt="image2"
+            />
+          </Carousel.Item>
+        </Carousel>
 
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={product.data?.product.image2}
-            alt="image2"
-          />
-        </Carousel.Item>
-      </Carousel>
-
-      <div className="product-price-sm">
-        <h3>{product.data?.product.name}</h3>
-        <h4>${product.data?.product.price}</h4>
-      </div>
-      
-      <form className="product-btns">
+        <div className="product-price-sm">
+          <h3>{product.data?.product.name}</h3>
+          <h4>${product.data?.product.price}</h4>
+        </div>
+        
+        <form className="product-btns">
           <div className="size-selector">
             {inventory?.map(stock => (
               <div
@@ -203,7 +201,6 @@ function SingleProduct() {
               </div>
             ))}
           </div>
-
           <div className="add-to-cart">
             {Auth.loggedIn() ? (
               <button id="addCartBtn" className= "cart-btn" onClick={handleAddToCart} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
@@ -211,28 +208,24 @@ function SingleProduct() {
               <button id="addCartLocalBtn" className="cart-btn" onClick={handleAddToCartLocal} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
             )}
           </div> 
-      </form>
-    </div>
+        </form>
+      </div>
 
       <div className="product-info ms-lg-4">
         <div className="product-price-lg">
           <h3>{product.data?.product.name}</h3>
           <h4>${product.data?.product.price}</h4>
-
           {productCollectionName ? (
             <h6 className="product-collection-name">{productCollectionName} Collection</h6>
           ) : (
             null
           )}
         </div>
-
         <div className="product-description mt-5">
           <label>Item Description</label>
           <p>{product.data?.product.description}</p>
-          
         </div>
-      </div>
-      
+      </div>  
     </div>
   )
 }
