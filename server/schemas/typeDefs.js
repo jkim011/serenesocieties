@@ -34,7 +34,7 @@ const typeDefs = gql`
         cartProductSizeId: String
         cartProductSize: String
         cartProductImage: String
-        cartProductPrice: Int
+        cartProductPrice: Float
         cartProductPriceId: String
         cartProductQuantity: Int
     }
@@ -79,7 +79,7 @@ const typeDefs = gql`
         addStock(productId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         deleteStock(stockId: ID!): Stock
-        addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Int!, cartProductPriceId: String! cartProductQuantity: Int): User
+        addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Float!, cartProductPriceId: String! cartProductQuantity: Int): User
         removeFromCart(userId: ID!, cartId: ID!): User
         addToCartQuantity(userId: ID, cartId: ID!, cartProductQuantity: Int): User
         removeCartQuantity(userId: ID, cartId: ID!): User
