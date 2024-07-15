@@ -3,6 +3,26 @@
   justify-content: center;
 }
 
+.collections-dropdown {
+  display: flex;
+  justify-content: center;
+}
+
+.collections-toggle {
+  width: 100%;
+  color: white;
+  padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+}
+.collections-toggle:hover {
+  background-color: #e9ecef;;
+  color: black;
+  cursor: pointer;
+}
+.collections-toggle.show {
+  background-color: #e9ecef;;
+  color: black;
+}
+
 .dropdown-values {
   color: white;
 }
