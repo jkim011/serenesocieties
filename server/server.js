@@ -20,7 +20,7 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-// const corsOptions = {
+// const corsOptions = {           ///// had to comment out for gql sandbox to work
 //   origin:'http://localhost:3000', 
 //   access:true,   
 //   optionSuccessStatus:200
