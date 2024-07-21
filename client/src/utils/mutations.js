@@ -25,7 +25,7 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_PRODUCT = gql`
-  mutation addProduct($name: String!, $image: String, $description: String!, $price: Int!, $priceId: String!, $category: Category, $stock: Stock) {
+  mutation addProduct($name: String!, $image: String, $description: String!, $price: Float!, $priceId: String!, $category: Category, $stock: Stock) {
     addProduct(name: $name, image: $image, description: $description, price: $price, priceId: $priceId, category: $category, stock: $stock) {
         _id
         name
@@ -49,7 +49,7 @@ export const ADD_PRODUCT = gql`
 `;
 
 export const ADD_TO_CART = gql `
-  mutation addToCart($userId: ID!, $cartProductId: String!, $cartProductName: String!, $cartProductSizeId: String!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Int!, $cartProductPriceId: String!, $cartProductQuantity: Int) {
+  mutation addToCart($userId: ID!, $cartProductId: String!, $cartProductName: String!, $cartProductSizeId: String!, $cartProductSize: String!, $cartProductImage: String!, $cartProductPrice: Float!, $cartProductPriceId: String!, $cartProductQuantity: Int) {
     addToCart(userId: $userId, cartProductId: $cartProductId, cartProductName: $cartProductName, cartProductSizeId: $cartProductSizeId, cartProductSize: $cartProductSize, cartProductImage: $cartProductImage, cartProductPrice: $cartProductPrice, cartProductPriceId: $cartProductPriceId, cartProductQuantity: $cartProductQuantity) {
       _id
       email
@@ -129,23 +129,19 @@ export const REMOVE_CART_QUANTITY = gql `
 `;
 
 export const UPDATE_PRODUCT_INVENTORY = gql `
-  mutation updateProductInventory($productId: ID!, $stockId: ID!, $cartProductQuantity: Int!) {
-    updateProductInventory(productId: $productId, stockId: $stockId, cartProductQuantity: $cartProductQuantity) {
+  mutation updateProductInventory($productId: ID!, $sizeId: ID!, $cartProductQuantity: Int!) {
+    updateProductInventory(productId: $productId, sizeId: $sizeId, cartProductQuantity: $cartProductQuantity) {
       _id
       name
       image
       image2
       description
       price
-      priceId
-      category {
-        _id
-        name
-      }
-      stock {
+      inventory {
         _id
         size
-        stock
+        quantity
+        priceId
       }
     }
   }
