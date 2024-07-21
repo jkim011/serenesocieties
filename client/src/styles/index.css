@@ -143,6 +143,9 @@ a.nav-link {
 .menu-icon {
   width: 28px;
 }
+.menu-icon:hover {
+  cursor: pointer;
+}
 
 #profile-phone {
   display: none;

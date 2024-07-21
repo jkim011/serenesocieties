@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { QUERY_ME } from "../../utils/queries";
-import {ADD_TO_CART, ADD_TO_CART_QUANTITY} from "../../utils/mutations"
+import {ADD_TO_CART, ADD_TO_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
 import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
@@ -44,6 +44,8 @@ function SingleProduct() {
   console.log("__________________________________________")
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
+
+  const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
 
   const [cartBtnText, setCartBtnText] = useState("ADD TO CART")
   const showCheckMark = () => {
@@ -126,6 +128,13 @@ function SingleProduct() {
     if(duplicateCartItem) {
       try {
         duplicateCartItem.cartProductQuantity += 1
+        // await updateProductInventory({
+        //   variables: {
+        //     cartProductId,
+        //     cartProductSizeId,
+        //     cartProductQuantity: 1
+        //   }
+        // })
       } catch (err) {
         console.log(err)
       }
@@ -142,10 +151,18 @@ function SingleProduct() {
       }
       localStorage.setItem("cartItem", JSON.stringify(cartItem));
       existingLocalCartItems.push(cartItem);
+      
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
     dispatch(increment())
     showCheckMark();
+    await updateProductInventory({
+      variables: {
+        productId,
+        sizeId,
+        cartProductQuantity: 1
+      }
+    })
   }
 
   // if(loading){
@@ -160,7 +177,6 @@ console.log(inventory, "inventory")
   let productCollectionName 
   for (let i = 0; i < product.data?.product.categories.length; i++) {
     if(product.data?.product.categories[i].isCollection === true) {
-      console.log(product.data?.product.categories[i].name, "is collection")
       productCollectionName = product.data?.product.categories[i].name
     }
   }

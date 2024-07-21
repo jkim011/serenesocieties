@@ -135,6 +135,12 @@ const resolvers = {
                     } 
                 },
             )
+            await Product.findOneAndUpdate(
+                { _id: cartProductId, 'inventory._id': cartProductSizeId },
+                {
+                  $inc: {'inventory.$.quantity': -cartProductQuantity}
+                }
+            ) 
             return cart
         },
         removeFromCart: async (parent, { userId, cartId }, context) => {
@@ -166,9 +172,9 @@ const resolvers = {
             )
             return cart
         },
-        updateProductInventory: async (parent, { productId, stockId, cartProductQuantity }, context) => {
+        updateProductInventory: async (parent, { productId, sizeId, cartProductQuantity }, context) => {
             const product = Product.findOneAndUpdate(
-                { _id: productId, 'inventory._id': stockId },
+                { _id: productId, 'inventory._id': sizeId },
                 {
                   $inc: {'inventory.$.quantity': -cartProductQuantity}
                 }
