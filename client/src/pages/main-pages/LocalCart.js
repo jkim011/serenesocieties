@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { QUERY_PRODUCTS } from "../../utils/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
+import {UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +27,8 @@ const LocalCart = () => {
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
   console.log(products, "QUERY PRODUCTS")
+
+  const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
 
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
@@ -96,11 +99,13 @@ const LocalCart = () => {
     )
   } 
 
-  let cartTotalPrice = 0
-  for ( let i=0; i < localCartItems.length; i++) {
-    console.log(localCartItems[i].cartProductPrice, "forloop")
-    cartTotalPrice += localCartItems[i].cartProductPrice * localCartItems[i].cartProductQuantity
+  let cartTotalPrice = 0;
+  for (let i = 0; i < localCartItems.length; i++) {
+    console.log(localCartItems[i].cartProductPrice, "forloop");
+    let cartTotalInCents = Math.round(localCartItems[i].cartProductPrice * 100);
+    cartTotalPrice += cartTotalInCents * localCartItems[i].cartProductQuantity;
   }
+  cartTotalPrice = cartTotalPrice / 100;
   if(cartTotalPrice === 0) {
     return (
       <div>
@@ -141,6 +146,14 @@ const LocalCart = () => {
                       setLocalCart(updatedLocalCart);
                     }
                     dispatch(decrement())
+
+                    updateProductInventory({
+                      variables: {
+                        productId: cartItem.cartProductId,
+                        sizeId: cartItem.cartProductSizeId,
+                        cartProductQuantity: -1
+                      }
+                    })
                   }
                 }>
                   <strong>-</strong>
@@ -159,6 +172,14 @@ const LocalCart = () => {
                       setLocalCart(updatedLocalCart);
                     }
                     dispatch(increment())
+
+                    updateProductInventory({
+                      variables: {
+                        productId: cartItem.cartProductId,
+                        sizeId: cartItem.cartProductSizeId,
+                        cartProductQuantity: 1
+                      }
+                    })
                   }
                 }>
                   <strong>+</strong>
