@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from 'react-bootstrap/Carousel';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
@@ -32,6 +32,16 @@ function SingleProduct() {
   const sizeId = sizeFields[1]
   const sizePriceId = sizeFields[2]
 
+  const [outOfStock, setOutOfStock] = useState(false)
+  const [ outOfStockSize, setOutOfStockSize ] = useState();
+
+  // useEffect(() => {
+  //   if (inventory?.length > 0) {
+  //     const outOfStockItem = inventory.find(item => item.quantity === 0);
+  //     setOutOfStock(!!outOfStockItem);
+  //   }
+  // }, [inventory]); ///////////////////////////////////////////////////
+
   console.log("__________________________________________")
   console.log("CartProductId", productId)
   console.log("product name", product.name)
@@ -44,7 +54,6 @@ function SingleProduct() {
   console.log("__________________________________________")
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
-
   const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
 
   const [cartBtnText, setCartBtnText] = useState("ADD TO CART")
@@ -68,9 +77,18 @@ function SingleProduct() {
 
   const handleAddToCart = async (event) => {
     event.preventDefault();
+
+    if (size === "") return; // Prevent adding to cart if no size selected
+
     const cartProductId = productId;
     const cartProductSizeId = sizeId;
     const duplicateCartItem = loggedInCartItems.find(loggedInCartItem => loggedInCartItem.cartProductId === cartProductId && loggedInCartItem.cartProductSizeId === cartProductSizeId)
+
+    const selectedInventory = inventory.find(item => item.size === sizeName);
+    if (selectedInventory.quantity <= 0) { // Check stock before adding to cart
+      setOutOfStock(true); // Set outOfStock to true if no stock left
+      return;
+    }
 
     if(duplicateCartItem) {
       try {
@@ -115,6 +133,19 @@ function SingleProduct() {
     }
   }
   console.log(loggedInCartItems)
+
+  // useEffect(() => {  ///////////////////////////////////////////////////
+  //   if (inventory) {
+  //     for (let i = 0; i < inventory?.length; i++) {
+  //       if (inventory[i].quantity === 0) {
+  //         setOutOfStock(true);
+  //         setOutOfStockSize(inventory[i].size)
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }, [inventory]);
+  // console.log(outOfStockSize, "jslafjkh")
   
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
@@ -154,8 +185,6 @@ function SingleProduct() {
       
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
-    dispatch(increment())
-    showCheckMark();
     await updateProductInventory({
       variables: {
         productId,
@@ -163,6 +192,9 @@ function SingleProduct() {
         cartProductQuantity: 1
       }
     })
+    dispatch(increment())
+    showCheckMark();
+    // window.location.reload()
   }
 
   // if(loading){
@@ -211,7 +243,7 @@ console.log(inventory, "inventory")
               <div
                 key={stock._id}
                 className={`size-box ${sizeName === stock.size ? "selected" : ""} ${stock.quantity === 0 ? "disabled" : ""}`}
-                onClick={() => handleSizeSelect(stock.size, stock._id, stock.priceId)}
+                onClick={() => stock.quantity > 0 && handleSizeSelect(stock.size, stock._id, stock.priceId)}
               >
                 {stock.size}
               </div>

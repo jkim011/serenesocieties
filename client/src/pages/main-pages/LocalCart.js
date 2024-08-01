@@ -192,8 +192,16 @@ const LocalCart = () => {
                     event.preventDefault();
                     localCartItems.splice(index, 1)
                     localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
-                    navigate(0)
                     dispatch(decrement(cartItem.cartProductQuantity))
+
+                    updateProductInventory({
+                      variables: {
+                        productId: cartItem.cartProductId,
+                        sizeId: cartItem.cartProductSizeId,
+                        cartProductQuantity: -cartItem.cartProductQuantity
+                      }
+                    })
+                    navigate(0)
                   }
                 } 
               >
