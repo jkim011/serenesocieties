@@ -5,11 +5,12 @@ db.once('open', async () => {
 
   await Category.deleteMany();
   const categories = await Category.insertMany([
-    {name: "All Products", routeName: "all-products"},
-    {name: "Tees", routeName: "tees"},
-    {name: "Hoodies", routeName: "hoodies"},
-    {name: "Posters", routeName: "posters"},
-    {name: "Halloween Special", routeName: "halloween-special"}
+    {name: "All Products", routeName: "all-products", isCollection: false},
+    {name: "Tees", routeName: "tees", isCollection: false},
+    {name: "Hoodies", routeName: "hoodies", isCollection: false},
+    {name: "Posters", routeName: "posters", isCollection: false},
+    {name: "Natural Essence", routeName: "natural-essence", isCollection: true},
+    {name: "Halloween Special", routeName: "halloween-special", isCollection: true}
   ]);
   console.log("categories seeded");
   
@@ -20,8 +21,8 @@ db.once('open', async () => {
       image: "../../images/clothes/Praise_Shirt_Back.jpg",
       image2: "../../images/clothes/Praise_Shirt_Front.jpg",
       description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
+      price: 19.99,
+      categories: [categories[1]._id, categories[4]._id],
       inventory: [
         {
           size: "S",
@@ -50,8 +51,8 @@ db.once('open', async () => {
       image: "../../images/clothes/PeaceAndQuiet_Shirt_Back.jpg",
       image2: "../../images/clothes/PeaceAndQuiet_Shirt_Front.jpg",
       description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
+      price: 19.99,
+      categories: [categories[1]._id, categories[4]._id],
       inventory: [
         {
           size: "S",
@@ -80,8 +81,8 @@ db.once('open', async () => {
       image: "../../images/clothes/FlamingFlower_Shirt_Back.jpg",
       image2: "../../images/clothes/FlamingFlower_Shirt_Front.jpg",
       description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
+      price: 19.99,
+      categories: [categories[1]._id, categories[4]._id],
       inventory: [
         {
           size: "S",
@@ -110,8 +111,8 @@ db.once('open', async () => {
       image: "../../images/clothes/Schmeat_Shirt_Front.jpg",
       image2: "../../images/clothes/Schmeat_Shirt_Front.jpg",
       description: "testing seeded data shirt",
-      price: 20.00,
-      categories: [categories[1]._id],
+      price: 19.99,
+      categories: [categories[1]._id, categories[4]._id],
       inventory: [
         {
           size: "S",
@@ -141,7 +142,7 @@ db.once('open', async () => {
       image2: "../../images/clothes/halloween-hoodie-model.jpg",
       description: "testing seeded data hoodie",
       price: 50.00,
-      categories: [categories[2]._id, categories[4]._id],
+      categories: [categories[2]._id, categories[5]._id],
       inventory: [
         {
           size: "S",
