@@ -32,16 +32,6 @@ function SingleProduct() {
   const sizeId = sizeFields[1]
   const sizePriceId = sizeFields[2]
 
-  const [outOfStock, setOutOfStock] = useState(false)
-  const [ outOfStockSize, setOutOfStockSize ] = useState();
-
-  // useEffect(() => {
-  //   if (inventory?.length > 0) {
-  //     const outOfStockItem = inventory.find(item => item.quantity === 0);
-  //     setOutOfStock(!!outOfStockItem);
-  //   }
-  // }, [inventory]); ///////////////////////////////////////////////////
-
   console.log("__________________________________________")
   console.log("CartProductId", productId)
   console.log("product name", product.name)
@@ -78,17 +68,9 @@ function SingleProduct() {
   const handleAddToCart = async (event) => {
     event.preventDefault();
 
-    if (size === "") return; // Prevent adding to cart if no size selected
-
     const cartProductId = productId;
     const cartProductSizeId = sizeId;
     const duplicateCartItem = loggedInCartItems.find(loggedInCartItem => loggedInCartItem.cartProductId === cartProductId && loggedInCartItem.cartProductSizeId === cartProductSizeId)
-
-    const selectedInventory = inventory.find(item => item.size === sizeName);
-    if (selectedInventory.quantity <= 0) { // Check stock before adding to cart
-      setOutOfStock(true); // Set outOfStock to true if no stock left
-      return;
-    }
 
     if(duplicateCartItem) {
       try {
@@ -133,19 +115,6 @@ function SingleProduct() {
     }
   }
   console.log(loggedInCartItems)
-
-  // useEffect(() => {  ///////////////////////////////////////////////////
-  //   if (inventory) {
-  //     for (let i = 0; i < inventory?.length; i++) {
-  //       if (inventory[i].quantity === 0) {
-  //         setOutOfStock(true);
-  //         setOutOfStockSize(inventory[i].size)
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }, [inventory]);
-  // console.log(outOfStockSize, "jslafjkh")
   
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
@@ -190,11 +159,19 @@ function SingleProduct() {
         productId,
         sizeId,
         cartProductQuantity: 1
-      }
+      },
+      refetchQueries: [
+        {
+          query: QUERY_SINGLE_PRODUCT,
+          variables: {
+            productId
+          }
+        }
+      ],
     })
     dispatch(increment())
+    setSize("")
     showCheckMark();
-    // window.location.reload()
   }
 
   // if(loading){
