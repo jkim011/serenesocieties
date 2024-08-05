@@ -152,7 +152,15 @@ const LocalCart = () => {
                         productId: cartItem.cartProductId,
                         sizeId: cartItem.cartProductSizeId,
                         cartProductQuantity: -1
-                      }
+                      },
+                      refetchQueries: [
+                        {
+                          query: QUERY_PRODUCTS,
+                          variables: {
+                            products
+                          }
+                        }
+                      ]
                     })
                   }
                 }>
@@ -165,6 +173,8 @@ const LocalCart = () => {
                   () => {
                     const updatedLocalCart = [...localCart];
                     const itemToUpdate = updatedLocalCart[index];
+
+                    // query single product to get inventory. if inventory is 0, disable btn
                 
                     if (itemToUpdate) {
                       itemToUpdate.cartProductQuantity += 1;
@@ -178,8 +188,16 @@ const LocalCart = () => {
                         productId: cartItem.cartProductId,
                         sizeId: cartItem.cartProductSizeId,
                         cartProductQuantity: 1
-                      }
-                    })
+                      },
+                      refetchQueries: [
+                        {
+                          query: QUERY_PRODUCTS,
+                          variables: {
+                            products
+                          }
+                        }
+                      ]
+                    })                
                   }
                 }>
                   <strong>+</strong>
