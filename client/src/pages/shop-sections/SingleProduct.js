@@ -74,20 +74,44 @@ function SingleProduct() {
 
     if(duplicateCartItem) {
       try {
-        let {cartData} = await addToCartQuantity({
+        await addToCartQuantity({
           variables: {
             userId: Auth.getProfile().data._id,
             cartId: duplicateCartItem._id,
             cartProductQuantity: 1
-          }
+          },
+          refetchQueries: [
+            {
+              query: QUERY_ME,
+              variables: {
+                cartProductId
+              }
+            }
+          ]
         });
+        await updateProductInventory({
+          variables: {
+            productId: cartProductId,
+            sizeId: cartProductSizeId,
+            cartProductQuantity: 1
+          },
+          refetchQueries: [
+            {
+              query: QUERY_SINGLE_PRODUCT,
+              variables: {
+                productId
+              }
+            }
+          ]
+        })
+        setSize("");
         showCheckMark();
       } catch (err) {
         console.log(err)
       }
     } else {
       try {
-        const {cartData} = await addCartItem({
+        await addCartItem({
           variables: {
             userId: Auth.getProfile().data._id,
             cartProductId,
@@ -105,9 +129,16 @@ function SingleProduct() {
               variables: {
                 cartProductId
               }
+            },
+            {
+              query: QUERY_SINGLE_PRODUCT,
+              variables: {
+                productId
+              }
             }
           ],
-        });    
+        });
+        setSize("");
         showCheckMark();
       } catch(error){
         console.log(error)
@@ -170,7 +201,7 @@ function SingleProduct() {
       ],
     })
     dispatch(increment())
-    setSize("")
+    setSize("");
     showCheckMark();
   }
 
