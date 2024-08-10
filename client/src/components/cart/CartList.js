@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { QUERY_ME } from "../../utils/queries";
-import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY } from "../../utils/mutations";
+import { QUERY_ME, QUERY_PRODUCTS } from "../../utils/queries";
+import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY } from "../../utils/mutations";
 import { useQuery, useMutation } from "@apollo/client";
 import Button from "react-bootstrap/Button"
 import { loadStripe } from "@stripe/stripe-js"
@@ -26,11 +26,15 @@ const CartList = () => {
   let cartItems = data?.me.cartItems || []
   console.log(cartItems, "cartItems")
 
+  const {productsLoading, productsData, productsError} = useQuery(QUERY_PRODUCTS);
+  const products = data?.products;
+
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
   const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
   const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
+  const [updateProductInventory, {updateInvError}] = useMutation(UPDATE_PRODUCT_INVENTORY)
 
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
@@ -167,11 +171,26 @@ const CartList = () => {
                   async (event) => {
                     event.preventDefault();
                     try {
-                      let {cartData} = await removeCartQuantity({
+                      await removeCartQuantity({
                         variables: {
                           userId: Auth.getProfile().data._id,
                           cartId: cartItem._id
                         }
+                      })
+                      await updateProductInventory({
+                        variables: {
+                          productId: cartItem.cartProductId,
+                          sizeId: cartItem.cartProductSizeId,
+                          cartProductQuantity: -1
+                        },
+                        refetchQueries: [
+                          {
+                            query: QUERY_PRODUCTS,
+                            variables: {
+                              products
+                            }
+                          }
+                        ]
                       })
                     } catch(rmvQuantError) {
                       console.log(rmvQuantError)
@@ -185,12 +204,27 @@ const CartList = () => {
                   async (event) => {
                     event.preventDefault();
                     try {
-                      let {cartData} = await addToCartQuantity({
+                      await addToCartQuantity({
                         variables: {
                           userId: Auth.getProfile().data._id,
                           cartId: cartItem._id,
                           cartProductQuantity: 1
                         }
+                      })
+                      await updateProductInventory({
+                        variables: {
+                          productId: cartItem.cartProductId,
+                          sizeId: cartItem.cartProductSizeId,
+                          cartProductQuantity: 1
+                        },
+                        refetchQueries: [
+                          {
+                            query: QUERY_PRODUCTS,
+                            variables: {
+                              products
+                            }
+                          }
+                        ]
                       })
                     } catch(addQuantError) {
                       console.log(addQuantError)
@@ -203,11 +237,26 @@ const CartList = () => {
                 async (event) => {
                   event.preventDefault();    
                   try {
-                    let {cartData} = await removeFromCart({
+                    await removeFromCart({
                       variables: {
                         userId: Auth.getProfile().data._id,
                         cartId: cartItem._id
                       }
+                    })
+                    await updateProductInventory({
+                      variables: {
+                        productId: cartItem.cartProductId,
+                        sizeId: cartItem.cartProductSizeId,
+                        cartProductQuantity: -cartItem.cartProductQuantity
+                      },
+                      refetchQueries: [
+                        {
+                          query: QUERY_PRODUCTS,
+                          variables: {
+                            products
+                          }
+                        }
+                      ]
                     })
                   } catch(err) {
                     console.log(err)
