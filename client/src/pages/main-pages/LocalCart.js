@@ -1,13 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { QUERY_PRODUCTS } from "../../utils/queries";
-import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT } from "../../utils/queries";
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
 import { decrement, increment, decrementByAmount} from '../../redux/cartCounter';
 import {UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -22,17 +22,64 @@ getStripe()
 
 const LocalCart = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
   console.log(products, "QUERY PRODUCTS")
+
+  const [queryCartProductData, { data: singleProductData, loading: singleProductLoading, error: singleProductError }] = useLazyQuery(QUERY_SINGLE_PRODUCT);
+  const [queriedProduct, setQueriedProduct] = useState(null);
 
   const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
 
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
+
+  useEffect(() => {
+    if (singleProductData) {
+      console.log(singleProductData.product.inventory, "singleProductDataaaaaaaaaaaaaaaaaaa");
+      // loop thru inventory and if out of stock price id matches the cart item then disable btn
+    }
+    if (singleProductError) {
+      console.error(singleProductError);
+    }
+  }, [singleProductData, singleProductError]);
+
+  const handleIncrement = async (index, cartItem) => {
+    const updatedLocalCart = [...localCart];
+    const itemToUpdate = updatedLocalCart[index];
+    if (itemToUpdate) {     
+      setQueriedProduct(itemToUpdate.cartProductId); 
+      try {
+        await queryCartProductData({ variables: { productId: itemToUpdate.cartProductId } });
+
+      } catch (singleProductError) {
+          console.log(singleProductError)
+      }
+      itemToUpdate.cartProductQuantity += 1;
+      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+      setLocalCart(updatedLocalCart);
+    }
+    dispatch(increment())
+
+    updateProductInventory({
+      variables: {
+        productId: cartItem.cartProductId,
+        sizeId: cartItem.cartProductSizeId,
+        cartProductQuantity: 1
+      },
+      refetchQueries: [
+        {
+          query: QUERY_PRODUCTS,
+          variables: {
+            products
+          }
+        }
+      ]
+    })                
+  }
+  ////// set function for decrement outside too
 
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
@@ -169,35 +216,7 @@ const LocalCart = () => {
 
                 <p className="ms-1 me-1 pt-2">{cartItem.cartProductQuantity}</p>
 
-                <button name="increment" className="w-15" onClick={
-                  () => {
-                    const updatedLocalCart = [...localCart];
-                    const itemToUpdate = updatedLocalCart[index];
-                
-                    if (itemToUpdate) {
-                      itemToUpdate.cartProductQuantity += 1;
-                      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
-                      setLocalCart(updatedLocalCart);
-                    }
-                    dispatch(increment())
-
-                    updateProductInventory({
-                      variables: {
-                        productId: cartItem.cartProductId,
-                        sizeId: cartItem.cartProductSizeId,
-                        cartProductQuantity: 1
-                      },
-                      refetchQueries: [
-                        {
-                          query: QUERY_PRODUCTS,
-                          variables: {
-                            products
-                          }
-                        }
-                      ]
-                    })                
-                  }
-                }>
+                <button name="increment" className="w-15" onClick={() => handleIncrement(index, cartItem)}>
                   <strong>+</strong>
                 </button>
               </div>
