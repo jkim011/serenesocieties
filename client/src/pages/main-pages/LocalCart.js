@@ -7,7 +7,6 @@ import { decrement, increment, decrementByAmount} from '../../redux/cartCounter'
 import {UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useNavigate, useParams } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -22,64 +21,107 @@ getStripe()
 
 const LocalCart = () => {
   const dispatch = useDispatch();
-
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
-  console.log(products, "QUERY PRODUCTS")
-
   const [queryCartProductData, { data: singleProductData, loading: singleProductLoading, error: singleProductError }] = useLazyQuery(QUERY_SINGLE_PRODUCT);
   const [queriedProduct, setQueriedProduct] = useState(null);
 
-  const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
+  const [updateProductInventory, {updateError}] = useMutation(UPDATE_PRODUCT_INVENTORY);
 
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
+  const [fetchedProductData, setFetchedProductData] = useState({});
 
   useEffect(() => {
-    if (singleProductData) {
-      console.log(singleProductData.product.inventory, "singleProductDataaaaaaaaaaaaaaaaaaa");
-      // loop thru inventory and if out of stock price id matches the cart item then disable btn
-    }
-    if (singleProductError) {
-      console.error(singleProductError);
-    }
-  }, [singleProductData, singleProductError]);
+    localCart.forEach(cartItem => {
+      queryCartProductData({ variables: { productId: cartItem.cartProductId } }).then(response => {
+        setFetchedProductData(prevState => ({
+          ...prevState,
+          [cartItem.cartProductId]: response.data.product
+        }));
+      });
+    });
+  }, [singleProductData, singleProductError, queriedProduct, localCart]);
 
   const handleIncrement = async (index, cartItem) => {
+    const productData = fetchedProductData[cartItem.cartProductId];
+    if (productData) {
+      const sizeData = productData.inventory.find(size => size._id === cartItem.cartProductSizeId);
+      if (sizeData?.quantity === 0) {
+        return;
+      } else {
+        const updatedLocalCart = [...localCart];
+        const itemToUpdate = updatedLocalCart[index];
+        itemToUpdate.cartProductQuantity += 1;
+        localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+        setLocalCart(updatedLocalCart);
+        dispatch(increment());
+        await updateProductInventory({
+          variables: {
+            productId: cartItem.cartProductId,
+            sizeId: cartItem.cartProductSizeId,
+            cartProductQuantity: 1,
+          },
+          refetchQueries: [
+            { 
+              query: QUERY_PRODUCTS, 
+              variables: { products } 
+            }
+          ],
+        });
+      }
+    } else {
+      console.log("Error with product data");
+    }
+  };
+
+  const handleDecrement = async (index, cartItem) => {
     const updatedLocalCart = [...localCart];
     const itemToUpdate = updatedLocalCart[index];
-    if (itemToUpdate) {     
-      setQueriedProduct(itemToUpdate.cartProductId); 
-      try {
-        await queryCartProductData({ variables: { productId: itemToUpdate.cartProductId } });
-
-      } catch (singleProductError) {
-          console.log(singleProductError)
-      }
-      itemToUpdate.cartProductQuantity += 1;
+    if (itemToUpdate && itemToUpdate.cartProductQuantity === 1) {
+      return;
+    } else {
+      itemToUpdate.cartProductQuantity -= 1;
       localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
       setLocalCart(updatedLocalCart);
+      dispatch(decrement())
+      await updateProductInventory({
+        variables: {
+          productId: cartItem.cartProductId,
+          sizeId: cartItem.cartProductSizeId,
+          cartProductQuantity: -1
+        },
+        refetchQueries: [
+          {
+            query: QUERY_PRODUCTS,
+            variables: {products}
+          }
+        ]
+      });
     }
-    dispatch(increment())
+  }
 
-    updateProductInventory({
+  const handleTrash = async(index, cartItem) => {
+    const updatedLocalCart = [...localCart];
+    updatedLocalCart.splice(index, 1)
+    localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
+    setLocalCart(updatedLocalCart);
+    dispatch(decrement(cartItem.cartProductQuantity))
+    await updateProductInventory({
       variables: {
         productId: cartItem.cartProductId,
         sizeId: cartItem.cartProductSizeId,
-        cartProductQuantity: 1
+        cartProductQuantity: -cartItem.cartProductQuantity
       },
       refetchQueries: [
         {
           query: QUERY_PRODUCTS,
-          variables: {
-            products
-          }
+          variables: {products}
         }
       ]
-    })                
+    });
   }
-  ////// set function for decrement outside too
 
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
@@ -136,7 +178,6 @@ const LocalCart = () => {
   }
   if(stripeError) alert(stripeError)
 
-
   if(!localCartItems) {
     return (
       <div>
@@ -148,7 +189,6 @@ const LocalCart = () => {
 
   let cartTotalPrice = 0;
   for (let i = 0; i < localCartItems.length; i++) {
-    console.log(localCartItems[i].cartProductPrice, "forloop");
     let cartTotalInCents = Math.round(localCartItems[i].cartProductPrice * 100);
     cartTotalPrice += cartTotalInCents * localCartItems[i].cartProductQuantity;
   }
@@ -182,35 +222,7 @@ const LocalCart = () => {
               <p>Price: ${cartItem.cartProductPrice}</p>
 
               <div className="d-flex align-items-center">
-                <button className="w-15" onClick={
-                  () => {
-                    const updatedLocalCart = [...localCart];
-                    const itemToUpdate = updatedLocalCart[index];
-
-                    if (itemToUpdate && itemToUpdate.cartProductQuantity > 1) {
-                      itemToUpdate.cartProductQuantity -= 1;
-                      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
-                      setLocalCart(updatedLocalCart);
-                    }
-                    dispatch(decrement())
-
-                    updateProductInventory({
-                      variables: {
-                        productId: cartItem.cartProductId,
-                        sizeId: cartItem.cartProductSizeId,
-                        cartProductQuantity: -1
-                      },
-                      refetchQueries: [
-                        {
-                          query: QUERY_PRODUCTS,
-                          variables: {
-                            products
-                          }
-                        }
-                      ]
-                    })
-                  }
-                }>
+                <button className="w-15" onClick={() => handleDecrement(index, cartItem)}>
                   <strong>-</strong>
                 </button>
 
@@ -222,30 +234,10 @@ const LocalCart = () => {
               </div>
 
               <Link className="position-absolute top-0 end-0 text-decoration-none text-red"
-                onClick={
-                  async(event) => {
-                    event.preventDefault();
-                    localCartItems.splice(index, 1)
-                    localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
-                    dispatch(decrement(cartItem.cartProductQuantity))
-
-                    updateProductInventory({
-                      variables: {
-                        productId: cartItem.cartProductId,
-                        sizeId: cartItem.cartProductSizeId,
-                        cartProductQuantity: -cartItem.cartProductQuantity
-                      },
-                      refetchQueries: [
-                        {
-                          query: QUERY_PRODUCTS,
-                          variables: {
-                            products
-                          }
-                        }
-                      ]
-                    })
-                  }
-                } 
+                onClick={(event) => {
+                  event.preventDefault();
+                  handleTrash(index, cartItem);
+                }} 
               >
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
               </Link>
