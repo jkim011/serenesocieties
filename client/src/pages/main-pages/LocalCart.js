@@ -7,7 +7,6 @@ import { decrement, increment, decrementByAmount} from '../../redux/cartCounter'
 import {UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { useNavigate, useParams } from 'react-router-dom';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -25,7 +24,7 @@ const LocalCart = () => {
 
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
-  console.log(products, "QUERY PRODUCTS")
+  // console.log(products, "QUERY PRODUCTS")
 
   const [queryCartProductData, { data: singleProductData, loading: singleProductLoading, error: singleProductError }] = useLazyQuery(QUERY_SINGLE_PRODUCT);
   const [queriedProduct, setQueriedProduct] = useState(null);
@@ -35,50 +34,54 @@ const LocalCart = () => {
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "localCartItems")
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
+  const [fetchedProductData, setFetchedProductData] = useState({});
 
   useEffect(() => {
-    if (singleProductData) {
-      console.log(singleProductData.product.inventory, "singleProductDataaaaaaaaaaaaaaaaaaa");
-      // loop thru inventory and if out of stock price id matches the cart item then disable btn
-    }
-    if (singleProductError) {
-      console.error(singleProductError);
-    }
-  }, [singleProductData, singleProductError]);
+    localCart.forEach(cartItem => {
+      queryCartProductData({ variables: { productId: cartItem.cartProductId } }).then(response => {
+        setFetchedProductData(prevState => ({
+          ...prevState,
+          [cartItem.cartProductId]: response.data.product
+        }));
+      });
+    });
+  }, [singleProductData, singleProductError, queriedProduct, localCart]);
 
   const handleIncrement = async (index, cartItem) => {
-    const updatedLocalCart = [...localCart];
-    const itemToUpdate = updatedLocalCart[index];
-    if (itemToUpdate) {     
-      setQueriedProduct(itemToUpdate.cartProductId); 
-      try {
-        await queryCartProductData({ variables: { productId: itemToUpdate.cartProductId } });
+    const productData = fetchedProductData[cartItem.cartProductId];
+    if (productData) {
+      const sizeData = productData.inventory.find(size => size._id === cartItem.cartProductSizeId);
+      console.log(sizeData, sizeData?.quantity === 0, "check out of stock");
 
-      } catch (singleProductError) {
-          console.log(singleProductError)
-      }
-      itemToUpdate.cartProductQuantity += 1;
-      localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
-      setLocalCart(updatedLocalCart);
-    }
-    dispatch(increment())
+      if (sizeData?.quantity === 0) {
+        console.log("out of stock");
+        return;
+      } else {
+        const updatedLocalCart = [...localCart];
+        const itemToUpdate = updatedLocalCart[index];
+        itemToUpdate.cartProductQuantity += 1;
+        localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
+        setLocalCart(updatedLocalCart);
+        dispatch(increment());
 
-    updateProductInventory({
-      variables: {
-        productId: cartItem.cartProductId,
-        sizeId: cartItem.cartProductSizeId,
-        cartProductQuantity: 1
-      },
-      refetchQueries: [
-        {
-          query: QUERY_PRODUCTS,
+        updateProductInventory({
           variables: {
-            products
-          }
-        }
-      ]
-    })                
-  }
+            productId: cartItem.cartProductId,
+            sizeId: cartItem.cartProductSizeId,
+            cartProductQuantity: 1,
+          },
+          refetchQueries: [
+            { 
+              query: QUERY_PRODUCTS, 
+              variables: { products } 
+            }
+          ],
+        });
+      }
+    } else {
+      console.log("Error with product data");
+    }
+  };
   ////// set function for decrement outside too
 
   const [stripeError, setStripeError] = useState(null)
@@ -148,7 +151,6 @@ const LocalCart = () => {
 
   let cartTotalPrice = 0;
   for (let i = 0; i < localCartItems.length; i++) {
-    console.log(localCartItems[i].cartProductPrice, "forloop");
     let cartTotalInCents = Math.round(localCartItems[i].cartProductPrice * 100);
     cartTotalPrice += cartTotalInCents * localCartItems[i].cartProductQuantity;
   }
@@ -225,8 +227,11 @@ const LocalCart = () => {
                 onClick={
                   async(event) => {
                     event.preventDefault();
-                    localCartItems.splice(index, 1)
-                    localStorage.setItem("allCartItems", JSON.stringify(localCartItems))
+                    const updatedLocalCart = [...localCart];
+
+                    updatedLocalCart.splice(index, 1)
+                    localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
+                    setLocalCart(updatedLocalCart);
                     dispatch(decrement(cartItem.cartProductQuantity))
 
                     updateProductInventory({
