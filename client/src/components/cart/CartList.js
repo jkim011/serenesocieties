@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { QUERY_ME, QUERY_PRODUCTS } from "../../utils/queries";
+import React, { useState, useEffect } from "react";
+import { QUERY_ME, QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY } from "../../utils/mutations";
-import { useQuery, useMutation } from "@apollo/client";
-import Button from "react-bootstrap/Button"
+import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js"
 
 import  "../../styles/cartList.css"
@@ -29,6 +28,9 @@ const CartList = () => {
   const {productsLoading, productsData, productsError} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
 
+  const [queryCartProductData, { data: singleProductData, error: singleProductError }] = useLazyQuery(QUERY_SINGLE_PRODUCT);
+  const [fetchedProductData, setFetchedProductData] = useState({});
+
   const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART)
   const [addCartItem, {err}] = useMutation(ADD_TO_CART)
 
@@ -51,8 +53,8 @@ const CartList = () => {
                 cartProductQuantity: localCartItems[i].cartProductQuantity
               }
             });
-          } catch (err) {
-            console.log(err)
+          } catch (addQuantError) {
+            console.log(addQuantError)
           }
         } else {
 
@@ -81,6 +83,111 @@ const CartList = () => {
     }
   }
   combineCarts()
+
+  useEffect(() => {
+    cartItems.forEach(cartItem => {
+      queryCartProductData({ variables: { productId: cartItem.cartProductId } }).then(response => {
+        setFetchedProductData(prevState => ({
+          ...prevState,
+          [cartItem.cartProductId]: response.data.product
+        }));
+      });
+    });
+  }, [cartItems, singleProductData, singleProductError]);
+
+  const handleIncrement = async (cartItem) => {
+    const productData = fetchedProductData[cartItem.cartProductId];
+    if (productData) {
+      const sizeData = productData.inventory.find(size => size._id === cartItem.cartProductSizeId);
+      if (sizeData?.quantity === 0) {
+        return;
+      } else {
+        try {
+          await addToCartQuantity({
+            variables: {
+              userId: Auth.getProfile().data._id,
+              cartId: cartItem._id,
+              cartProductQuantity: 1
+            }
+          });
+          await updateProductInventory({
+            variables: {
+              productId: cartItem.cartProductId,
+              sizeId: cartItem.cartProductSizeId,
+              cartProductQuantity: 1
+            },
+            refetchQueries: [
+              { query: QUERY_PRODUCTS }
+            ]
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    } else {
+      console.log("Error with product data");
+    }
+  }
+
+  const handleDecrement = async (cartItem) => {
+    if(cartItem.cartProductQuantity === 1) {
+      return;
+    } else {
+      try {
+        await removeCartQuantity({
+          variables: {
+            userId: Auth.getProfile().data._id,
+            cartId: cartItem._id
+          }
+        })
+        await updateProductInventory({
+          variables: {
+            productId: cartItem.cartProductId,
+            sizeId: cartItem.cartProductSizeId,
+            cartProductQuantity: -1
+          },
+          refetchQueries: [
+            {
+              query: QUERY_PRODUCTS,
+              variables: {
+                products
+              }
+            }
+          ]
+        })
+      } catch(rmvQuantError) {
+        console.log(rmvQuantError)
+      }
+    }
+  }
+
+  const handleTrash = async (cartItem) => {
+    try {
+      await removeFromCart({
+        variables: {
+          userId: Auth.getProfile().data._id,
+          cartId: cartItem._id
+        }
+      })
+      await updateProductInventory({
+        variables: {
+          productId: cartItem.cartProductId,
+          sizeId: cartItem.cartProductSizeId,
+          cartProductQuantity: -cartItem.cartProductQuantity
+        },
+        refetchQueries: [
+          {
+            query: QUERY_PRODUCTS,
+            variables: {
+              products
+            }
+          }
+        ]
+      })
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
@@ -167,102 +274,27 @@ const CartList = () => {
 
               <div className="d-flex align-items-center">
                 
-                <button className="w-15" onClick={
-                  async (event) => {
-                    event.preventDefault();
-                    try {
-                      await removeCartQuantity({
-                        variables: {
-                          userId: Auth.getProfile().data._id,
-                          cartId: cartItem._id
-                        }
-                      })
-                      await updateProductInventory({
-                        variables: {
-                          productId: cartItem.cartProductId,
-                          sizeId: cartItem.cartProductSizeId,
-                          cartProductQuantity: -1
-                        },
-                        refetchQueries: [
-                          {
-                            query: QUERY_PRODUCTS,
-                            variables: {
-                              products
-                            }
-                          }
-                        ]
-                      })
-                    } catch(rmvQuantError) {
-                      console.log(rmvQuantError)
-                    }
-                  }
-                }><strong>-</strong></button>
+                <button className="w-15" onClick={(event) => {
+                  event.preventDefault();
+                  handleDecrement(cartItem);
+                }}>
+                  <strong>-</strong>
+                </button>
 
                 <p className="ms-1 me-1 pt-2">{cartItem.cartProductQuantity}</p>
 
-                <button className="w-15" onClick={
-                  async (event) => {
-                    event.preventDefault();
-                    try {
-                      await addToCartQuantity({
-                        variables: {
-                          userId: Auth.getProfile().data._id,
-                          cartId: cartItem._id,
-                          cartProductQuantity: 1
-                        }
-                      })
-                      await updateProductInventory({
-                        variables: {
-                          productId: cartItem.cartProductId,
-                          sizeId: cartItem.cartProductSizeId,
-                          cartProductQuantity: 1
-                        },
-                        refetchQueries: [
-                          {
-                            query: QUERY_PRODUCTS,
-                            variables: {
-                              products
-                            }
-                          }
-                        ]
-                      })
-                    } catch(addQuantError) {
-                      console.log(addQuantError)
-                    }
-                  }
-                }><strong>+</strong></button>     
+                <button className="w-15" onClick={(event) => {
+                  event.preventDefault();
+                  handleIncrement(cartItem);
+                }}>
+                  <strong>+</strong>
+                </button>     
               </div>
 
-              <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={
-                async (event) => {
-                  event.preventDefault();    
-                  try {
-                    await removeFromCart({
-                      variables: {
-                        userId: Auth.getProfile().data._id,
-                        cartId: cartItem._id
-                      }
-                    })
-                    await updateProductInventory({
-                      variables: {
-                        productId: cartItem.cartProductId,
-                        sizeId: cartItem.cartProductSizeId,
-                        cartProductQuantity: -cartItem.cartProductQuantity
-                      },
-                      refetchQueries: [
-                        {
-                          query: QUERY_PRODUCTS,
-                          variables: {
-                            products
-                          }
-                        }
-                      ]
-                    })
-                  } catch(err) {
-                    console.log(err)
-                  }
-                }
-              }>
+              <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={(event) => {
+                event.preventDefault();
+                handleTrash(cartItem)
+              }}>
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
               </Link>
             </div>
