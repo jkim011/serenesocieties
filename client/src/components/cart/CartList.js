@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { QUERY_ME, QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY } from "../../utils/mutations";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
@@ -41,48 +41,62 @@ const CartList = () => {
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
  
-  const combineCarts = () => {
-    if(localStorage.getItem("allCartItems")) {
-      for(let i = 0; i < localCartItems.length; i++) {
-        if(cartItems.find(cartItem => cartItem.cartProductId === localCartItems[i].cartProductId && cartItem.cartProductSizeId === localCartItems[i].cartProductSizeId)) {
-          try {
-            let {cartData} = addToCartQuantity({
-              variables: {
-                userId: Auth.getProfile().data._id,
-                cartId: cartItems[i]._id,
-                cartProductQuantity: localCartItems[i].cartProductQuantity
-              }
-            });
-          } catch (addQuantError) {
-            console.log(addQuantError)
-          }
-        } else {
+  const hasRun = useRef(false)
 
-          try {
-            const {cartData} = addCartItem({
-              variables:
-              {
-                userId: Auth.getProfile().data._id,
-                cartProductId: localCartItems[i].cartProductId,
-                cartProductName: localCartItems[i].cartProductName,
-                cartProductSizeId: localCartItems[i].cartProductSizeId,
-                cartProductSize: localCartItems[i].cartProductSize,
-                cartProductImage: localCartItems[i].cartProductImage,
-                cartProductPrice: localCartItems[i].cartProductPrice,
-                cartProductPriceId: localCartItems[i].cartProductPriceId,
-                cartProductQuantity: localCartItems[i].cartProductQuantity
-              },
-            });
-            navigate(0)
-          } catch(err){
-            console.log(err)
-          } 
+  useEffect(() => {
+    const combineCarts = async () => {    
+      if(localStorage.getItem("allCartItems")) {
+        for(let i = 0; i < localCartItems.length; i++) {
+          if(cartItems.find(cartItem => cartItem.cartProductId === localCartItems[i].cartProductId && cartItem.cartProductSizeId === localCartItems[i].cartProductSizeId)) {
+            try {
+              await addToCartQuantity({
+                variables: {
+                  userId: Auth.getProfile().data._id,
+                  cartId: cartItems[i]._id,
+                  cartProductQuantity: localCartItems[i].cartProductQuantity
+                }
+              });
+            } catch (addQuantError) {
+              console.log(addQuantError)
+            }
+          } else {
+            try {
+              await addCartItem({
+                variables: {
+                  userId: Auth.getProfile().data._id,
+                  cartProductId: localCartItems[i].cartProductId,
+                  cartProductName: localCartItems[i].cartProductName,
+                  cartProductSizeId: localCartItems[i].cartProductSizeId,
+                  cartProductSize: localCartItems[i].cartProductSize,
+                  cartProductImage: localCartItems[i].cartProductImage,
+                  cartProductPrice: localCartItems[i].cartProductPrice,
+                  cartProductPriceId: localCartItems[i].cartProductPriceId,
+                  cartProductQuantity: localCartItems[i].cartProductQuantity
+                },
+                refetchQueries: [
+                  {
+                    query: QUERY_ME,/////cartcount not updating after unless i go to cart pg
+                  },
+                  {
+                    query: QUERY_PRODUCTS,
+                    variables: { products }
+                  }
+                ],
+              });
+              navigate(0)
+            } catch(err){
+              console.log(err)
+            } 
+          }
         }
+        localStorage.removeItem("allCartItems")
       }
-      localStorage.removeItem("allCartItems")
     }
-  }
-  combineCarts()
+    if (!hasRun.current) {
+      combineCarts()
+      hasRun.current = true
+    }
+  }, [])
 
   useEffect(() => {
     cartItems.forEach(cartItem => {

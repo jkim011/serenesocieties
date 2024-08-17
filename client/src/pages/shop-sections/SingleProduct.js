@@ -129,15 +129,24 @@ function SingleProduct() {
               variables: {
                 cartProductId
               }
-            },
+            }
+          ],
+        });
+        await updateProductInventory({
+          variables: {
+            productId: cartProductId,
+            sizeId: cartProductSizeId,
+            cartProductQuantity: 1
+          },
+          refetchQueries: [
             {
               query: QUERY_SINGLE_PRODUCT,
               variables: {
                 productId
               }
             }
-          ],
-        });
+          ]
+        })
         setSize("");
         showCheckMark();
       } catch(error){

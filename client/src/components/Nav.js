@@ -55,12 +55,12 @@ function NavBar(props) {
   // useEffect(() => {
   //   updateCartCount();
   // }, []);
-  let count = 0
-  if(localCartItems) {
-    for ( let i=0; i < localCartItems.length; i++) {
-      count += parseInt(localCartItems[i].cartProductQuantity)
-    }
-  }
+  // let count = 0
+  // if(localCartItems) {
+  //   for ( let i=0; i < localCartItems.length; i++) {
+  //     count += parseInt(localCartItems[i].cartProductQuantity)
+  //   }
+  // }
 
   const { cartCount } = useSelector((state) => state.cartCounter);
 
