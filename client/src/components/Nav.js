@@ -19,49 +19,14 @@ import { QUERY_ME } from '../utils/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CartCount from './cart/CartCount';
 import LocalCart from '../pages/main-pages/LocalCart';
+import LoggedInCartCount from './cart/LoggedInCartCount';
 
 function NavBar(props) {
-  const { loading, data, error } = useQuery(QUERY_ME);
-  const me = data?.me || [];
-
-  const navigate = useNavigate();
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  let cartItems = data?.me.cartItems || []
-  let loggedInCartCount = 0;
-  const updateLoggedInCartCount = async (event) => {
-    if(cartItems) {
-      for(let i = 0; i < cartItems.length; i++) {
-        loggedInCartCount += cartItems[i].cartProductQuantity;
-      }
-    }
-  }
-  updateLoggedInCartCount();
-
-  // const [cartCount, setCartCount] = useState(0)
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
-  // const updateCartCount = () => {
-  //   let count = 0;
-  //   if(localCartItems) {
-  //     for(let i = 0; i < localCartItems.length; i++) {
-  //       count += localCartItems[i].cartProductQuantity;
-  //     }
-  //   }
-  //   setCartCount(count)
-  // };
-  // useEffect(() => {
-  //   updateCartCount();
-  // }, []);
-  // let count = 0
-  // if(localCartItems) {
-  //   for ( let i=0; i < localCartItems.length; i++) {
-  //     count += parseInt(localCartItems[i].cartProductQuantity)
-  //   }
-  // }
-
   const { cartCount } = useSelector((state) => state.cartCounter);
 
   if(window.location.pathname === '/') {
@@ -106,8 +71,8 @@ function NavBar(props) {
                   </div>
                 ) : (
                   <div>
-                    {loggedInCartCount}
-                    {/* {cartCount} */}
+                    {/* {loggedInCartCount} */}
+                    <LoggedInCartCount />
                   </div>
                 )}
               </div>
