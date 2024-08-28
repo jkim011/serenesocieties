@@ -42,7 +42,6 @@ const CartList = () => {
   console.log(localCartItems, "from localStorage")
  
   const hasRun = useRef(false)
-
   useEffect(() => {
     const combineCarts = async () => {    
       if(localStorage.getItem("allCartItems")) {
@@ -257,12 +256,12 @@ const CartList = () => {
   if(stripeError) alert(stripeError)
 
   // To calculate cart total
-  let cartTotalPrice = 0
-  for ( let i=0; i < cartItems.length; i++) {
-      console.log(cartItems[i].cartProductPrice, "forloop")
-      cartTotalPrice += cartItems[i].cartProductPrice * cartItems[i].cartProductQuantity
+  let cartTotalPrice = 0;
+  for (let i = 0; i < cartItems.length; i++) {
+    let cartTotalInCents = Math.round(cartItems[i].cartProductPrice * 100);
+    cartTotalPrice += cartTotalInCents * cartItems[i].cartProductQuantity;
   }
-
+  cartTotalPrice = cartTotalPrice / 100;
   if(cartTotalPrice === 0) {
     return (
       <div>
