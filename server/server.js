@@ -104,9 +104,14 @@ app.post('/create-checkout-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: req.body,
       mode: 'payment',
-      // shipping_address_collection: {
-      //   allowed_countries: ['US'],
-      // },
+      billing_address_collection: 'required',
+      shipping_address_collection: {
+        allowed_countries: ['US', 'CA', 'GB', 'AU', 'NZ', 'FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'DK', 'SE', 'NO', 'FI', 
+          'AT', 'IE', 'PT', 'CH', 'PL', 'CZ', 'SK', 'HU', 'EE', 'LT', 'LV', 'GR', 'RO', 'BG', 'HR',
+          'SI', 'CY', 'MT', 'LU', 'LI', 'IS', 'JP', 'SG', 'HK', 'MY', 'PH', 'TH', 'IN', 'ID', 'VN', 
+          'KR', 'TW', 'BR', 'MX', 'AR', 'CL', 'PE', 'CO', 'UY', 'IL', 'SA', 'AE', 'ZA'
+        ],
+      },
       // custom_text: {
       //   shipping_address: {
       //     message: 'Please note that we can\'t guarantee 2-day delivery for PO boxes at this time.',

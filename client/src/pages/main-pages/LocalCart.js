@@ -19,7 +19,7 @@ const getStripe = () => {
 }
 getStripe()
 
-const LocalCart = () => {
+const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CART ITEMS BEFORE DELETED
   const dispatch = useDispatch();
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;

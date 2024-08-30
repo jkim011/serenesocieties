@@ -25,13 +25,13 @@ function NavBar(props) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const { cartCount } = useSelector((state) => state.cartCounter);
 
+  const navigate = useNavigate();
   if(window.location.pathname === '/') {
     return null
-  }
+  } else
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
