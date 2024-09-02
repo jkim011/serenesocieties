@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import React from 'react';
 import ShopDropdown from '../../components/products/ShopDropdown';
 import ProductList from '../../components/products/ProductList';
-import shirt from "../../assets/clothes/testShirt.png"
+import PeaceXChaosBanner from "../../assets/banners/PEACEXCHAOS_WebBanner.png";
 
 import { QUERY_PRODUCTS } from '../../utils/queries';
 import { QUERY_CATEGORIES } from '../../utils/queries';
@@ -23,8 +23,9 @@ function Shop() {
 
   return (
     <div>
+      {/* <img src={PeaceXChaosBanner} alt='banner'/> */}
       <div >
-        <ShopDropdown categories={categories} className="dropdown"  />  
+        <ShopDropdown categories={categories} className="dropdown" />  
       </div>
       <ProductList products={products} />
     </div>

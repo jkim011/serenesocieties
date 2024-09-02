@@ -109,9 +109,15 @@ body {
   width: 410px;
 }
 
+.logo-small {
+  width: 90px;
+}
+
 .nav-logo { 
-  margin-left: 10%;
-  margin-right: 10%;
+  /* margin-left: 10%;
+  margin-right: 10%; */
+  margin-left: 25%;
+  margin-right: 25%;
 }
 
 .nav-width {

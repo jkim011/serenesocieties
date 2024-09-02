@@ -1,20 +1,25 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
-import { QUERY_PRODUCTS, QUERY_SINGLE_CATEGORY } from "../../utils/queries";
-import { QUERY_CATEGORIES } from "../../utils/queries";
 import { useState, useEffect } from "react";
 import {Dropdown, NavDropdown} from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { Divider } from "semantic-ui-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 
 const ShopDropdown = ({ categories }) => {
-  const params = useParams()
+  const params = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const [route, setRoute] = useState(params.routeName);
+  const [route, setRoute] = useState(params.routeName || location.state?.routeName || "");
+  const [category, setCategory] = useState(params.name || location.state?.category || "All Products");
 
-  const handleChange = (e) => {
-    setRoute(e.target.value)
+  useEffect(() => {
+    if (params.routeName) setRoute(params.routeName);
+    if (params.name) setCategory(params.name);
+  }, [params]);
+
+  const handleCategoryChange = (routeName, name) => {
+    setRoute(routeName);
+    setCategory(name);
+    navigate(`/shop/${routeName}`, { state: { routeName, category: name } });
   }
 
   return (
@@ -28,7 +33,6 @@ const ShopDropdown = ({ categories }) => {
           variant="white"
           title="Shop By"
           value = {route}
-          // onChange={handleChange} //works with regular select and options tags
         >      
           Shop by
         </Dropdown.Toggle>
@@ -38,12 +42,9 @@ const ShopDropdown = ({ categories }) => {
             categories.filter((category) => !category.isCollection).map((category) => (
               <Dropdown.Item
                 key={category._id}
-                // as="button"
                 className="dropdown-values dropdownItem"
                 value={category.routeName}
-                href={`/shop/${category.routeName}`}
-                onChange={handleChange}
-                onClick={() => setRoute(category.routeName)} //works with bootstrap dropdown
+                onClick={() => handleCategoryChange(category.routeName, category.name)}
               >
                 {category.name}
               </Dropdown.Item>
@@ -59,12 +60,9 @@ const ShopDropdown = ({ categories }) => {
                   categories.filter((category) => category.isCollection).map((category) => (
                     <Dropdown.Item
                       key={category._id}
-                      // as="button"
                       className="dropdown-values dropdownItem"
                       value={category.routeName}
-                      href={`/shop/${category.routeName}`}
-                      onChange={handleChange}
-                      onClick={() => setRoute(category.routeName)} //works with bootstrap dropdown
+                      onClick={() => handleCategoryChange(category.routeName, category.name)}
                     >
                       {category.name}
                     </Dropdown.Item>
@@ -73,6 +71,7 @@ const ShopDropdown = ({ categories }) => {
             </Dropdown>  
         </Dropdown.Menu>  
       </Dropdown>
+      <h4 className="category-name">{category}</h4>
     </div>
   );
 };

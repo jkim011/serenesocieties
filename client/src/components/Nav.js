@@ -11,14 +11,11 @@ import { Icon } from 'semantic-ui-react';
 import MenuIcon from '../assets/icons/menu-icon.png';
 import Auth from '../utils/auth';
 
-import NavLogo from '../assets/logo/serene-logo-new-main.jpg';
+import NavLogo from '../assets/logo/SereneLogoMainBlack.png';
 import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
 
-import { useQuery } from '@apollo/client';
-import { QUERY_ME } from '../utils/queries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CartCount from './cart/CartCount';
-import LocalCart from '../pages/main-pages/LocalCart';
 import LoggedInCartCount from './cart/LoggedInCartCount';
 
 function NavBar(props) {
@@ -57,7 +54,7 @@ function NavBar(props) {
             </ul>
           </Offcanvas.Body>
         </Offcanvas>
-        <Link className="navbar-logo nav-logo" as={Link} to="/"><img src={LogoLong} className="logo-long " size='small' alt='logo'/></Link>
+        <Link className="navbar-logo nav-logo" as={Link} to="/"><img src={NavLogo} className="logo-small" size='small' alt='logo'/></Link>
           <ul className="navbar-nav ml-auto nav-width justify-content-end ">
             <li className="nav-item me-lg-5" id='profile-fullscreen'>
               <Link className="nav-link" as={Link} to="/profile"><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></Link>
