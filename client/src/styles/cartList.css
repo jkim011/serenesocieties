@@ -1,41 +1,46 @@
+.cart {
+  font-family: SegoeUIBold;
+}
+
+.cart-item-details {
+  font-family: FuturaPTHeavy;
+}
+
 .cartImageComponent{
-    /* width: 140px; */
-    height: 170px;
+  height: 170px;
 }
-.cartItemDetails{ 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-}
+
 .cartItemHeight{
-    height: 175px;
+  height: 175px;
 }
 
 .cartListWidth{
-    width: 40%;
+  width: 40%;
+}
+
+.cart-checkout {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.cart-checkout p {
+  font-family: FuturaBook;
 }
 
 @media screen and (max-width: 900px) {
-    .cartListWidth{
-        width: 75%;
-    }
-    .cartImageComponent{
-        height: 150px;
-        width: auto;
-       
-    }
+  .cartListWidth{
+    width: 75%;
+  }
+  .cartImageComponent{
+    height: 150px;
+    width: auto;  
+  }
 }
 
 @media screen and (max-width: 500px) {
-    .cartListWidth {
-        width: 95%;
-    }
-    .cartImageComponent{
-        height: 150px;
-        width: auto;
-       
-    }
- 
+  .cartListWidth {
+    width: 95%;
+  }
+  .cartImageComponent{
+    height: 150px;
+    width: auto;  
+  }
 }
-

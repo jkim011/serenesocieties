@@ -1,7 +1,27 @@
+@font-face {
+  font-family: SegoeUIBold;
+  src: url('../assets/fonts/segoe-ui-bold.woff');
+}
+
+@font-face {
+  font-family: FuturaPTHeavy;
+  src: url('../assets/fonts/Futura\ PT\ Heavy.ttf');
+}
+
+@font-face {
+  font-family: FuturaCondPTMed;
+  src: url('../assets/fonts/futura-condensed-pt-medium-589e44ed1e3a5.woff');
+}
+
+@font-face {
+  font-family: FuturaBook;
+  src: url('../assets/fonts/futura-book-webfont.woff2');
+}
+
 /* Main */
 body {
   margin: 0;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  /* font-family: Verdana, Arial, Helvetica, sans-serif; */
   /* -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
   background-color: #edf0e9;
@@ -22,6 +42,10 @@ body {
 }
 .btns:hover {
 
+}
+
+.price {
+  font-family: FuturaCondPTMed;
 }
 
 /* Homepage */
@@ -138,12 +162,13 @@ body {
 } */
 
 li.nav-item {
-  
+
 }
 a.nav-link {
   font-size: 18px;
   font-weight: 600;
   color: black;
+  font-family:'Segoe UI Black', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .menu-icon {
@@ -215,6 +240,7 @@ a.nav-link {
   justify-content: space-around;
   background-color: black;
   color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .footer-space {
@@ -282,8 +308,8 @@ a.nav-link {
     width: 210px;
   }
   .nav-logo {
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
   }
 
   .nav-width {

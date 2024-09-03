@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  font-family: SegoeUIBold;
 }
 
 .dropdown {
@@ -11,8 +12,8 @@
 }
 
 .category-name {
-  margin: 0;
-  /* display: flex;  */
+  margin-top: 5px;
+  margin-bottom: 1%;
   align-items: center; 
   line-height: normal; 
 }
@@ -92,8 +93,14 @@
   padding-top: 10px;
 }
 
-.productText {
+.product-name {
   margin: 5px 0;
+  font-family: FuturaPTHeavy;
+}
+
+.product-price {
+  font-family: FuturaCondPTMed;
+  font-weight: bold;
 }
 
 @media only screen and (max-width: 1366px) { 
@@ -134,7 +141,7 @@
     margin-bottom: 10px;
   }
 
-  .productText {
+  .product-name {
     font-size: 98%;
   }
 }
@@ -149,7 +156,7 @@
     max-width: 170px;
   }
 
-  .productText {
+  .product-name {
     font-size: 97%;
   }
 }

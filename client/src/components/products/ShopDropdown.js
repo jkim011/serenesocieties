@@ -34,7 +34,7 @@ const ShopDropdown = ({ categories }) => {
           title="Shop By"
           value = {route}
         >      
-          Shop by
+          SHOP BY
         </Dropdown.Toggle>
 
         <Dropdown.Menu style={{backgroundColor: "black"}}>
