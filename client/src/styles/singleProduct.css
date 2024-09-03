@@ -37,6 +37,12 @@
   .product-description {
     text-align: left;
   }
+  .product-description label {
+    font-family: FuturaPTHeavy;
+  }
+  .product-description p {
+    font-family: FuturaBook;
+  }
   
   .product-btns {
     margin-top: 2%;
@@ -58,6 +64,7 @@
   .add-to-cart {
     position: relative;
     transform: translate(105%, -100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 
   .cart-btn {
@@ -75,6 +82,11 @@
   /* Sizes */
   .product-price-sm {
     display: none;
+    
+  }
+
+  .product-price-lg {
+    font-family: FuturaPTHeavy;
   }
 
   .size-selector {
@@ -94,6 +106,7 @@
     transition: background-color 0.3s ease;
     text-align: center;
     background-color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   .size-box:hover {
     background-color: black;
@@ -135,7 +148,9 @@
     }
 
     .product-price-sm {
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .product-price-lg {
       display: none;

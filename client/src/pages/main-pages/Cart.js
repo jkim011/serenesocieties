@@ -6,7 +6,7 @@ function Cart() {
     return (
       <div>
         <div className='mt-4 mb-4 text-center'>         
-          <h2 className='page-title'>Cart</h2>
+          <h2 className='page-title cart'>Cart</h2>
         </div>
         {Auth.loggedIn() ? (
           <CartList />

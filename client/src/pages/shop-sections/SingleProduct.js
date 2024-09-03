@@ -249,9 +249,14 @@ console.log(inventory, "inventory")
           </Carousel.Item>
         </Carousel>
 
-        <div className="product-price-sm">
+        <div className="product-price-sm"> {/*For phone screens*/}
           <h3>{product.data?.product.name}</h3>
           <h4>${product.data?.product.price}</h4>
+          {productCollectionName ? (
+            <h6 className="product-collection-name">{productCollectionName} Collection</h6>
+          ) : (
+            null
+          )}
         </div>
         
         <form className="product-btns">

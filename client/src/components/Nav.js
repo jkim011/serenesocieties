@@ -42,15 +42,15 @@ function NavBar(props) {
           <Offcanvas.Body >
             <ul className="navbar-nav nav-width justify-content-start">
               <li className="nav-item" onClick={handleClose}>
-                <Link className="nav-link" as={Link} to="/shop/all-products">Shop</Link>
+                <Link className="nav-link" as={Link} to="/shop/all-products">SHOP</Link>
               </li>
               <li className="nav-item ms-lg-5" onClick={handleClose}>
-                <Link className="nav-link" as={Link} to="/lookbook">Lookbook</Link>
+                <Link className="nav-link" as={Link} to="/lookbook">LOOKBOOK</Link>
               </li>
               {/* <li className="nav-item" onClick={handleClose}>
                 <Link className="nav-link" as={Link} to="/gallery">Gallery</Link>
               </li> */}
-              <li id='profile-phone' className='nav-item' onClick={handleClose} ><Link className="nav-link" as={Link} to="/profile">Account</Link></li>
+              <li id='profile-phone' className='nav-item' onClick={handleClose} ><Link className="nav-link" as={Link} to="/profile">ACCOUNT</Link></li>
             </ul>
           </Offcanvas.Body>
         </Offcanvas>

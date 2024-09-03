@@ -216,10 +216,10 @@ const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CAR
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
 
-            <div className="col-xl-7 col-lg-6 col flex flex-column justify-content-center">          
+            <div className="cart-item-details col-xl-7 col-lg-6 col flex flex-column justify-content-center">          
               <div className="flex flex-column"><p><strong>{cartItem.cartProductName}</strong></p></div>
               <p>Size: {cartItem.cartProductSize}</p>   
-              <p>Price: ${cartItem.cartProductPrice}</p>
+              <p>Price: <span className="price">${cartItem.cartProductPrice}</span></p>
 
               <div className="d-flex align-items-center">
                 <button className="w-15" onClick={() => handleDecrement(index, cartItem)}>
@@ -246,7 +246,7 @@ const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CAR
         )) } 
       </div>
 
-      <div className="text-center col">
+      <div className="cart-checkout text-center col">
         <h4>Subtotal: ${cartTotalPrice}</h4>
         <Link as={Link} to="/shop/all-products" className="text-decoration-none text-black"><h5 className="text-center mt-3 mb-3">Continue shopping</h5></Link>
         <p>Shipping & taxes calculated at checkout</p>

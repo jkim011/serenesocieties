@@ -47,23 +47,19 @@ const ProductList = () => {
                 />
               </Link>
             </div>
-
             <div className="container ">
               <div id="productDetails" className="column">
-                <h6 className="col productText fw-bold">
+                <h6 className="col product-name fw-bold">
                   {product.name}
                 </h6>
-                <h6 className="col productText">
+                <h6 className="col product-price">
                   ${product.price}
                 </h6>
               </div>
             </div>
           </div>
-        )) : null }
-      </div>
-
-      <div className="productGrid">
-        {selectProductArr.map(product => (
+        )) : 
+        selectProductArr.map(product => (
           <div key={product._id} className="productCard">
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
@@ -73,16 +69,16 @@ const ProductList = () => {
             </div>
             <div className="container">
               <div id="productDetails" className="column">
-                <h6 className="col productText fw-bold">
+                <h6 className="col product-name fw-bold">
                   {product.name}
                 </h6>
-                <h6 className="col productText">
+                <h6 className="col product-price">
                   ${product.price}
                 </h6>
               </div>
             </div>
           </div>
-        ))}
+        )) }
       </div>
     </div>
   )
