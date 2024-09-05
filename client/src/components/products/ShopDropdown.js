@@ -26,7 +26,7 @@ const ShopDropdown = ({ categories }) => {
     <div className="shop-dropdown">
       <Dropdown>
         <Dropdown.Toggle
-          style={{backgroundColor: "black", color: "white"}}
+          // style={{backgroundColor: "black", color: "white"}}
           id="dropdownBtn"
           className="dropdown page-header"
           drop="end"
@@ -37,7 +37,7 @@ const ShopDropdown = ({ categories }) => {
           SHOP BY
         </Dropdown.Toggle>
 
-        <Dropdown.Menu style={{backgroundColor: "black"}}>
+        <Dropdown.Menu className="dropdown-menu">
           {categories &&
             categories.filter((category) => !category.isCollection).map((category) => (
               <Dropdown.Item
