@@ -251,7 +251,7 @@ console.log(inventory, "inventory")
 
         <div className="product-price-sm"> {/*For phone screens*/}
           <h3>{product.data?.product.name}</h3>
-          <h4>${product.data?.product.price}</h4>
+          <h3 className="price">${product.data?.product.price}</h3>
           {productCollectionName ? (
             <h6 className="product-collection-name">{productCollectionName} Collection</h6>
           ) : (
@@ -284,7 +284,7 @@ console.log(inventory, "inventory")
       <div className="product-info ms-lg-4">
         <div className="product-price-lg">
           <h3>{product.data?.product.name}</h3>
-          <h4>${product.data?.product.price}</h4>
+          <h3 className="price">${product.data?.product.price}</h3>
           {productCollectionName ? (
             <h6 className="product-collection-name">{productCollectionName} Collection</h6>
           ) : (
