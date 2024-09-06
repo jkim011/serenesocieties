@@ -14,7 +14,7 @@ const ProductList = () => {
   
   var selectProductArr = [] 
 
-  const matchingCategories = () =>{
+  const matchingCategories = () => {
     for (let i = 0; i < products.length; i++) {
       for(let j=0; j<products[i].categories.length; j++){
         let productChose = products[i]
@@ -28,6 +28,10 @@ const ProductList = () => {
     }
   }
   matchingCategories()
+
+  const soldOut = () => {
+    //query inv data, if all inv.quantity == 0 then soldOut == true
+  }
 
   if (loading) {
     return <div>Loading</div>;

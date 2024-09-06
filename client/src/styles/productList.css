@@ -9,6 +9,19 @@
 .dropdown {
   margin: 0;
   margin-top: 2%;
+  background-color: black;
+  color: white;
+  border-radius: 0;
+  border: none;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.dropdown-menu {
+  background-color: black;
+  border-radius: 0;
 }
 
 .category-name {
