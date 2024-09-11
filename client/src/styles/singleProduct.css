@@ -118,6 +118,7 @@
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%, auto;
+    background-color: rgb(214, 214, 214);
   } 
   .size-box.selected {
     background-color: black;

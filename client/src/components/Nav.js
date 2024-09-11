@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import {useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Icon } from 'semantic-ui-react';
 import MenuIcon from '../assets/icons/menu-icon.png';
 import Auth from '../utils/auth';
 
-import NavLogo from '../assets/logo/SereneLogoMainBlack.png';
-import LogoLong from '../assets/logo/SereneLogoRevisedHoriz.png';
+import NavLogo from '../assets/logo/SereneIcon.png';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CartCount from './cart/CartCount';
@@ -24,11 +19,8 @@ function NavBar(props) {
   const handleShow = () => setShow(true);
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const { cartCount } = useSelector((state) => state.cartCounter);
-
   const navigate = useNavigate();
-  if(window.location.pathname === '/') {
-    return null
-  } else
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -37,7 +29,7 @@ function NavBar(props) {
           <img src={MenuIcon} className='menu-icon'/>
         </a>
 
-        <Offcanvas show={show} onHide={handleClose} responsive="lg" className="off-canvas-phone">
+        <Offcanvas show={show} onHide={handleClose} responsive="lg" className="off-canvas-phone" >
           <Offcanvas.Header closeButton/>
           <Offcanvas.Body >
             <ul className="navbar-nav nav-width justify-content-start">

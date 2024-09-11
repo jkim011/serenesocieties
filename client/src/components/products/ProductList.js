@@ -13,31 +13,37 @@ const ProductList = () => {
   const params = useParams()
   
   var selectProductArr = [] 
+  var selectedCategory 
 
   const matchingCategories = () => {
     for (let i = 0; i < products.length; i++) {
       for(let j=0; j<products[i].categories.length; j++){
         let productChose = products[i]
         let productCategory = products[i].categories[j].routeName
+        let productCategoryName = products[i].categories[j].name
         if(productCategory == params.routeName){
           console.log(productCategory,"match", productChose)
           selectProductArr.push(productChose)
-        
+          selectedCategory=productCategoryName
         } 
       }
     }
   }
   matchingCategories()
+  console.log(products)
 
   const soldOut = () => {
     //query inv data, if all inv.quantity == 0 then soldOut == true
+    
   }
+  soldOut();
 
   if (loading) {
     return <div>Loading</div>;
   }
   return(
     <div>
+      <h4 className="category-name d-flex justify-content-center">{!selectedCategory ? "All Products" : selectedCategory}</h4>
       <div className="productGrid">
         {params.routeName == "all-products" ? products && products.map((product) =>(
           <div key={product._id} className="productCard">
@@ -53,12 +59,12 @@ const ProductList = () => {
             </div>
             <div className="container ">
               <div id="productDetails" className="column">
-                <h6 className="col product-name fw-bold">
+                <h4 className="col product-name fw-bold">
                   {product.name}
-                </h6>
-                <h6 className="col product-price">
+                </h4>
+                <h4 className="col product-price">
                   ${product.price}
-                </h6>
+                </h4>
               </div>
             </div>
           </div>

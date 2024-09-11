@@ -23,7 +23,6 @@ function Shop() {
 
   return (
     <div>
-      {/* <img src={PeaceXChaosBanner} alt='banner'/> */}
       <div >
         <ShopDropdown categories={categories} className="dropdown" />  
       </div>
