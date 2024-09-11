@@ -147,23 +147,7 @@ body {
 .nav-width {
   width: 300px;
 }
-/* .nav {
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: 10px;
-  margin-bottom: 50px;
-} */
 
-/* #main-nav-brand {
-  transform: translateX(-50%);
-  top: -20%;
-  left: 50%;
-  position: absolute;
-} */
-
-li.nav-item {
-
-}
 a.nav-link {
   font-size: 18px;
   font-weight: 600;
@@ -196,38 +180,6 @@ a.nav-link {
   margin-left: 2%;
   margin-right: 2%;
 }
-/* .main-nav-items {
-  margin-left: 5%;
-}
-#cart{
-  position: absolute;
-  right: 12%;
-  top: 15%
-}
-#profile{
-  position: absolute;
-  right: 18%;
-  top: 15%
-} */
-
-
-/* #logout{
-  position: absolute;
-  right: 3%;
-  top: 15%
-} */
-
-/* #logout{
-  position: absolute;
-  right: 4%;
-  top: 15%
-}
-
-#profile{
-  position: absolute;
-  right: 14%;
-  top: 15%
-} */
 
 /* Footer */
 .footer-container {

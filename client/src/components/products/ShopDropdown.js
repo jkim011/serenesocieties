@@ -71,7 +71,6 @@ const ShopDropdown = ({ categories }) => {
             </Dropdown>  
         </Dropdown.Menu>  
       </Dropdown>
-      <h4 className="category-name">{category}</h4>
     </div>
   );
 };
