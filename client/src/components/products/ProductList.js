@@ -43,7 +43,9 @@ const ProductList = () => {
   }
   return(
     <div>
-      <h4 className="category-name d-flex justify-content-center">{!selectedCategory ? "All Products" : selectedCategory}</h4>
+      <h4 className="category-name d-flex justify-content-center">
+        {!selectedCategory ? "All Products" : selectedCategory}
+      </h4>
       <div className="productGrid">
         {params.routeName == "all-products" ? products && products.map((product) =>(
           <div key={product._id} className="productCard">

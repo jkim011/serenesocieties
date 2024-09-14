@@ -21,9 +21,6 @@
 /* Main */
 body {
   margin: 0;
-  /* font-family: Verdana, Arial, Helvetica, sans-serif; */
-  /* -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
   background-color: #edf0e9;
 }
 
@@ -49,6 +46,10 @@ body {
 }
 
 /* Homepage */
+.home-banner {
+  max-width: 100%;
+}
+
 .home-container {
   z-index: 1;
 }
@@ -140,9 +141,15 @@ body {
 .nav-logo { 
   /* margin-left: 10%;
   margin-right: 10%; */
-  margin-left: 25%;
-  margin-right: 25%;
+  /* margin-left: 25%;
+  margin-right: 25%; */
+  margin: 0 auto;
 }
+/* .navbar-nav {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+} */
 
 .nav-width {
   width: 300px;
@@ -166,16 +173,6 @@ a.nav-link {
   display: none;
 }
 
-.main-nav-left {
-  margin-left: 100px;
-  display: inline-flex;
-  justify-content: space-around;
-}
-.main-nav-right {
-  margin-right: 100px;
-  display: inline-flex;
-  justify-content: space-around;
-}
 .main-nav-items {
   margin-left: 2%;
   margin-right: 2%;
@@ -267,20 +264,6 @@ a.nav-link {
   .nav-width {
     width: auto;
   }
-  /* .navbar-brand {
-    transform: translateX(-50%);
-    left: 50%;
-    position: absolute;
-    top: 5%;
-    margin-top: 18px;
-  } */
-  
-  /* .navbar-nav {
-    margin-left: -5px;
-  }
-  /* #cart {
-    margin-right: -5px;
-  } */ */
 
   .nav {
     /* margin-left: 10px;
@@ -293,11 +276,6 @@ a.nav-link {
     font-weight: 600;
     color: black;
   }
-
-  /* .main-nav-right {
-    margin-right: 4%;
-
-  } */
 
   .main-nav-items {
     margin-left: 2%;
@@ -339,6 +317,10 @@ a.nav-link {
   .nav-width {
     width: auto;
   }
+  .nav-logo {
+    margin-left: 35%;
+    margin-right: 35%;
+  }
   .inline {
     display: inline-flex;
   }
@@ -349,32 +331,21 @@ a.nav-link {
   #profile-phone {
     display: block;
   }
-  
-  /* #cart{
-    position: inherit;
-    margin-left: 4%;
-  }
-
-  #logout{
-    position: inherit;
-    margin-left: 4%;
-  }
-
-  #profile{
-    position: inherit;
-    margin-left: 4%;
-  } */
-
-  
-
 }
 
-@media only screen and (max-width: 1270px) {
+@media only screen and (min-width:992px) and (max-width: 1270px) {
   .nav-width {
     width: auto;
   }
   .main-nav-items {
     margin-left: 4%;
   }
+  .nav-logo { 
+    /* margin-left: 10%;
+    margin-right: 10%; */
+    margin-left: 15%;
+    margin-right: 25%;
+  }
+
 
 }

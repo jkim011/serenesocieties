@@ -15,7 +15,7 @@
   }
   
   .product-image {
-    width: 450px;
+    width: 520px;
     height: auto;
   }
   
@@ -25,6 +25,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 520px;
   }
 
   .product-collection-name {
@@ -68,7 +69,7 @@
   }
 
   .cart-btn {
-    width: 230px;
+    width: 520px;
     height: 38px;
     background-color: white;
     transition: .3s ease;
@@ -82,7 +83,6 @@
   /* Sizes */
   .product-price-sm {
     display: none;
-    
   }
 
   .product-price-lg {
@@ -92,15 +92,13 @@
   .size-selector {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    /* margin-top: 10px; */
-    justify-content: center;
+    justify-content: space-between;
   }
   
   .size-box {
     padding-top: 5px;
     padding-bottom: 5px;
-    width: 50px;
+    width: 80px;
     border: 2px solid black;
     cursor: pointer;
     transition: background-color 0.3s ease;

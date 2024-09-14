@@ -20,7 +20,7 @@ db.once('open', async () => {
       name: "Praise Tee",
       image: "../../images/clothes/Praise_Shirt_Back.jpg",
       image2: "../../images/clothes/Praise_Shirt_Front.jpg",
-      description: "testing seeded data shirt",
+      description: "testing seeded data shirt here is more filler the shirts are made of 100% cotton you should hang dry and wash on cool setting screenprinted shirt weighs .8 oz",
       price: 19.99,
       categories: [categories[1]._id, categories[4]._id],
       inventory: [

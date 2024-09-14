@@ -1,47 +1,51 @@
 import React from 'react';
+import { useQuery } from "@apollo/client";
+import { QUERY_PRODUCTS } from '../../utils/queries';
 import { Link } from 'react-router-dom';
 import PeaceXChaosBanner from "../../assets/banners/PEACEXCHAOS_WebBanner.png";
-
-
-import modelFront from '../../assets/backgrounds/modelFront.jpg';
-import modelBack from '../../assets/backgrounds/modelBack.jpg';
-import palmTree from '../../assets/backgrounds/toxicPalmtreeEdit2.jpg';
-
-import LogoMain from '../../assets/logo/serene-logo-new-main.jpg';
-import LogoMainBlack from '../../assets/logo/SereneLogoMainBlack.png';
-import IgIcon from '../../assets/icons/ig-icon.png';
-import TiktokIcon from '../../assets/icons/tiktok-icon.png';
-import FacebookIcon from '../../assets/icons/twitter-icon.png';
-import EmailIcon from '../../assets/icons/email-icon.png';
+import ProductList from '../../components/products/ProductList';
 
 function Home() {
+  const { loading, data, error } = useQuery(QUERY_PRODUCTS);
+  const products = data?.products || [];
+
+  const homeFeaturedProducts = products.filter(product => 
+    product.categories.some(category => category.name === 'Natural Essence')
+  );
+  console.log(homeFeaturedProducts, "alskdfjfjdksla;a;slkdfjfjdskla;")
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error loading products.</p>;
+
   return (
     <div className='home-container'>
-      {/* <img src={modelFront} className='home-pic-left'/>
-      <img src={modelBack} className='home-pic-right'/>
-      <img src={palmTree} className='home-pic-phone'/>
-      
-      <div className='home-intro'>
-        <Link as={Link} to='/' className='home-image-link'><img src={LogoMainBlack} className='logo-main'/></Link>
-        <div className='home-links-section'>
-          <Link as={Link} to='/shop/all-products' className='home-links'>Shop</Link>
-
-          <Link as={Link} to='/lookbook' className='home-links'>Lookbook</Link>
-          <Link as={Link} to='/about' className='home-links'>About</Link>
-          <a href='/terms-and-conditions' className='terms home-links'>Terms & Conditions</a>
-          <div className='social-links'>
-          <a href='https://www.instagram.com/serenesocieties/' target="_blank" rel="noreferrer"><img src={IgIcon} className=''/></a>
-          <a href='' target="_blank" rel="noreferrer"><img src={TiktokIcon} className=''/></a>
-          <a href='' target="_blank" rel="noreferrer"><img src={FacebookIcon} className=''/></a>
-          <a href='' target="_blank" rel="noreferrer"><img src={EmailIcon} className=''/></a>
-          </div>
-        </div>
-      </div> */}
       <Link to={'/shop/natural-essence'}>
-        <img src={PeaceXChaosBanner} alt='banner'/>
+        <img className='home-banner' src={PeaceXChaosBanner} alt='banner'/>
       </Link>
-
-
+      
+      <h4 className='category-name d-flex justify-content-center mt-5'>Featured Products</h4>
+      <div className='productGrid'>
+        {homeFeaturedProducts.map(product => (
+          <div key={product._id} className="productCard">
+            <div className="productHead">
+              <Link to={`/shop/products/${product._id}`}>
+                <img className="productImg" src={product.image} alt="" />
+                <img className="productImg productImg2" src={product.image2} alt="" />
+              </Link>
+            </div>
+            <div className="container">
+              <div id="productDetails" className="column">
+                <h6 className="col product-name fw-bold">
+                  {product.name}
+                </h6>
+                <h6 className="col product-price">
+                  ${product.price}
+                </h6>
+              </div>
+            </div>
+          </div>
+        )) }
+      </div>
     </div>
   )
 }
