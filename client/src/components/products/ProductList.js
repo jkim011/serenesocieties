@@ -61,12 +61,12 @@ const ProductList = () => {
             </div>
             <div className="container ">
               <div id="productDetails" className="column">
-                <h4 className="col product-name fw-bold">
+                <h5 className="col product-name fw-bold">
                   {product.name}
-                </h4>
-                <h4 className="col product-price">
+                </h5>
+                <h5 className="col product-price">
                   ${product.price}
-                </h4>
+                </h5>
               </div>
             </div>
           </div>
@@ -81,12 +81,12 @@ const ProductList = () => {
             </div>
             <div className="container">
               <div id="productDetails" className="column">
-                <h6 className="col product-name fw-bold">
+                <h5 className="col product-name fw-bold">
                   {product.name}
-                </h6>
-                <h6 className="col product-price">
+                </h5>
+                <h5 className="col product-price">
                   ${product.price}
-                </h6>
+                </h5>
               </div>
             </div>
           </div>

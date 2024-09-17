@@ -24,7 +24,7 @@ function NavBar(props) {
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
-        <div className=" navbar-collapse justify-content-center justify-content-evenly inline" id="navbarNav">
+        <div className="navbar-collapse inline" id="navbarNav">
         <a className="d-lg-none" onClick={handleShow}>
           <img src={MenuIcon} className='menu-icon'/>
         </a>
@@ -47,7 +47,7 @@ function NavBar(props) {
           </Offcanvas.Body>
         </Offcanvas>
         <Link className="navbar-logo nav-logo" as={Link} to="/"><img src={NavLogo} className="logo-small" size='small' alt='logo'/></Link>
-          <ul className="navbar-nav ml-auto nav-width justify-content-end ">
+          <ul className="navbar-nav ml-auto nav-width justify-content-end">
             <li className="nav-item me-lg-5" id='profile-fullscreen'>
               <Link className="nav-link" as={Link} to="/profile"><FontAwesomeIcon icon="fa-solid fa-user"></FontAwesomeIcon></Link>
             </li>
