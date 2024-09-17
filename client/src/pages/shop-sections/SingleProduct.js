@@ -291,6 +291,7 @@ console.log(inventory, "inventory")
             null
           )}
         </div>
+
         <div className="product-description mt-5">
           <label>Item Description</label>
           <p>{product.data?.product.description}</p>

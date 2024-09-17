@@ -35,12 +35,12 @@ function Home() {
             </div>
             <div className="container">
               <div id="productDetails" className="column">
-                <h6 className="col product-name fw-bold">
+                <h5 className="col product-name fw-bold">
                   {product.name}
-                </h6>
-                <h6 className="col product-price">
+                </h5>
+                <h5 className="col product-price">
                   ${product.price}
-                </h6>
+                </h5>
               </div>
             </div>
           </div>
