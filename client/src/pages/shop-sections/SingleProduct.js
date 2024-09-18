@@ -231,7 +231,7 @@ console.log(inventory, "inventory")
   }
   return (
     <div className="single-product-container">
-      <div>
+      <div className="image-container">
         <Carousel className="product-image" interval={null} variant="dark">
           <Carousel.Item>
             <img

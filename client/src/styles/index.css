@@ -241,6 +241,9 @@ a.nav-link {
   /* Homepage */
 
   /* NavBar */
+  .navbar {
+    width: 100%;
+  }
   .nav-width {
     width: auto;
   }
@@ -287,6 +290,9 @@ a.nav-link {
 
 @media only screen and (min-width: 601px) and (max-width: 991px) {
   /* NavBar */
+  .navbar {
+    width: 98%;
+  }
   .nav-width {
     width: auto;
   }
@@ -306,6 +312,9 @@ a.nav-link {
 }
 
 @media only screen and (min-width:992px) and (max-width: 1366px) {
+  .navbar {
+    width: 98%;
+  }
   .nav-width {
     width: auto;
   }

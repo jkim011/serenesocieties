@@ -1,192 +1,241 @@
 .hide{
-    display: none;
+  display: none;
 }
 
 .product-btns {
-    transition: 1s;
-    transition-timing-function: ease;
+  transition: 1s;
+  transition-timing-function: ease;
 }
 
 .single-product-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    /* align-items: center; */
-    margin-top: 5%;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center; */
+  margin-top: 5%;
+}
+
+.product-image {
+  width: 520px;
+  height: auto;
+}
+
+.product-info {
+  /* margin-top: 60px;
+  margin-left: 70px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 520px;
+}
+
+.product-collection-name {
+  background-color: black;
+  color: white;
+  padding: 3px;
+  max-width: fit-content;
+}
+
+.product-description {
+  text-align: left;
+}
+.product-description label {
+  font-family: FuturaPTHeavy;
+}
+.product-description p {
+  font-family: FuturaBook;
+}
+
+.product-btns {
+  margin-top: 2%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+label {
+  margin-right: 5px;
+  font-size: 105%;
+  font-weight: 500;
+}
+
+.add-to-cart {
+  position: relative;
+  transform: translate(105%, -100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.cart-btn {
+  width: 520px;
+  height: 38px;
+  background-color: white;
+  transition: .3s ease;
+}
+.cart-btn:not(:disabled):hover {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+/* Sizes */
+.product-price-sm {
+  display: none;
+}
+
+.product-price-lg {
+  font-family: FuturaPTHeavy;
+}
+
+.size-selector {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.size-box {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 80px;
+  border: 2px solid black;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.size-box:hover {
+  background-color: black;
+  color: white;
+}
+.size-box.disabled {
+  pointer-events: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M1 0 L0 1 L99 100 L100 99' fill='black' /><path d='M0 99 L99 0 L100 1 L1 100' fill='black' /></svg>");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%, auto;
+  background-color: rgb(214, 214, 214);
+} 
+.size-box.selected {
+  background-color: black;
+  color: white;
+  border-color: black;
+}
+
+@media only screen and (max-width: 600px) {
+  .single-product-container {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+  } 
   .product-image {
-    width: 520px;
-    height: auto;
-  }
-  
-  .product-info {
-    /* margin-top: 60px;
-    margin-left: 70px; */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 520px;
-  }
-
-  .product-collection-name {
-    background-color: black;
-    color: white;
-    padding: 3px;
-    max-width: fit-content;
-  }
-
-  .product-description {
-    text-align: left;
-  }
-  .product-description label {
-    font-family: FuturaPTHeavy;
-  }
-  .product-description p {
-    font-family: FuturaBook;
-  }
-  
+    width: 100%;
+  } 
   .product-btns {
-    margin-top: 2%;
+    align-items: center;
+    margin-top: 25px;
+  }
+  .product-price-sm {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    align-items: center;
   }
-  
-  label {
-    margin-right: 5px;
-    font-size: 105%;
-    font-weight: 500;
-  }
-  .product-size {
-    width: 175px;
-    margin-bottom: 15px;
-  }
-
-  .add-to-cart {
-    position: relative;
-    transform: translate(105%, -100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .cart-btn {
-    width: 520px;
-    height: 38px;
-    background-color: white;
-    transition: .3s ease;
-  }
-  .cart-btn:not(:disabled):hover {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-  }
-
-  /* Sizes */
-  .product-price-sm {
+  .product-price-lg {
     display: none;
   }
-
-  .product-price-lg {
-    font-family: FuturaPTHeavy;
-  }
-
   .size-selector {
-    display: flex;
-    flex-wrap: wrap;
+    width: 100%;
     justify-content: space-between;
   }
-  
   .size-box {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 80px;
-    border: 2px solid black;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    background-color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 65px;
   }
-  .size-box:hover {
-    background-color: black;
-    color: white;
+  .add-to-cart {
+    transform: none;
+    margin-top: 3rem;
+    width: 100%;
   }
-  .size-box.disabled {
-    pointer-events: none;
-    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M1 0 L0 1 L99 100 L100 99' fill='black' /><path d='M0 99 L99 0 L100 1 L1 100' fill='black' /></svg>");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 100% 100%, auto;
-    background-color: rgb(214, 214, 214);
+  .cart-btn {
+    width: 100%;
+  }   
+  .product-info {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 991px) {
+  .single-product-container {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
   } 
-  .size-box.selected {
-    background-color: black;
-    color: white;
-    border-color: black;
+  .product-image {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  } 
+  .product-btns {
+    align-items: center;
+    margin-top: 25px;
   }
-
-  @media only screen and (max-width: 600px) {
-    .single-product-container {
-      flex-direction: column;
-      align-items: center;
-      margin-top: 25px;
-    }
-    
-    .product-image {
-      width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-    } 
-    .product-btns {
-      align-items: center;
-      margin-top: 25px;
-    }
-    .product-price-sm {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .product-price-lg {
-      display: none;
-    }
-
-    .size-selector {
-      width: 350px;
-      justify-content: space-between;
-    }
-    .size-box {
-      width: 65px;
-    }
-
-    .product-info {
-      margin-top: 0;
-      margin-left: 0;
-      align-items: center;
-      text-align: center;
-    }
-    .product-info {
-      width: 350px;
-    }
-
-    .add-to-cart {
-      transform: none;
-      margin-top: 30px;
-    }
-    .cart-btn {
-      width: 350px;
-    }
+  .product-price-sm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  @media only screen and (min-width: 601px) and (max-width: 991px) {
-    .product-image {
-      width: 400px;
-    }
-    
-    .product-description {
-      width: 95%;
-    }
-  
-    .product-info {
-      margin-left: 45px;
-    }
+  .product-price-lg {
+    display: none;
   }
+  .size-selector {
+    width: 75%;
+    justify-content: space-between;
+  }
+  .size-box {
+    width: 75px;
+  }
+  .add-to-cart {
+    transform: none;
+    margin-top: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .cart-btn {
+    width: 75%;
+  }   
+  .product-info {
+    margin: 0;
+    width: 75%;
+  }
+}
+
+@media only screen and (min-width:992px) and (max-width: 1366px) {
+  .single-product-container {
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .image-container {
+    width: 50%;
+  }
+  .product-image {
+    width: 100%;
+  }
+  .product-info {
+    width: 50%;
+  }
+  .add-to-cart {
+    width: 100%;
+  }
+  .cart-btn {
+    width: 100%;
+  }
+  .size-selector {
+    width: 100%;
+  }
+}

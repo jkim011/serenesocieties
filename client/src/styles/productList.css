@@ -120,10 +120,10 @@
 @media only screen and (max-width: 1368px) { 
   .productGrid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, minmax(10%, 1fr));
     gap: 50px;
     padding: 0;
-    max-width: 92%;
+    max-width: 94%;
   }
   .productCard {
     max-width: none;
@@ -132,17 +132,18 @@
 
 @media only screen and (max-width: 992px) { 
   .productGrid {
-    grid-template-columns: repeat(2, minmax(270px, 1fr));
-    gap: 60px;
+    grid-template-columns: repeat(2, minmax(10%, 1fr));
+    gap: 50px;
+    max-width: 95%;
   }
 }
 
 @media only screen and (max-width: 600px) { 
   .productGrid {
-    grid-template-columns: 190px 190px;
+    grid-template-columns: repeat(2, minmax(10%, 1fr));
     gap: 10px;
     padding: 12px;
-    max-width: 95%;
+    max-width: 100%;
   }
   .productCard {
     margin-bottom: 5px;
@@ -154,8 +155,9 @@
 
 @media only screen and (max-width: 390px) { 
   .productGrid {
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, minmax(10%, 1fr));
     gap: 7px;
+    max-width: 100%;
   }
   .product-name {
     font-size: 97%;
