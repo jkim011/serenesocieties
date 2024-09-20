@@ -86,22 +86,22 @@ db.once('open', async () => {
       inventory: [
         {
           size: "S",
-          quantity: 5,
+          quantity: 0,
           priceId: "price_1PPfgOGsTkNkjE8UWwh3pziB"
         },
         {
           size: "M",
-          quantity: 10,
+          quantity: 0,
           priceId: "price_1PPfgdGsTkNkjE8U37DoK1CX"
         },
         {
           size: "L",
-          quantity: 9,
+          quantity: 0,
           priceId: "price_1PPfh1GsTkNkjE8UfpdzoU1r"
         },
         {
           size: "XL",
-          quantity: 4,
+          quantity: 0,
           priceId: "price_1PPfhEGsTkNkjE8UlwaJ6Kdf"
         }
       ]
@@ -116,22 +116,22 @@ db.once('open', async () => {
       inventory: [
         {
           size: "S",
-          quantity: 8,
+          quantity: 0,
           priceId: "price_1PPfljGsTkNkjE8U9ccdNznR"
         },
         {
           size: "M",
-          quantity: 11,
+          quantity: 0,
           priceId: "price_1PPflxGsTkNkjE8UqDUyd8MC"
         },
         {
           size: "L",
-          quantity: 12,
+          quantity: 0,
           priceId: "price_1PPfmGGsTkNkjE8Us4HwdDSE"
         },
         {
           size: "XL",
-          quantity: 6,
+          quantity: 0,
           priceId: "price_1PPfmPGsTkNkjE8UkKzUiwBk"
         }
       ]

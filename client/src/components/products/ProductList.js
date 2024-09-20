@@ -30,12 +30,16 @@ const ProductList = () => {
     }
   }
   matchingCategories()
-  console.log(products)
+  // console.log(products)
 
-  const soldOut = () => {
-    //query inv data, if all inv.quantity == 0 then soldOut == true
-    
-  }
+  const soldOut = (product) => {
+    for (let i = 0; i < product?.inventory.length; i++) {
+      if (product?.inventory[i].quantity > 0) {
+        return false; 
+      }
+    }
+    return true;
+  };
   soldOut();
 
   if (loading) {
@@ -48,7 +52,10 @@ const ProductList = () => {
       </h4>
       <div className="productGrid">
         {params.routeName == "all-products" ? products && products.map((product) =>(
-          <div key={product._id} className="productCard">
+          <div key={product._id} className={`productCard`}>
+            <div className={`${soldOut(product) ? 'sold-out' : 'hide'}`}>
+              <p className="d-flex align-items-center m-0">SOLD OUT</p>
+            </div>
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />

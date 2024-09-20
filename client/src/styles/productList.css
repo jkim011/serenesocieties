@@ -76,6 +76,7 @@
   justify-self: center;
   max-width: 500px;
   width: 100%;
+  position: relative;
 }
 .productCard:hover {
   background-color: black;
@@ -117,6 +118,19 @@
   font-weight: bold;
 }
 
+.sold-out {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0; 
+  padding: 15px 20px;
+  background-color: black;
+  color: white; 
+  font-weight: bold;
+  font-size: large;
+  z-index: 1;
+}
+
 @media only screen and (max-width: 1368px) { 
   .productGrid {
     display: grid;
@@ -127,6 +141,10 @@
   }
   .productCard {
     max-width: none;
+  }
+  .sold-out {
+    padding: 10px 15px;
+    font-size: medium;
   }
 }
 
@@ -151,6 +169,10 @@
   .product-name {
     font-size: 98%;
   }
+  .sold-out {
+    padding: 6px 11px;
+    font-size: small;
+  }
 }
 
 @media only screen and (max-width: 390px) { 
@@ -161,5 +183,9 @@
   }
   .product-name {
     font-size: 97%;
+  }
+  .sold-out {
+    padding: 5px 10px;
+    font-size: small;
   }
 }

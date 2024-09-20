@@ -249,7 +249,7 @@ console.log(inventory, "inventory")
           </Carousel.Item>
         </Carousel>
 
-        <div className="product-price-sm"> {/*For phone screens*/}
+        <div className="product-price-sm"> {/*For phone screens and vertical tablets*/}
           <h3>{product.data?.product.name}</h3>
           <h3 className="price">${product.data?.product.price}</h3>
           {productCollectionName ? (
