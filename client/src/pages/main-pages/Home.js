@@ -12,7 +12,16 @@ function Home() {
   const homeFeaturedProducts = products.filter(product => 
     product.categories.some(category => category.name === 'Natural Essence')
   );
-  console.log(homeFeaturedProducts, "alskdfjfjdksla;a;slkdfjfjdskla;")
+
+  const soldOut = (product) => {
+    for (let i = 0; i < product?.inventory.length; i++) {
+      if (product?.inventory[i].quantity > 0) {
+        return false; 
+      }
+    }
+    return true;
+  };
+  soldOut();
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error loading products.</p>;
@@ -27,6 +36,9 @@ function Home() {
       <div className='productGrid'>
         {homeFeaturedProducts.map(product => (
           <div key={product._id} className="productCard">
+            <div className={`${soldOut(product) ? 'sold-out' : 'hide'}`}>
+              <p className="d-flex align-items-center m-0">SOLD OUT</p>
+            </div>
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />

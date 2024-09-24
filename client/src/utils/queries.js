@@ -95,6 +95,7 @@ export const QUERY_ME = gql`
         cartProductPriceId
         cartProductQuantity
       }
+      cartExpiration
     }
   }
 `;
@@ -118,6 +119,7 @@ export const QUERY_USER = gql`
         cartProductPriceId
         cartProductQuantity
       }
+      cartExpiration
     }
   }
 `;
