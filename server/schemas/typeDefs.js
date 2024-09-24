@@ -1,6 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
+    scalar Date
     
     type Product {
         _id: ID
@@ -46,6 +47,7 @@ const typeDefs = gql`
         email: String!
         password: String!
         cartItems: [cartItem]
+        cartExpiration: Date
         isAdmin: Boolean!
     }
 
@@ -79,7 +81,7 @@ const typeDefs = gql`
         addStock(productId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         updateStock(stockId: ID!, size: String!, quantity: Int!, priceId: String!): Stock
         deleteStock(stockId: ID!): Stock
-        addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Float!, cartProductPriceId: String! cartProductQuantity: Int): User
+        addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Float!, cartProductPriceId: String!, cartProductQuantity: Int): User
         removeFromCart(userId: ID!, cartId: ID!): User
         addToCartQuantity(userId: ID, cartId: ID!, cartProductQuantity: Int): User
         removeCartQuantity(userId: ID, cartId: ID!): User

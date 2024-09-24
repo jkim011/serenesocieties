@@ -52,7 +52,7 @@ const ProductList = () => {
       </h4>
       <div className="productGrid">
         {params.routeName == "all-products" ? products && products.map((product) =>(
-          <div key={product._id} className={`productCard`}>
+          <div key={product._id} className="productCard">
             <div className={`${soldOut(product) ? 'sold-out' : 'hide'}`}>
               <p className="d-flex align-items-center m-0">SOLD OUT</p>
             </div>
@@ -80,6 +80,9 @@ const ProductList = () => {
         )) : 
         selectProductArr.map(product => (
           <div key={product._id} className="productCard">
+            <div className={`${soldOut(product) ? 'sold-out' : 'hide'}`}>
+              <p className="d-flex align-items-center m-0">SOLD OUT</p>
+            </div>
             <div className="productHead">
               <Link to={`/shop/products/${product._id}`}>
                 <img className="productImg" src={product.image} alt="" />

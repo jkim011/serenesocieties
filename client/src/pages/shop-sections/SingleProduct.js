@@ -8,6 +8,7 @@ import { decrement, increment, decrementByAmount} from '../../redux/cartCounter'
 import { QUERY_SINGLE_PRODUCT } from "../../utils/queries";
 import { QUERY_ME } from "../../utils/queries";
 import {ADD_TO_CART, ADD_TO_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
+
 import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
 
@@ -111,6 +112,7 @@ function SingleProduct() {
       }
     } else {
       try {
+        
         await addCartItem({
           variables: {
             userId: Auth.getProfile().data._id,

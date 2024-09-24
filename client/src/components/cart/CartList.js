@@ -22,6 +22,7 @@ const CartList = () => {
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
+  const user = data?.me || []
   let cartItems = data?.me.cartItems || []
   console.log(cartItems, "cartItems")
 
@@ -270,6 +271,8 @@ const CartList = () => {
       </div>
     )
   }
+
+  console.log(user, "alskdfjjfkldsa;laskdfj")
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
