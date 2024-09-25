@@ -112,7 +112,6 @@ function SingleProduct() {
       }
     } else {
       try {
-        
         await addCartItem({
           variables: {
             userId: Auth.getProfile().data._id,

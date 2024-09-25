@@ -39,6 +39,42 @@ const CartList = () => {
   const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
   const [updateProductInventory, {updateInvError}] = useMutation(UPDATE_PRODUCT_INVENTORY)
 
+  const [time, setTime] = useState(60); 
+  useEffect(() => {
+    if (time > 0) {
+      const timer = setInterval(() => {
+        setTime(prevTime => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (time === 0) {
+      removeAllCartItems();
+    }
+  }, [time, cartItems]);
+
+  const removeAllCartItems = async (cartItem) => {//with multiple cart items, inventory gets messed up
+    for (let i = 0; i < cartItems.length; i++) {
+      try {
+        await removeFromCart({
+          variables: {
+            userId: Auth.getProfile().data._id,
+            cartId: cartItems[i]._id
+          }
+        });
+
+        await updateProductInventory({
+          variables: {
+            productId: cartItems[i].cartProductId,
+            sizeId: cartItems[i].cartProductSizeId,
+            cartProductQuantity: -cartItems[i].cartProductQuantity
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
  
@@ -274,11 +310,21 @@ const CartList = () => {
 
   console.log(user, "alskdfjjfkldsa;laskdfj")
 
+
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
+       <div>
+        <h1>Time Remaining: {time} seconds</h1>
+        {time === 0 && <h2>Time's up!</h2>}
+      </div>
       <div className="col">
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
+                        {/* {time === 0 ? (event) => {
+                          event.preventDefault()
+                          handleTrash(cartItem)
+                        }  : null} */}
+
             <div className="col d-flex justify-content-start align-items-start">
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
