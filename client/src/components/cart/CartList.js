@@ -50,7 +50,7 @@ const CartList = () => {
     } else if (time === 0) {
       removeAllCartItems();
     }
-  }, [time, cartItems]);
+  }, [time]);
 
   const removeAllCartItems = async (cartItem) => {//with multiple cart items, inventory gets messed up
     for (let i = 0; i < cartItems.length; i++) {
@@ -67,7 +67,12 @@ const CartList = () => {
             productId: cartItems[i].cartProductId,
             sizeId: cartItems[i].cartProductSizeId,
             cartProductQuantity: -cartItems[i].cartProductQuantity
-          }
+          },
+          refetchQueries: [
+            {
+              query: QUERY_PRODUCTS,
+            }
+          ]
         });
       } catch (error) {
         console.log(error);
