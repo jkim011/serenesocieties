@@ -55,9 +55,6 @@ const userSchema = new Schema({
       }
     } 
   ], 
-  cartExpiration: {
-    type: Date
-  },
   isAdmin: {
     type: Boolean,
     default: false,

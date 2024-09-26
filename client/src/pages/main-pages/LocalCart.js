@@ -19,7 +19,7 @@ const getStripe = () => {
 }
 getStripe()
 
-const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CART ITEMS BEFORE DELETED
+const LocalCart = () => {
   const dispatch = useDispatch();
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
@@ -43,6 +43,60 @@ const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CAR
       });
     });
   }, [singleProductData, singleProductError, queriedProduct, localCart]);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    return `${minutes}:${formattedSeconds}`;
+  };
+
+  const [time, setTime] = useState(900); 
+  useEffect(() => {
+    if (time > 0) {
+      const timer = setInterval(() => {
+        setTime(prevTime => prevTime - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (time === 0) { /////////////////////////// STORE TIMER IN LOCALSTORAGE SO IT KEEPS GOING NO MATTER WHAT
+      removeAllCartItems();
+    }
+  }, [time]);
+
+  const removeAllCartItems = async () => {
+    let updatedLocalCart = [...localCart];
+    for (let i = 0; i < localCartItems.length; i++) {
+      const cartItem = localCartItems[i]
+      try {
+        // updatedLocalCart.splice(i, 1)
+        // localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
+        // setLocalCart(updatedLocalCart);
+        // dispatch(decrement(cartItem.cartProductQuantity))
+
+        await updateProductInventory({
+          variables: {
+            productId: cartItem.cartProductId,
+            sizeId: cartItem.cartProductSizeId,
+            cartProductQuantity: -cartItem.cartProductQuantity
+          },
+          refetchQueries: [
+            {
+              query: QUERY_PRODUCTS,
+            }
+          ]
+        });
+
+        updatedLocalCart = updatedLocalCart.filter(
+          (item) => item.cartProductId !== cartItem.cartProductId
+        );
+        localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart));
+        setLocalCart(updatedLocalCart);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const handleIncrement = async (index, cartItem) => {
     const productData = fetchedProductData[cartItem.cartProductId];
@@ -209,6 +263,10 @@ const LocalCart = () => {////////////////////////////// ADD 20 MIN TIMER FOR CAR
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
+      <div>
+        <h6>Due to limited stock, your cart will be held for {formatTime(time)}</h6>
+        {time === 0 && <h6 style={{color:"red"}}>Time's up!</h6>}
+      </div>
       <div className="col">
         {localCartItems && localCartItems.map((cartItem, index) =>(
           <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >

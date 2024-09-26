@@ -38,6 +38,13 @@ const CartList = () => {
   const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
   const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
   const [updateProductInventory, {updateInvError}] = useMutation(UPDATE_PRODUCT_INVENTORY)
+  
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    return `${minutes}:${formattedSeconds}`;
+  };
 
   const [time, setTime] = useState(60); 
   useEffect(() => {
@@ -52,7 +59,7 @@ const CartList = () => {
     }
   }, [time]);
 
-  const removeAllCartItems = async (cartItem) => {//with multiple cart items, inventory gets messed up
+  const removeAllCartItems = async () => {
     for (let i = 0; i < cartItems.length; i++) {
       try {
         await removeFromCart({
@@ -318,18 +325,13 @@ const CartList = () => {
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
-       <div>
-        <h1>Time Remaining: {time} seconds</h1>
-        {time === 0 && <h2>Time's up!</h2>}
+      <div>
+      <h6>Due to limited stock, your cart will be held for {formatTime(time)}</h6>
+        {time === 0 && <h2 style={{color:"red"}}>Time's up!</h2>}
       </div>
       <div className="col">
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
-                        {/* {time === 0 ? (event) => {
-                          event.preventDefault()
-                          handleTrash(cartItem)
-                        }  : null} */}
-
             <div className="col d-flex justify-content-start align-items-start">
               <img className="cartImageComponent" src={cartItem.cartProductImage}/>
             </div>
