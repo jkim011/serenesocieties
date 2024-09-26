@@ -47,7 +47,6 @@ const typeDefs = gql`
         email: String!
         password: String!
         cartItems: [cartItem]
-        cartExpiration: Date
         isAdmin: Boolean!
     }
 

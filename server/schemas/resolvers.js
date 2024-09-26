@@ -3,21 +3,7 @@ const { User, Product, Category, Stock, Cart } = require('../models');
 const { GraphQLScalarType, Kind } = require('graphql');
 const { signToken } = require('../utils/auth');
 
-const resolvers = {
-    Date: new GraphQLScalarType({
-        name: 'Date',
-        description: 'Date custom scalar type',
-        
-        serialize(value) {
-            return value instanceof Date ? value.toISOString() : null;
-        },
-        parseValue(value) {
-            return value ? new Date(value) : null;
-        },
-        parseLiteral(ast) {
-            return ast.kind === Kind.STRING ? new Date(ast.value) : null;
-        }
-    }),    
+const resolvers = {   
     Query: {
         me: async (parent, args, context) => {
             if(context.user){
