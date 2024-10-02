@@ -51,6 +51,25 @@ const LocalCart = () => {
     return `${minutes}:${formattedSeconds}`;
   };
 
+  useEffect(() => {
+    const storedEndTime = localStorage.getItem('cartTimerEndTime');
+    const currentTime = Math.floor(Date.now() / 1000);
+  
+    if (storedEndTime) {
+      const remainingTime = storedEndTime - currentTime;
+      if (remainingTime > 0) {
+        setTime(remainingTime);
+      } else {
+        setTime(0);
+        removeAllCartItems();
+      }
+    } else {
+      const endTime = currentTime + 120;
+      localStorage.setItem('cartTimerEndTime', endTime); 
+      setTime(120); 
+    }
+  }, []);
+
   const [time, setTime] = useState(900); 
   useEffect(() => {
     if (time > 0) {
@@ -59,21 +78,24 @@ const LocalCart = () => {
       }, 1000);
 
       return () => clearInterval(timer);
-    } else if (time === 0) { /////////////////////////// STORE TIMER IN LOCALSTORAGE SO IT KEEPS GOING NO MATTER WHAT
+    } else if (time === 0) {
       removeAllCartItems();
+      localStorage.removeItem('cartTimerEndTime');
     }
   }, [time]);
 
+  if(localCartItems.length == 0) {
+    localStorage.removeItem('cartTimerEndTime');
+
+  }
+
   const removeAllCartItems = async () => {
+    localStorage.removeItem('cartTimerEndTime');
+
     let updatedLocalCart = [...localCart];
     for (let i = 0; i < localCartItems.length; i++) {
       const cartItem = localCartItems[i]
       try {
-        // updatedLocalCart.splice(i, 1)
-        // localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
-        // setLocalCart(updatedLocalCart);
-        // dispatch(decrement(cartItem.cartProductQuantity))
-
         await updateProductInventory({
           variables: {
             productId: cartItem.cartProductId,
