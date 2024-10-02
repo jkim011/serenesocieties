@@ -51,10 +51,10 @@ const LocalCart = () => {
     return `${minutes}:${formattedSeconds}`;
   };
 
+  // Starts cart timer
   useEffect(() => {
     const storedEndTime = localStorage.getItem('cartTimerEndTime');
     const currentTime = Math.floor(Date.now() / 1000);
-  
     if (storedEndTime) {
       const remainingTime = storedEndTime - currentTime;
       if (remainingTime > 0) {
@@ -63,20 +63,20 @@ const LocalCart = () => {
         setTime(0);
         removeAllCartItems();
       }
-    } else {
+    } 
+    else {
       const endTime = currentTime + 120;
       localStorage.setItem('cartTimerEndTime', endTime); 
       setTime(120); 
     }
   }, []);
 
-  const [time, setTime] = useState(900); 
+  const [time, setTime] = useState(); 
   useEffect(() => {
     if (time > 0) {
       const timer = setInterval(() => {
         setTime(prevTime => prevTime - 1);
       }, 1000);
-
       return () => clearInterval(timer);
     } else if (time === 0) {
       removeAllCartItems();
@@ -86,12 +86,10 @@ const LocalCart = () => {
 
   if(localCartItems.length == 0) {
     localStorage.removeItem('cartTimerEndTime');
-
   }
 
   const removeAllCartItems = async () => {
     localStorage.removeItem('cartTimerEndTime');
-
     let updatedLocalCart = [...localCart];
     for (let i = 0; i < localCartItems.length; i++) {
       const cartItem = localCartItems[i]

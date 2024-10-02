@@ -19,6 +19,8 @@ function SingleProduct() {
   });
   const inventory = product.data?.product.inventory
 
+  const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+
   const me = useQuery(QUERY_ME);
   let loggedInCartItems = me.data?.me.cartItems
 
@@ -55,8 +57,37 @@ function SingleProduct() {
   const removeCheckMark = () => {
     setCartBtnText("ADD TO CART")
   }
+
+  // Starts cart timer
+  useEffect(() => {
+    const storedEndTime = localStorage.getItem('cartTimerEndTime');
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (storedEndTime) {
+      const remainingTime = storedEndTime - currentTime;
+      if (remainingTime > 0) {
+        setTime(remainingTime);
+      } else {
+        setTime(0);
+      }
+    } else {
+      const endTime = currentTime + 120;
+      localStorage.setItem('cartTimerEndTime', endTime); 
+      setTime(120); 
+    }
+  }, []);
+  const [time, setTime] = useState(); 
+  useEffect(() => {
+    if (time > 0) {
+      const timer = setInterval(() => {
+        setTime(prevTime => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else if (time === 0) {
+      localStorage.removeItem('cartTimerEndTime');
+    }
+  }, [time]);
+
 ////////// cart count /////////////////
-  const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   let count = 0
   if(localCartItems) {
     for ( let i=0; i < localCartItems.length; i++) {
@@ -68,7 +99,6 @@ function SingleProduct() {
 
   const handleAddToCart = async (event) => {
     event.preventDefault();
-
     const cartProductId = productId;
     const cartProductSizeId = sizeId;
     const duplicateCartItem = loggedInCartItems.find(loggedInCartItem => loggedInCartItem.cartProductId === cartProductId && loggedInCartItem.cartProductSizeId === cartProductSizeId)
@@ -152,7 +182,7 @@ function SingleProduct() {
         showCheckMark();
       } catch(error){
         console.log(error)
-      } 
+      }
     }
   }
   console.log(loggedInCartItems)
@@ -195,24 +225,28 @@ function SingleProduct() {
       
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
-    await updateProductInventory({
-      variables: {
-        productId,
-        sizeId,
-        cartProductQuantity: 1
-      },
-      refetchQueries: [
-        {
-          query: QUERY_SINGLE_PRODUCT,
-          variables: {
-            productId
+    try {
+      await updateProductInventory({
+        variables: {
+          productId,
+          sizeId,
+          cartProductQuantity: 1
+        },
+        refetchQueries: [
+          {
+            query: QUERY_SINGLE_PRODUCT,
+            variables: {
+              productId
+            }
           }
-        }
-      ],
-    })
-    dispatch(increment())
-    setSize("");
-    showCheckMark();
+        ],
+      })
+      dispatch(increment())
+      setSize("");
+      showCheckMark();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // if(loading){
