@@ -52,6 +52,8 @@ const LocalCart = () => {
   };
 
   // Starts cart timer
+  const [time, setTime] = useState(); /////// put in a component for logged in cart too
+
   useEffect(() => {
     const storedEndTime = localStorage.getItem('cartTimerEndTime');
     const currentTime = Math.floor(Date.now() / 1000);
@@ -65,13 +67,12 @@ const LocalCart = () => {
       }
     } 
     else {
-      const endTime = currentTime + 120;
+      const endTime = currentTime + 30;
       localStorage.setItem('cartTimerEndTime', endTime); 
-      setTime(120); 
+      setTime(30); 
     }
   }, []);
 
-  const [time, setTime] = useState(); 
   useEffect(() => {
     if (time > 0) {
       const timer = setInterval(() => {

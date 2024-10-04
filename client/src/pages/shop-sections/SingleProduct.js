@@ -59,6 +59,8 @@ function SingleProduct() {
   }
 
   // Starts cart timer
+  const [time, setTime] = useState(); 
+
   useEffect(() => {
     const storedEndTime = localStorage.getItem('cartTimerEndTime');
     const currentTime = Math.floor(Date.now() / 1000);
@@ -70,13 +72,13 @@ function SingleProduct() {
         setTime(0);
       }
     } else {
-      const endTime = currentTime + 120;
+      const endTime = currentTime + 30;
       localStorage.setItem('cartTimerEndTime', endTime); 
-      setTime(120); 
+      setTime(30); 
     }
   }, []);
-  const [time, setTime] = useState(); 
-  useEffect(() => {
+
+  useEffect(() => { //still needs this for time to go correctly and not too fast when not on cart pg
     if (time > 0) {
       const timer = setInterval(() => {
         setTime(prevTime => prevTime - 1);
@@ -94,7 +96,7 @@ function SingleProduct() {
       count += parseInt(localCartItems[i].cartProductQuantity)
     }
   }
-////////////////////////////////////////
+
   const dispatch = useDispatch();
 
   const handleAddToCart = async (event) => {
