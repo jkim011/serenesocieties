@@ -2,7 +2,7 @@ import CartList from '../../components/cart/CartList';
 import Auth from '../../utils/auth';
 import LocalCart from './LocalCart';
 
-function Cart() {
+function Cart({updateCart}) {
     return (
       <div>
         <div className='mt-4 mb-4 text-center'>         
@@ -11,7 +11,7 @@ function Cart() {
         {Auth.loggedIn() ? (
           <CartList />
         ):(
-          <LocalCart/>
+          <LocalCart updateCart={updateCart}/>
         )}
         
       </div>

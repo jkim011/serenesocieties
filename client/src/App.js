@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {
   ApolloClient,
   InMemoryCache,
@@ -36,6 +37,8 @@ import EditProduct from './pages/admin/EditProduct';
 import Success from './components/cart/Success';
 import Cancel from './components/cart/Cancel';
 
+import CartTimer from './components/cart/CartTimer';
+
 // Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -64,12 +67,31 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [localCartItems, setLocalCartItems] = useState(JSON.parse(localStorage.getItem("allCartItems")) || []);
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const updateCart = () => {
+    setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
+  };
+
   return (
     <div className='page-container'>
       <ApolloProvider client={client}>
         <Router>
           <div className='content-wrap'>
             <NavBar />
+            <div>
+              {localCartItems.length >= 1 ? <CartTimer updateCart={updateCart}/> : <></>}
+            </div>
             <Routes>
               <Route
                 path='/'
@@ -117,7 +139,7 @@ function App() {
               />
               <Route
                 path={`/shop/products/:productId`}
-                element={<SingleProduct />}
+                element={<SingleProduct updateCart={updateCart}/>}
               />
               <Route
                 path={`/signup`}
@@ -141,7 +163,7 @@ function App() {
               />
               <Route
                 path="/cart"
-                element={<Cart/>}
+                element={<Cart updateCart={updateCart}/>}
               />
               <Route
                 path="/success"
