@@ -11,8 +11,9 @@ import {ADD_TO_CART, ADD_TO_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY} from "../..
 
 import Auth from "../../utils/auth";
 import "../../styles/singleProduct.css"
+import LocalCart from "../main-pages/LocalCart";
 
-function SingleProduct() {
+function SingleProduct({updateCart}) {
   const { productId } = useParams();
   const product = useQuery(QUERY_SINGLE_PRODUCT, {
     variables: { productId: productId }
@@ -34,17 +35,6 @@ function SingleProduct() {
   const sizeName = sizeFields[0]
   const sizeId = sizeFields[1]
   const sizePriceId = sizeFields[2]
-
-  console.log("__________________________________________")
-  console.log("CartProductId", productId)
-  console.log("product name", product.name)
-  console.log("image", product.image)
-  console.log("price", product.price)
-  console.log("priceId", product.priceId)
-  console.log("sizeId", sizeId )
-  console.log("sizeName", sizeName )
-  console.log("sizePriceId", sizePriceId )
-  console.log("__________________________________________")
 
   const [addCartItem, {error}] = useMutation(ADD_TO_CART)
   const [updateProductInventory, {err}] = useMutation(UPDATE_PRODUCT_INVENTORY);
@@ -76,7 +66,7 @@ function SingleProduct() {
       localStorage.setItem('cartTimerEndTime', endTime); 
       setTime(30); 
     }
-  }, []);
+  }, [localCartItems]);
 
   useEffect(() => { //still needs this for time to go correctly and not too fast when not on cart pg
     if (time > 0) {
@@ -246,6 +236,7 @@ function SingleProduct() {
       dispatch(increment())
       setSize("");
       showCheckMark();
+      updateCart();
     } catch (error) {
       console.log(error);
     }
