@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT } from "../../utils/queries";
+import { QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT, QUERY_ME } from "../../utils/queries";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
-import {UPDATE_PRODUCT_INVENTORY} from "../../utils/mutations"
+import {UPDATE_PRODUCT_INVENTORY, REMOVE_FROM_CART} from "../../utils/mutations"
+import Auth from "../../utils/auth";
 
-const CartTimer = ({updateCart}) => {
+const CartTimer = ({updateCart, setLoggedInCartItems, updateLoggedInCartItems}) => {
   const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const [localCart, setLocalCart] = useState(JSON.parse(localStorage.getItem('allCartItems')) || []);
   const [fetchedProductData, setFetchedProductData] = useState({});
@@ -12,7 +13,12 @@ const CartTimer = ({updateCart}) => {
   const [queriedProduct, setQueriedProduct] = useState(null);
   const [time, setTime] = useState();
 
+  const {loading, data, error} = useQuery(QUERY_ME);
+  const user = data?.me || []
+  let cartItems = user.cartItems || []
+
   const [updateProductInventory, {updateError}] = useMutation(UPDATE_PRODUCT_INVENTORY);
+  const [ removeFromCart, {err} ] = useMutation(REMOVE_FROM_CART);
 
   useEffect(() => {
     localCart.forEach(cartItem => {
@@ -56,7 +62,10 @@ const CartTimer = ({updateCart}) => {
     }
   }, [time]);
 
-  if(localCartItems.length === 0) {
+  if(localCartItems && localCartItems.length === 0) {
+    localStorage.removeItem('cartTimerEndTime');
+  }
+  if(Auth.loggedIn && cartItems.length === 0) {
     localStorage.removeItem('cartTimerEndTime');
   }
 
@@ -70,30 +79,58 @@ const CartTimer = ({updateCart}) => {
   const removeAllCartItems = async () => {  // LOOK AT BEFOREUNLOAD EVENT TO CLEAR BEFORE APP CLOSES
     localStorage.removeItem('cartTimerEndTime');
     let updatedLocalCart = [...localCart];
-    for (let i = 0; i < localCartItems.length; i++) {
-      const cartItem = localCartItems[i]
-      try {
-        await updateProductInventory({
-          variables: {
-            productId: cartItem.cartProductId,
-            sizeId: cartItem.cartProductSizeId,
-            cartProductQuantity: -cartItem.cartProductQuantity
-          },
-          refetchQueries: [
-            {
-              query: QUERY_PRODUCTS,
-            }
-          ]
-        });
+    if(localCartItems){ 
+      for (let i = 0; i < localCartItems.length; i++) {
+        const cartItem = localCartItems[i]
+        try {
+          await updateProductInventory({
+            variables: {
+              productId: cartItem.cartProductId,
+              sizeId: cartItem.cartProductSizeId,
+              cartProductQuantity: -cartItem.cartProductQuantity
+            },
+            refetchQueries: [
+              {
+                query: QUERY_PRODUCTS,
+              }
+            ]
+          });
 
-        updatedLocalCart = updatedLocalCart.filter(
-          (item) => item.cartProductId !== cartItem.cartProductId
-        );
-        localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart));
-        setLocalCart(updatedLocalCart);
-        updateCart();
-      } catch (error) {
-        console.log(error);
+          updatedLocalCart = updatedLocalCart.filter(
+            (item) => item.cartProductId !== cartItem.cartProductId
+          );
+          localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart));
+          setLocalCart(updatedLocalCart);
+          updateCart();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else {
+      for (let i = 0; i < cartItems.length; i++) {
+        try {
+          await removeFromCart({
+            variables: {
+              userId: Auth.getProfile().data._id,
+              cartId: cartItems[i]._id
+            }
+          });
+  
+          await updateProductInventory({
+            variables: {
+              productId: cartItems[i].cartProductId,
+              sizeId: cartItems[i].cartProductSizeId,
+              cartProductQuantity: -cartItems[i].cartProductQuantity
+            },
+            refetchQueries: [
+              {
+                query: QUERY_PRODUCTS,
+              }
+            ]
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
