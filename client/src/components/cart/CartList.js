@@ -3,7 +3,6 @@ import { QUERY_ME, QUERY_PRODUCTS, QUERY_SINGLE_PRODUCT } from "../../utils/quer
 import { ADD_TO_CART, REMOVE_FROM_CART, ADD_TO_CART_QUANTITY, REMOVE_CART_QUANTITY, UPDATE_PRODUCT_INVENTORY } from "../../utils/mutations";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { loadStripe } from "@stripe/stripe-js"
-
 import  "../../styles/cartList.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, useParams } from "react-router";
@@ -18,12 +17,12 @@ const getStripe = () => {
   return stripePromise;
 }
 
-const CartList = () => {
+const CartList = ({updateCart}) => {
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
   const user = data?.me || []
-  let cartItems = data?.me.cartItems || []
+  let cartItems = user.cartItems || []
   console.log(cartItems, "cartItems")
 
   const {productsLoading, productsData, productsError} = useQuery(QUERY_PRODUCTS);
@@ -38,54 +37,6 @@ const CartList = () => {
   const [addToCartQuantity, {addQuantError}] = useMutation(ADD_TO_CART_QUANTITY)
   const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
   const [updateProductInventory, {updateInvError}] = useMutation(UPDATE_PRODUCT_INVENTORY)
-  
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
-    return `${minutes}:${formattedSeconds}`;
-  };
-
-  const [time, setTime] = useState(60); 
-  useEffect(() => {
-    if (time > 0) {
-      const timer = setInterval(() => {
-        setTime(prevTime => prevTime - 1);
-      }, 1000);
-
-      return () => clearInterval(timer);
-    } else if (time === 0) {
-      removeAllCartItems();
-    }
-  }, [time]);
-
-  const removeAllCartItems = async () => {
-    for (let i = 0; i < cartItems.length; i++) {
-      try {
-        await removeFromCart({
-          variables: {
-            userId: Auth.getProfile().data._id,
-            cartId: cartItems[i]._id
-          }
-        });
-
-        await updateProductInventory({
-          variables: {
-            productId: cartItems[i].cartProductId,
-            sizeId: cartItems[i].cartProductSizeId,
-            cartProductQuantity: -cartItems[i].cartProductQuantity
-          },
-          refetchQueries: [
-            {
-              query: QUERY_PRODUCTS,
-            }
-          ]
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
 
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
@@ -325,10 +276,10 @@ const CartList = () => {
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
-      <div>
+      {/* <div>
       <h6>Due to limited stock, your cart will be held for {formatTime(time)}</h6>
         {time === 0 && <h2 style={{color:"red"}}>Time's up!</h2>}
-      </div>
+      </div> */}
       <div className="col">
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
@@ -362,7 +313,8 @@ const CartList = () => {
 
               <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={(event) => {
                 event.preventDefault();
-                handleTrash(cartItem)
+                handleTrash(cartItem);
+                updateCart();
               }}>
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
               </Link>

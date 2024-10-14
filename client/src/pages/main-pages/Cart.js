@@ -9,7 +9,7 @@ function Cart({updateCart}) {
           <h2 className='page-title cart'>Cart</h2>
         </div>
         {Auth.loggedIn() ? (
-          <CartList />
+          <CartList updateCart={updateCart}/>
         ):(
           <LocalCart updateCart={updateCart}/>
         )}
