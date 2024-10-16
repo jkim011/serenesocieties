@@ -49,35 +49,72 @@ function SingleProduct({updateCart}) {
   }
 
   // Starts cart timer
-  const [time, setTime] = useState(); 
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  
+  const cartTimer = new Date(Date.now() + 1 * 60 * 1000);
+  const getCartTimer = () => {
+    const storedCartTimer = localStorage.getItem("cartTimer");
+    if (storedCartTimer) {
+      return new Date(storedCartTimer);
+    } else {
+      const newCartTimer = new Date(Date.now() + 1 * 60 * 1000);
+      localStorage.setItem("cartTimer", newCartTimer.toString());
+      return newCartTimer;
+    }
+  };
+
+  const getTime = () => {
+    const time = Date.parse(cartTimer) - Date.now();
+    if (time > 0) {
+      setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
+      setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
+      setMinutes(Math.floor((time / 1000 / 60) % 60));
+      setSeconds(Math.floor((time / 1000) % 60));
+    } else {
+      setDays(0);
+      setHours(0);
+      setMinutes(0);
+      setSeconds(0);
+      localStorage.removeItem("cartTimer"); 
+    }
+  };
 
   useEffect(() => {
-    const storedEndTime = localStorage.getItem('cartTimerEndTime');
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (storedEndTime) {
-      const remainingTime = storedEndTime - currentTime;
-      if (remainingTime > 0) {
-        setTime(remainingTime);
-      } else {
-        setTime(0);
-      }
-    } else {
-      const endTime = currentTime + 30;
-      localStorage.setItem('cartTimerEndTime', endTime); 
-      setTime(30); 
-    }
-  }, [localCartItems]);
+    const cartTimer = getCartTimer();
+    const interval = setInterval(() => getTime(cartTimer), 1000);
+    return () => clearInterval(interval);
+  }, []);
 
-  useEffect(() => { //still needs this for time to go correctly and not too fast when not on cart pg
-    if (time > 0) {
-      const timer = setInterval(() => {
-        setTime(prevTime => prevTime - 1);
-      }, 1000);
-      return () => clearInterval(timer);
-    } else if (time === 0) {
-      localStorage.removeItem('cartTimerEndTime');
-    }
-  }, [time]);
+  // const [time, setTime] = useState();  /////////////////// Works to continue timer when app is closed but it's inaccurate
+  // useEffect(() => {
+  //   const storedCartTimer = localStorage.getItem('cartTimer');
+  //   const currentTime = Math.floor(Date.now() / 1000);
+  //   if (storedCartTimer) {
+  //     const remainingTime = storedCartTimer - currentTime;
+  //     if (remainingTime > 0) {
+  //       setTime(remainingTime);
+  //     } else {
+  //       setTime(0);
+  //     }
+  //   } else {
+  //     const cartTimer = currentTime + 30;
+  //     localStorage.setItem('cartTimer', cartTimer); 
+  //     setTime(30); 
+  //   }
+  // }, [localCartItems]);
+  // useEffect(() => { //still needs this for time to go correctly and not too fast when not on cart pg
+  //   if (time > 0) {
+  //     const timer = setInterval(() => {
+  //       setTime(prevTime => prevTime - 1);
+  //     }, 1000);
+  //     return () => clearInterval(timer);
+  //   } else if (time === 0) {
+  //     localStorage.removeItem('cartTimer');
+  //   }
+  // }, [time]);  ///////////////
 
 ////////// cart count /////////////////
   let count = 0

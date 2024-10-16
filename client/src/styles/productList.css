@@ -58,9 +58,9 @@
 
 .productGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  /* grid-template-columns: 500px 500px 500px; */
-  gap: 120px;
+  /* grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); */
+  grid-template-columns: 500px 500px 500px;
+  gap: 125px;
   margin: 0 auto;
   padding: 20px;
   max-width: 95%;
