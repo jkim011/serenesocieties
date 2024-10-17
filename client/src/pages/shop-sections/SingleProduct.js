@@ -54,13 +54,13 @@ function SingleProduct({updateCart}) {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   
-  const cartTimer = new Date(Date.now() + 1 * 60 * 1000);
+  const cartTimer = new Date(Date.now() + 15 * 60 * 1000);
   const getCartTimer = () => {
     const storedCartTimer = localStorage.getItem("cartTimer");
     if (storedCartTimer) {
       return new Date(storedCartTimer);
     } else {
-      const newCartTimer = new Date(Date.now() + 1 * 60 * 1000);
+      const newCartTimer = new Date(Date.now() + 15 * 60 * 1000);
       localStorage.setItem("cartTimer", newCartTimer.toString());
       return newCartTimer;
     }
