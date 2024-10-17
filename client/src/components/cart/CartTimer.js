@@ -30,7 +30,7 @@ const CartTimer = ({updateCart}) => {
     });
   }, [singleProductData, singleProductError, queriedProduct, localCart]);
 
-  const [days, setDays] = useState();
+  const [days, setDays] = useState(); // might let timer be for few days if user signs up
   const [hours, setHours] = useState();
   const [minutes, setMinutes] = useState();
   const [seconds, setSeconds] = useState();
@@ -40,7 +40,7 @@ const CartTimer = ({updateCart}) => {
     if (storedCartTimer) {
       return new Date(storedCartTimer);
     } else {
-      const newCartTimer = new Date(Date.now() + 1 * 60 * 1000);
+      const newCartTimer = new Date(Date.now() + 15 * 60 * 1000);
       localStorage.setItem("cartTimer", newCartTimer.toString());
       return newCartTimer;
     }
@@ -110,11 +110,17 @@ const CartTimer = ({updateCart}) => {
     localStorage.removeItem("cartTimer");
   }
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    const formattedSeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
-    return `${minutes}:${formattedSeconds}`;
+  const formatTime = (days, hours, minutes, seconds) => {
+    const formatUnit = (unit) => (unit < 10 ? `0${unit}` : unit); 
+    let timeString = ""; 
+    if (days > 0) {
+      timeString += `${days}d `;
+    }
+    if (hours > 0 || days > 0) {
+      timeString += `${formatUnit(hours)}h `;
+    }
+    timeString += `${formatUnit(minutes)}m ${formatUnit(seconds)}s`;
+    return timeString;
   };
 
   const removeAllCartItems = async () => {  // LOOK AT BEFOREUNLOAD EVENT TO CLEAR BEFORE APP CLOSES
@@ -180,7 +186,7 @@ const CartTimer = ({updateCart}) => {
     <div className="d-flex justify-content-center align-items-center text-bg-dark pt-1">
       {/* <h6>Due to limited stock, your cart will be held for {formatTime(time)}</h6>
       {time === 0 && <h6 style={{color:"red"}}>Time's up!</h6>} */}
-      <div className="timer">{minutes} {seconds}</div>
+      <h6 className="timer">Due to limited stock, your cart will be held for {formatTime(days, hours, minutes, seconds)}</h6>
     </div>
   )
 }
