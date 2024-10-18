@@ -48,45 +48,45 @@ function SingleProduct({updateCart}) {
     setCartBtnText("ADD TO CART")
   }
 
-  // Starts cart timer
-  const [days, setDays] = useState(0);
-  const [hours, setHours] = useState(0);
-  const [minutes, setMinutes] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  // // Starts cart timer
+  // const [days, setDays] = useState(0);
+  // const [hours, setHours] = useState(0);
+  // const [minutes, setMinutes] = useState(0);
+  // const [seconds, setSeconds] = useState(0);
   
-  const cartTimer = new Date(Date.now() + 15 * 60 * 1000);
-  const getCartTimer = () => {
-    const storedCartTimer = localStorage.getItem("cartTimer");
-    if (storedCartTimer) {
-      return new Date(storedCartTimer);
-    } else {
-      const newCartTimer = new Date(Date.now() + 15 * 60 * 1000);
-      localStorage.setItem("cartTimer", newCartTimer.toString());
-      return newCartTimer;
-    }
-  };
+  // const cartTimer = new Date(Date.now() + 15 * 60 * 1000);
+  // const getCartTimer = () => {
+  //   const storedCartTimer = localStorage.getItem("cartTimer");
+  //   if (storedCartTimer) {
+  //     return new Date(storedCartTimer);
+  //   } else {
+  //     const newCartTimer = new Date(Date.now() + 15 * 60 * 1000);
+  //     localStorage.setItem("cartTimer", newCartTimer.toString());
+  //     return newCartTimer;
+  //   }
+  // };
 
-  const getTime = () => {
-    const time = Date.parse(cartTimer) - Date.now();
-    if (time > 0) {
-      setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
-      setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
-      setMinutes(Math.floor((time / 1000 / 60) % 60));
-      setSeconds(Math.floor((time / 1000) % 60));
-    } else {
-      setDays(0);
-      setHours(0);
-      setMinutes(0);
-      setSeconds(0);
-      localStorage.removeItem("cartTimer"); 
-    }
-  };
+  // const getTime = () => {
+  //   const time = Date.parse(cartTimer) - Date.now();
+  //   if (time > 0) {
+  //     setDays(Math.floor(time / (1000 * 60 * 60 * 24)));
+  //     setHours(Math.floor((time / (1000 * 60 * 60)) % 24));
+  //     setMinutes(Math.floor((time / 1000 / 60) % 60));
+  //     setSeconds(Math.floor((time / 1000) % 60));
+  //   } else {
+  //     setDays(0);
+  //     setHours(0);
+  //     setMinutes(0);
+  //     setSeconds(0);
+  //     localStorage.removeItem("cartTimer"); 
+  //   }
+  // };
 
-  useEffect(() => {
-    const cartTimer = getCartTimer();
-    const interval = setInterval(() => getTime(cartTimer), 1000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const cartTimer = getCartTimer();
+  //   const interval = setInterval(() => getTime(cartTimer), 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // const [time, setTime] = useState();  /////////////////// Works to continue timer when app is closed but it's inaccurate
   // useEffect(() => {
@@ -149,21 +149,21 @@ function SingleProduct({updateCart}) {
             }
           ]
         });
-        await updateProductInventory({
-          variables: {
-            productId: cartProductId,
-            sizeId: cartProductSizeId,
-            cartProductQuantity: 1
-          },
-          refetchQueries: [
-            {
-              query: QUERY_SINGLE_PRODUCT,
-              variables: {
-                productId
-              }
-            }
-          ]
-        })
+        // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+        //   variables: {
+        //     productId: cartProductId,
+        //     sizeId: cartProductSizeId,
+        //     cartProductQuantity: 1
+        //   },
+        //   refetchQueries: [
+        //     {
+        //       query: QUERY_SINGLE_PRODUCT,
+        //       variables: {
+        //         productId
+        //       }
+        //     }
+        //   ]
+        // })
         setSize("");
         showCheckMark();
       } catch (err) {
@@ -192,21 +192,21 @@ function SingleProduct({updateCart}) {
             }
           ],
         });
-        await updateProductInventory({
-          variables: {
-            productId: cartProductId,
-            sizeId: cartProductSizeId,
-            cartProductQuantity: 1
-          },
-          refetchQueries: [
-            {
-              query: QUERY_SINGLE_PRODUCT,
-              variables: {
-                productId
-              }
-            }
-          ]
-        })
+        // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+        //   variables: {
+        //     productId: cartProductId,
+        //     sizeId: cartProductSizeId,
+        //     cartProductQuantity: 1
+        //   },
+        //   refetchQueries: [
+        //     {
+        //       query: QUERY_SINGLE_PRODUCT,
+        //       variables: {
+        //         productId
+        //       }
+        //     }
+        //   ]
+        // })
         setSize("");
         showCheckMark();
       } catch(error){
@@ -215,7 +215,19 @@ function SingleProduct({updateCart}) {
     }
   }
   console.log(loggedInCartItems)
-  
+
+  let outOfSize = false
+  for(let i = 0; i < localCartItems.length; i++) {
+    console.log(localCartItems[i].cartProductQuantity, "local cart quant")
+    console.log(localCartItems[i].cartProductPriceId, "local cart priceId")
+    if(sizePriceId === localCartItems[i].cartProductPriceId) {
+      // window.alert(`That was the last of size ${sizeName}`)
+      outOfSize = true
+    } else {
+      console.log(false)
+    }
+  }
+
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
     event.preventDefault();
@@ -228,13 +240,6 @@ function SingleProduct({updateCart}) {
     if(duplicateCartItem) {
       try {
         duplicateCartItem.cartProductQuantity += 1
-        // await updateProductInventory({
-        //   variables: {
-        //     cartProductId,
-        //     cartProductSizeId,
-        //     cartProductQuantity: 1
-        //   }
-        // })
       } catch (err) {
         console.log(err)
       }
@@ -250,43 +255,33 @@ function SingleProduct({updateCart}) {
         "cartProductQuantity": 1
       }
       localStorage.setItem("cartItem", JSON.stringify(cartItem));
-      existingLocalCartItems.push(cartItem);
-      
+      existingLocalCartItems.push(cartItem);   
     }
     localStorage.setItem("allCartItems", JSON.stringify(existingLocalCartItems));
-    try {
-      await updateProductInventory({
-        variables: {
-          productId,
-          sizeId,
-          cartProductQuantity: 1
-        },
-        refetchQueries: [
-          {
-            query: QUERY_SINGLE_PRODUCT,
-            variables: {
-              productId
-            }
-          }
-        ],
-      })
+    // try {
+    //   await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+    //     variables: {
+    //       productId,
+    //       sizeId,
+    //       cartProductQuantity: 1
+    //     },
+    //     refetchQueries: [
+    //       {
+    //         query: QUERY_SINGLE_PRODUCT,
+    //         variables: {
+    //           productId
+    //         }
+    //       }
+    //     ],
+    //   })
       dispatch(increment())
       setSize("");
       showCheckMark();
-      updateCart();
-    } catch (error) {
-      console.log(error);
-    }
+      // updateCart();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
-
-  // if(loading){
-  //   return(
-  //     <div>
-  //       <p>Loading</p>
-  //     </div>
-  //   )
-  // } else 
-console.log(inventory, "inventory")
 
   let productCollectionName 
   for (let i = 0; i < product.data?.product.categories.length; i++) {
@@ -336,11 +331,12 @@ console.log(inventory, "inventory")
               </div>
             ))}
           </div>
+          {outOfSize===true ? <h5 className="mt-1 fst-italic">Sorry, that's all of size {sizeName}</h5> : <></>}
           <div className="add-to-cart">
             {Auth.loggedIn() ? (
               <button id="addCartBtn" className= "cart-btn" onClick={handleAddToCart} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
             ):(
-              <button id="addCartLocalBtn" className="cart-btn" onClick={handleAddToCartLocal} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
+              <button id="addCartLocalBtn" className="cart-btn" onClick={handleAddToCartLocal} disabled={size === "" || cartBtnText === "Adding" || outOfSize === true}>{cartBtnText}</button>
             )}
           </div> 
         </form>

@@ -57,19 +57,19 @@ const LocalCart = ({updateCart}) => {
         localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
         setLocalCart(updatedLocalCart);
         dispatch(increment());
-        await updateProductInventory({
-          variables: {
-            productId: cartItem.cartProductId,
-            sizeId: cartItem.cartProductSizeId,
-            cartProductQuantity: 1,
-          },
-          refetchQueries: [
-            { 
-              query: QUERY_PRODUCTS, 
-              variables: { products } 
-            }
-          ],
-        });
+        // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+        //   variables: {
+        //     productId: cartItem.cartProductId,
+        //     sizeId: cartItem.cartProductSizeId,
+        //     cartProductQuantity: 1,
+        //   },
+        //   refetchQueries: [
+        //     { 
+        //       query: QUERY_PRODUCTS, 
+        //       variables: { products } 
+        //     }
+        //   ],
+        // });
       }
     } else {
       console.log("Error with product data");
@@ -86,19 +86,19 @@ const LocalCart = ({updateCart}) => {
       localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
       setLocalCart(updatedLocalCart);
       dispatch(decrement())
-      await updateProductInventory({
-        variables: {
-          productId: cartItem.cartProductId,
-          sizeId: cartItem.cartProductSizeId,
-          cartProductQuantity: -1
-        },
-        refetchQueries: [
-          {
-            query: QUERY_PRODUCTS,
-            variables: {products}
-          }
-        ]
-      });
+      // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+      //   variables: {
+      //     productId: cartItem.cartProductId,
+      //     sizeId: cartItem.cartProductSizeId,
+      //     cartProductQuantity: -1
+      //   },
+      //   refetchQueries: [
+      //     {
+      //       query: QUERY_PRODUCTS,
+      //       variables: {products}
+      //     }
+      //   ]
+      // });
     }
   }
 
@@ -108,19 +108,19 @@ const LocalCart = ({updateCart}) => {
     localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
     setLocalCart(updatedLocalCart);
     dispatch(decrement(cartItem.cartProductQuantity))
-    await updateProductInventory({
-      variables: {
-        productId: cartItem.cartProductId,
-        sizeId: cartItem.cartProductSizeId,
-        cartProductQuantity: -cartItem.cartProductQuantity
-      },
-      refetchQueries: [
-        {
-          query: QUERY_PRODUCTS,
-          variables: {products}
-        }
-      ]
-    });
+    // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
+    //   variables: {
+    //     productId: cartItem.cartProductId,
+    //     sizeId: cartItem.cartProductSizeId,
+    //     cartProductQuantity: -cartItem.cartProductQuantity
+    //   },
+    //   refetchQueries: [
+    //     {
+    //       query: QUERY_PRODUCTS,
+    //       variables: {products}
+    //     }
+    //   ]
+    // });
   }
 
   const [stripeError, setStripeError] = useState(null)
@@ -236,7 +236,7 @@ const LocalCart = ({updateCart}) => {
                 onClick={(event) => {
                   event.preventDefault();
                   handleTrash(index, cartItem);
-                  updateCart();
+                  // updateCart();
                 }} 
               >
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>

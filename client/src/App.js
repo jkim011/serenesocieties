@@ -43,37 +43,37 @@ library.add(faTrashCan, faCartShopping, faUser, faXmark)
 
 
 function App() {
-  const [localCartItems, setLocalCartItems] = useState(JSON.parse(localStorage.getItem("allCartItems")) || []);
-  const [loggedInCartItems, setLoggedInCartItems] = useState([]);
+  // const [localCartItems, setLocalCartItems] = useState(JSON.parse(localStorage.getItem("allCartItems")) || []);
+  // const [loggedInCartItems, setLoggedInCartItems] = useState([]);
 
-  const { loading, data, error } = useQuery(QUERY_ME);
-  useEffect(() => {
-    if (!loading && data) {
-      setLoggedInCartItems(data.me.cartItems || []);
-    }
-  }, [loading, data]);
+  // const { loading, data, error } = useQuery(QUERY_ME);
+  // useEffect(() => {
+  //   if (!loading && data) {
+  //     setLoggedInCartItems(data.me.cartItems || []);
+  //   }
+  // }, [loading, data]);
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
-    };
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-  const updateCart = () => {
-    setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
-  };
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
+  //   };
+  //   window.addEventListener("storage", handleStorageChange);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange);
+  //   };
+  // }, []);
+  // const updateCart = () => {
+  //   setLocalCartItems(JSON.parse(localStorage.getItem("allCartItems")) || []);
+  // };
 
   return (
     <div className='page-container'>
       <Router>
         <div className='content-wrap'>
           <NavBar />
-          <div>
+          {/* <div>
             {localCartItems.length >= 1 || loggedInCartItems.length >= 1 ? <CartTimer updateCart={updateCart}/> : <></> }
-          </div>
+          </div> */}
           <Routes>
             <Route
               path='/'
@@ -121,7 +121,8 @@ function App() {
             />
             <Route
               path={`/shop/products/:productId`}
-              element={<SingleProduct updateCart={updateCart}/>}
+              element={<SingleProduct/>}
+              // element={<SingleProduct updateCart={updateCart}/>}
             />
             <Route
               path={`/signup`}
@@ -145,7 +146,8 @@ function App() {
             />
             <Route
               path="/cart"
-              element={<Cart updateCart={updateCart}/>}
+              element={<Cart/>}
+              // element={<Cart updateCart={updateCart}/>}
             />
             <Route
               path="/success"
