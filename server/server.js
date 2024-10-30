@@ -5,14 +5,14 @@ const { authMiddleware } = require('./utils/auth');
 const path = require('path');
 const db = require('./config/connection');
 require('dotenv').config();
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
-const cors = require("cors")
+const cors = require("cors");
+
+const { request, gql } = require('graphql-request');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-
-app.use(express.json());
 
 const server = new ApolloServer({
   typeDefs,
@@ -20,77 +20,96 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-// const corsOptions = {           ///// had to comment out for gql sandbox to work
-//   origin:'http://localhost:3000', 
-//   access:true,   
-//   optionSuccessStatus:200
-// }
-// app.use(cors(corsOptions));
+const corsOptions = {  ///// had to comment out for gql sandbox to work
+  origin:'http://localhost:3000', 
+  access:true,   
+  optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+// app.use(bodyParser.json());
 
-// const fulfillOrder = (lineItems) => {
-//   console.log("Fulfilling order", lineItems);
-//   for (let i = 0; i < lineItems.data.length; i++) {
-//     console.log("Line item price id:", lineItems.data[i].price.id, " Quantity:", lineItems.data[i].quantity) //pull price id out to match with inventory and update
-//     // send email to user with receipt and tracking 
-//   }
-// }
-app.use(bodyParser.json());
+const endpoint = `http://localhost:${PORT}${server.graphqlPath}`;
 
-app.post('/webhook', bodyParser.raw({type: 'application/json'}), async (request, response) => {
-  const payload = request.body;
-  const sig = request.headers['stripe-signature'];
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(payload, sig, process.env.ENDPOINT_SECRET);
-  } catch (err) {
-    return response.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  if (event.type === 'checkout.session.completed') {
-    const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
-      event.data.object.id,
-      {
-        expand: ['line_items'],
+const handleCheckoutSuccess = async (lineItems) => {
+  //query products, loop thru lineItems.price and product.inventory.priceId to get a match, update inventory
+  const query = gql`
+    query getProducts {
+      products {
+        _id
+        name
+        price
+        inventory {
+          _id
+          size
+          quantity
+          priceId
+        }
       }
-    );
-    const lineItems = sessionWithLineItems.line_items;
-
-    fulfillOrder(lineItems);
+    }
+  `;
+  try {
+    const data = await request(endpoint, query);
+    lineItems.data.forEach((lineItem) => {
+      const lineItemPriceId = lineItem.price.id;
+      const lineItemQuantity = lineItem.quantity;
+  
+      console.log('lineItem price id: ', lineItemPriceId, 'lineItem quantity: ', lineItemQuantity);
+  
+      const matchingProduct = data.products.find((product) =>
+        product.inventory.some((inventoryItem) => inventoryItem.priceId === lineItemPriceId)
+      );
+  
+      if (matchingProduct) {
+        const matchingInventory = matchingProduct.inventory.find(
+          (inventoryItem) => inventoryItem.priceId === lineItemPriceId
+        );
+        console.log(`Match found for product: ${matchingProduct._id} ${matchingProduct.name} with priceId: ${matchingInventory.priceId}`);
+        console.log(`Inventory details: `, matchingInventory);
+      } else if (!matchingProduct) {
+        console.log('No matching product found');
+      } else if (!matchingInventory) {
+        console.log('No matching inventory found');
+      }
+    });
+  } catch (error) {
+    console.error('Error querying product data:', error);
   }
-  response.status(200).end();
+}
+
+app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+  const sig = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, 'whsec_bd479958e581bb6cfb04ec9746336f01034c90ce245fbe734e9c2cb33ba0dca9');
+  } catch (err) {
+    console.error('Webhook signature verification failed.', err);
+    return res.sendStatus(400);
+  }
+
+  switch (event.type) {
+    case 'payment_intent.succeeded' && 'checkout.session.completed':
+      intent = event.data.object;
+      console.log("Payment intent succeeded and checkout session completed!", intent.id)
+      const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
+        event.data.object.id,
+        { expand: ['line_items'] }
+      );
+      const lineItems = sessionWithLineItems?.line_items;
+      if (!lineItems) {
+        console.error('Line items are missing');
+      }
+      handleCheckoutSuccess(lineItems);
+      break;
+    case 'payment_intent.payment_failed' || 'charge.failed':
+      intent = event.data.object;
+      console.log("Payment intent failed and charge failed", intent.id)
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+  res.sendStatus(200);
 });
 
-////////////////////////////////////
-// app.post('/webhook', express.raw({type: 'application/json'}), (req, res) => {
-//   const sig = req.headers['stripe-signature'];
-//   let event = req.body;
-
-//   try {
-//     event = stripe.webhooks.constructEvent(req.body, sig, 'whsec_bd479958e581bb6cfb04ec9746336f01034c90ce245fbe734e9c2cb33ba0dca9');
-//   } catch (err) {
-//     console.error('Webhook signature verification failed.', err);
-//     return res.sendStatus(400);
-//   }
-
-//   switch (event.type) {
-//     case 'payment_intent.succeeded':
-//       intent = event.data.object;
-//       console.log("Payment intent succeeded!", intent.id)
-//       handlePaymentIntentSucceeded(event);
-//       break;
-//     case 'payment_intent.payment_failed':
-//       intent = event.data.object;
-//       console.log("Payment intent failed", intent.id)
-//     default:
-//       console.log(`Unhandled event type: ${event.type}`);
-//   }
-
-//   res.sendStatus(200);
-// });
-////////////////////////////////
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
@@ -120,6 +139,7 @@ app.post('/create-checkout-session', async (req, res) => {
       //     message: 'We\'ll email you instructions on how to get started.',
       //   },
       // },
+      expires_at: Math.floor(Date.now() / 1000) + (30 * 60),
       success_url: `http://localhost:3000/success`,
       cancel_url: `http://localhost:3000/cart`,
       

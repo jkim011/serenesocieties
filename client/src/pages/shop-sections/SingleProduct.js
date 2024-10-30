@@ -216,17 +216,42 @@ function SingleProduct({updateCart}) {
   }
   console.log(loggedInCartItems)
 
-  let outOfSize = false
-  for(let i = 0; i < localCartItems.length; i++) {
-    console.log(localCartItems[i].cartProductQuantity, "local cart quant")
-    console.log(localCartItems[i].cartProductPriceId, "local cart priceId")
-    if(sizePriceId === localCartItems[i].cartProductPriceId) {
-      // window.alert(`That was the last of size ${sizeName}`)
-      outOfSize = true
-    } else {
-      console.log(false)
+  const [outOfSize, setOutOfSize] = useState(false)
+  useEffect(() => {
+    let isOutOfSize = false;
+    if (localCartItems && sizePriceId) {
+      for (let i = 0; i < localCartItems.length; i++) {
+        if (sizePriceId === localCartItems[i].cartProductPriceId) {
+          const matchedInventory = inventory?.find(stock => stock.priceId === sizePriceId);
+  
+          if (matchedInventory) {
+            if (localCartItems[i].cartProductQuantity >= matchedInventory.quantity) {
+              isOutOfSize = true;
+              break;
+            }
+          }
+        }
+      }
+      setOutOfSize(isOutOfSize);
+    } else if (loggedInCartItems && sizePriceId) {
+      for (let i = 0; i < loggedInCartItems.length; i++) {
+        if (sizePriceId === loggedInCartItems[i].cartProductPriceId) {
+          const matchedInventory = inventory?.find(stock => stock.priceId === sizePriceId);
+  
+          if (matchedInventory) {
+            if (loggedInCartItems[i].cartProductQuantity >= matchedInventory.quantity) {
+              isOutOfSize = true;
+              break;
+            }
+          }
+        }
+      }
+      setOutOfSize(isOutOfSize);
+    } 
+    else {
+      setOutOfSize(false);
     }
-  }
+  }, [loggedInCartItems, sizePriceId, inventory]);
 
   let existingLocalCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   const handleAddToCartLocal = async (event) =>{
@@ -331,10 +356,11 @@ function SingleProduct({updateCart}) {
               </div>
             ))}
           </div>
-          {outOfSize===true ? <h5 className="mt-1 fst-italic">Sorry, that's all of size {sizeName}</h5> : <></>}
+          
           <div className="add-to-cart">
+            {outOfSize===true ? <h5 className="mt-1 fst-italic d-flex justify-content-center">Sorry, that's all of size {sizeName}</h5> : <></>}
             {Auth.loggedIn() ? (
-              <button id="addCartBtn" className= "cart-btn" onClick={handleAddToCart} disabled={size === "" || cartBtnText === "Adding"}>{cartBtnText}</button>
+              <button id="addCartBtn" className= "cart-btn" onClick={handleAddToCart} disabled={size === "" || cartBtnText === "Adding" || outOfSize === true}>{cartBtnText}</button>
             ):(
               <button id="addCartLocalBtn" className="cart-btn" onClick={handleAddToCartLocal} disabled={size === "" || cartBtnText === "Adding" || outOfSize === true}>{cartBtnText}</button>
             )}

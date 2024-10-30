@@ -50,6 +50,8 @@ const LocalCart = ({updateCart}) => {
       const sizeData = productData.inventory.find(size => size._id === cartItem.cartProductSizeId);
       if (sizeData?.quantity === 0) {
         return;
+      } else if (sizeData?.quantity === cartItem.cartProductQuantity) {
+        return;
       } else {
         const updatedLocalCart = [...localCart];
         const itemToUpdate = updatedLocalCart[index];
@@ -205,6 +207,8 @@ const LocalCart = ({updateCart}) => {
   for ( let i=0; i < localCartItems.length; i++) {
     count += parseInt(localCartItems[i].cartProductQuantity)
   }
+
+  
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
