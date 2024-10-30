@@ -114,6 +114,8 @@ const CartList = ({updateCart}) => {
       const sizeData = productData.inventory.find(size => size._id === cartItem.cartProductSizeId);
       if (sizeData?.quantity === 0) {
         return;
+      } else if (sizeData?.quantity === cartItem.cartProductQuantity) {
+        return;
       } else {
         try {
           await addToCartQuantity({
@@ -123,16 +125,16 @@ const CartList = ({updateCart}) => {
               cartProductQuantity: 1
             }
           });
-          await updateProductInventory({
-            variables: {
-              productId: cartItem.cartProductId,
-              sizeId: cartItem.cartProductSizeId,
-              cartProductQuantity: 1
-            },
-            refetchQueries: [
-              { query: QUERY_PRODUCTS }
-            ]
-          });
+          // await updateProductInventory({
+          //   variables: {
+          //     productId: cartItem.cartProductId,
+          //     sizeId: cartItem.cartProductSizeId,
+          //     cartProductQuantity: 1
+          //   },
+          //   refetchQueries: [
+          //     { query: QUERY_PRODUCTS }
+          //   ]
+          // });
         } catch (err) {
           console.log(err);
         }
@@ -153,21 +155,21 @@ const CartList = ({updateCart}) => {
             cartId: cartItem._id
           }
         })
-        await updateProductInventory({
-          variables: {
-            productId: cartItem.cartProductId,
-            sizeId: cartItem.cartProductSizeId,
-            cartProductQuantity: -1
-          },
-          refetchQueries: [
-            {
-              query: QUERY_PRODUCTS,
-              variables: {
-                products
-              }
-            }
-          ]
-        })
+        // await updateProductInventory({
+        //   variables: {
+        //     productId: cartItem.cartProductId,
+        //     sizeId: cartItem.cartProductSizeId,
+        //     cartProductQuantity: -1
+        //   },
+        //   refetchQueries: [
+        //     {
+        //       query: QUERY_PRODUCTS,
+        //       variables: {
+        //         products
+        //       }
+        //     }
+        //   ]
+        // })
       } catch(rmvQuantError) {
         console.log(rmvQuantError)
       }
@@ -182,21 +184,21 @@ const CartList = ({updateCart}) => {
           cartId: cartItem._id
         }
       })
-      await updateProductInventory({
-        variables: {
-          productId: cartItem.cartProductId,
-          sizeId: cartItem.cartProductSizeId,
-          cartProductQuantity: -cartItem.cartProductQuantity
-        },
-        refetchQueries: [
-          {
-            query: QUERY_PRODUCTS,
-            variables: {
-              products
-            }
-          }
-        ]
-      })
+      // await updateProductInventory({
+      //   variables: {
+      //     productId: cartItem.cartProductId,
+      //     sizeId: cartItem.cartProductSizeId,
+      //     cartProductQuantity: -cartItem.cartProductQuantity
+      //   },
+      //   refetchQueries: [
+      //     {
+      //       query: QUERY_PRODUCTS,
+      //       variables: {
+      //         products
+      //       }
+      //     }
+      //   ]
+      // })
     } catch(err) {
       console.log(err)
     }
@@ -271,9 +273,6 @@ const CartList = ({updateCart}) => {
     )
   }
 
-  console.log(user, "alskdfjjfkldsa;laskdfj")
-
-
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
       {/* <div>
@@ -314,7 +313,7 @@ const CartList = ({updateCart}) => {
               <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={(event) => {
                 event.preventDefault();
                 handleTrash(cartItem);
-                updateCart();
+                // updateCart();
               }}>
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
               </Link>
