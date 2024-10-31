@@ -29,6 +29,24 @@ app.use(cors(corsOptions));
 // app.use(bodyParser.json());
 
 const endpoint = `http://localhost:${PORT}${server.graphqlPath}`;
+const UPDATE_PRODUCT_INVENTORY = gql`
+  mutation updateProductInventory($productId: ID!, $sizeId: ID!, $cartProductQuantity: Int!) {
+    updateProductInventory(productId: $productId, sizeId: $sizeId, cartProductQuantity: $cartProductQuantity) {
+      _id
+      name
+      image
+      image2
+      description
+      price
+      inventory {
+        _id
+        size
+        quantity
+        priceId
+      }
+    }
+  }
+`;
 
 const handleCheckoutSuccess = async (lineItems) => {
   //query products, loop thru lineItems.price and product.inventory.priceId to get a match, update inventory
@@ -49,7 +67,7 @@ const handleCheckoutSuccess = async (lineItems) => {
   `;
   try {
     const data = await request(endpoint, query);
-    lineItems.data.forEach((lineItem) => {
+    for (const lineItem of lineItems.data) {
       const lineItemPriceId = lineItem.price.id;
       const lineItemQuantity = lineItem.quantity;
   
@@ -63,18 +81,35 @@ const handleCheckoutSuccess = async (lineItems) => {
         const matchingInventory = matchingProduct.inventory.find(
           (inventoryItem) => inventoryItem.priceId === lineItemPriceId
         );
-        console.log(`Match found for product: ${matchingProduct._id} ${matchingProduct.name} with priceId: ${matchingInventory.priceId}`);
-        console.log(`Inventory details: `, matchingInventory);
-      } else if (!matchingProduct) {
+
+        if (matchingInventory) {
+          console.log(`Match found for product: ${matchingProduct._id} ${matchingProduct.name} with priceId: ${matchingInventory.priceId}`);
+          console.log(`Inventory details: `, matchingInventory);
+
+          const updateInventoryVariables = {
+            productId: matchingProduct._id,
+            sizeId: matchingInventory._id,
+            cartProductQuantity: lineItemQuantity
+          };
+
+          try {
+            const updatedProduct = await request(endpoint, UPDATE_PRODUCT_INVENTORY, updateInventoryVariables);
+            console.log('Updated product inventory:', updatedProduct);
+            //////////////////////check if user is loggedin, then clear localstorage or user.cart accordingly
+          } catch (updateError) {
+            console.error('Error updating product inventory:', updateError);
+          }
+        } else {
+          console.log('No matching inventory found');
+        }
+      } else {
         console.log('No matching product found');
-      } else if (!matchingInventory) {
-        console.log('No matching inventory found');
       }
-    });
+    }; 
   } catch (error) {
     console.error('Error querying product data:', error);
   }
-}
+};
 
 app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
   const sig = req.headers['stripe-signature'];
