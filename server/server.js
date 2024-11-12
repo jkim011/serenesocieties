@@ -8,7 +8,6 @@ require('dotenv').config();
 // const bodyParser = require('body-parser');
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const cors = require("cors");
-
 const { request, gql } = require('graphql-request');
 
 const app = express();
@@ -18,6 +17,7 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
+  // context: ({ req }) => authMiddleware({ req })
 });
 
 const corsOptions = {  ///// had to comment out for gql sandbox to work
@@ -27,6 +27,7 @@ const corsOptions = {  ///// had to comment out for gql sandbox to work
 }
 app.use(cors(corsOptions));
 // app.use(bodyParser.json());
+
 
 const endpoint = `http://localhost:${PORT}${server.graphqlPath}`;
 const UPDATE_PRODUCT_INVENTORY = gql`
@@ -48,8 +49,49 @@ const UPDATE_PRODUCT_INVENTORY = gql`
   }
 `;
 
-const handleCheckoutSuccess = async (lineItems) => {
+// const queryUser = gql`
+//   query me {
+//     me {
+//       _id
+//       firstName
+//       lastName
+//       email
+//       isAdmin
+//       cartItems {
+//         _id
+//         cartProductId
+//         cartProductName
+//         cartProductSizeId
+//         cartProductSize
+//         cartProductImage
+//         cartProductPrice
+//         cartProductPriceId
+//         cartProductQuantity
+//       }
+//     }
+//   }
+// `;
+
+const handleCheckoutSuccess = async (lineItems, token, context, req) => {
   //query products, loop thru lineItems.price and product.inventory.priceId to get a match, update inventory
+
+  // const headers = req.query.token
+  // app.use((req, res, next) => {
+  //   authMiddleware({ req })
+  //   next();
+  // });
+  const customReq = {
+    headers: { authorization: `Bearer ${token?.split(' ').pop() || ''}` },
+    query: {}
+  };
+  authMiddleware({ req: customReq });
+
+  if (customReq.user && customReq.user.email) {
+    console.log("User found:", customReq.user.email);
+  } else {
+    console.log('No user found');
+  }
+
   const query = gql`
     query getProducts {
       products {
@@ -67,6 +109,10 @@ const handleCheckoutSuccess = async (lineItems) => {
   `;
   try {
     const data = await request(endpoint, query);
+
+    // const userData = await request(endpoint, queryUser, headers);
+    // const user = userData?.me
+
     for (const lineItem of lineItems.data) {
       const lineItemPriceId = lineItem.price.id;
       const lineItemQuantity = lineItem.quantity;
@@ -96,6 +142,18 @@ const handleCheckoutSuccess = async (lineItems) => {
             const updatedProduct = await request(endpoint, UPDATE_PRODUCT_INVENTORY, updateInventoryVariables);
             console.log('Updated product inventory:', updatedProduct);
             //////////////////////check if user is loggedin, then clear localstorage or user.cart accordingly
+            // if (req.user.email) {
+            //   console.log("user found");
+            // } else if (!req.user.email) {
+            //   console.log('no user found')
+            // }
+            if (customReq.user) {
+              console.log("User found:", customReq.user.email);
+            } else {
+              console.log('No user found');
+              console.log(customReq)
+            }
+           
           } catch (updateError) {
             console.error('Error updating product inventory:', updateError);
           }
@@ -121,6 +179,8 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) =
     return res.sendStatus(400);
   }
 
+  const context = {}; // 
+
   switch (event.type) {
     case 'payment_intent.succeeded' && 'checkout.session.completed':
       intent = event.data.object;
@@ -133,7 +193,7 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) =
       if (!lineItems) {
         console.error('Line items are missing');
       }
-      handleCheckoutSuccess(lineItems);
+      await handleCheckoutSuccess(lineItems, req.headers.authorization);
       break;
     case 'payment_intent.payment_failed' || 'charge.failed':
       intent = event.data.object;
