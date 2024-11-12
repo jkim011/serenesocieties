@@ -2,6 +2,7 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { typeDefs, resolvers } = require('./schemas/index.js');
 const { authMiddleware } = require('./utils/auth');
+const jwt = require('jsonwebtoken');
 const path = require('path');
 const db = require('./config/connection');
 require('dotenv').config();
@@ -9,6 +10,7 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const cors = require("cors");
 const { request, gql } = require('graphql-request');
+const User = require('./models/User');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -72,25 +74,54 @@ const UPDATE_PRODUCT_INVENTORY = gql`
 //   }
 // `;
 
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  jwt.verify(token, 'your_secret_key', (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+    req.user = user; // Attach the payload data to req.user
+    next();
+  });
+};
+
+const getUserByEmail = async (_id) => {
+  try {
+    const user = await User.findOne({ _id });
+    console.log(user, 'get user by email')
+  } catch (error) {
+    throw new Error('Error querying user data');
+  }
+};
+getUserByEmail();
+
 const handleCheckoutSuccess = async (lineItems, token, context, req) => {
   //query products, loop thru lineItems.price and product.inventory.priceId to get a match, update inventory
 
   // const headers = req.query.token
-  // app.use((req, res, next) => {
-  //   authMiddleware({ req })
-  //   next();
-  // });
-  const customReq = {
-    headers: { authorization: `Bearer ${token?.split(' ').pop() || ''}` },
-    query: {}
-  };
-  authMiddleware({ req: customReq });
+  app.use((req, res, next) => {
+    authMiddleware({ req })
+    next();
+  });
 
-  if (customReq.user && customReq.user.email) {
-    console.log("User found:", customReq.user.email);
-  } else {
-    console.log('No user found');
-  }
+  
+
+  // const customReq = {
+  //   headers: { authorization: `Bearer ${token?.split(' ').pop() || ''}` },
+  //   query: {}
+  // };
+  // authMiddleware({ req: customReq });
+
+  // if (customReq.user && customReq.user.email) {
+  //   console.log("User found:", customReq.user.email);
+  // } else {
+  //   console.log('No user found');
+  // }
 
   const query = gql`
     query getProducts {
@@ -147,12 +178,16 @@ const handleCheckoutSuccess = async (lineItems, token, context, req) => {
             // } else if (!req.user.email) {
             //   console.log('no user found')
             // }
-            if (customReq.user) {
-              console.log("User found:", customReq.user.email);
-            } else {
-              console.log('No user found');
-              console.log(customReq)
-            }
+
+            // if (customReq.user) {
+            //   console.log("User found:", customReq.user.email);
+            // } else {
+            //   console.log('No user found');
+            //   console.log(customReq)
+            // }
+
+            // console.log(email, 'req userrrrrrrrrrrr')
+            // console.log(authMiddleware({req}).user, 'lskdjf')
            
           } catch (updateError) {
             console.error('Error updating product inventory:', updateError);
@@ -211,6 +246,19 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
+app.get('/some-protected-route', authenticateToken, async (req, res) => {
+  try {
+    const { email, _id } = req.user; // Access payload data here//////////////////
+    const me = await getUserByEmail(_id);
+    console.log(me, 'route ')
+    if(!me) {
+      console.log("nun")
+    }
+  } catch (error) {
+    res.status(401).json({ message: 'Unauthorized' });
+  }
+});
+
 app.post('/create-checkout-session', async (req, res) => {
   try {
     console.log(req.body)
@@ -237,7 +285,6 @@ app.post('/create-checkout-session', async (req, res) => {
       expires_at: Math.floor(Date.now() / 1000) + (30 * 60),
       success_url: `http://localhost:3000/success`,
       cancel_url: `http://localhost:3000/cart`,
-      
     });
     res.json({url: session.url})
   } catch (error) {
