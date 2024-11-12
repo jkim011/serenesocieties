@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_ME } from "../../utils/queries";
+import { REMOVE_FROM_CART } from "../../utils/mutations";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { paymentSucceeded, resetPaymentStatus } from '../../redux/paymentStatus';
@@ -13,6 +16,15 @@ const getStripe = () => {
 }
 
 const Success = () => {
+  const {loading, data, error} = useQuery(QUERY_ME);
+  const user = data?.me || []
+  let cartItems = user.cartItems || []
+  console.log(cartItems, "cartItems");
+
+  if(!user) { //use stripe webhook to check for checkout completion too before deleting
+    localStorage.clear("allCartItems");
+  }
+
   // const dispatch = useDispatch();
   // const paymentSuccess = useSelector((state) => state.payment.paymentSuccess);
   
