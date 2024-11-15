@@ -17,13 +17,32 @@ const getStripe = () => {
 
 const Success = () => {
   const {loading, data, error} = useQuery(QUERY_ME);
-  const user = data?.me || []
-  let cartItems = user.cartItems || []
+  const user = data?.me 
+  let cartItems = user?.cartItems || []
+  console.log(user, 'user iddddd')
   console.log(cartItems, "cartItems");
 
-  if(!user) { //use stripe webhook to check for checkout completion too before deleting
-    localStorage.clear("allCartItems");
+  const [removeFromCart, {rmvError}] = useMutation(REMOVE_FROM_CART);
+  const deleteLoggedInCart = async () => {
+    try {
+      for(let i = 0; i < cartItems.length; i++) {
+        await removeFromCart({
+          variables: {
+            userId: user._id,
+            cartId: cartItems[i]._id
+          }
+        })
+      } 
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  if (user) {
+    deleteLoggedInCart();
+  } else if (!user) { //use stripe webhook to check for checkout completion too before deleting
+    localStorage.clear('allCartItems');
+  }  
 
   // const dispatch = useDispatch();
   // const paymentSuccess = useSelector((state) => state.payment.paymentSuccess);
