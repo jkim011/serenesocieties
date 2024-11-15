@@ -19,7 +19,6 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware,
-  // context: ({ req }) => authMiddleware({ req })
 });
 
 const corsOptions = {  ///// had to comment out for gql sandbox to work
@@ -29,7 +28,6 @@ const corsOptions = {  ///// had to comment out for gql sandbox to work
 }
 app.use(cors(corsOptions));
 // app.use(bodyParser.json());
-
 
 const endpoint = `http://localhost:${PORT}${server.graphqlPath}`;
 const UPDATE_PRODUCT_INVENTORY = gql`
@@ -51,77 +49,12 @@ const UPDATE_PRODUCT_INVENTORY = gql`
   }
 `;
 
-// const queryUser = gql`
-//   query me {
-//     me {
-//       _id
-//       firstName
-//       lastName
-//       email
-//       isAdmin
-//       cartItems {
-//         _id
-//         cartProductId
-//         cartProductName
-//         cartProductSizeId
-//         cartProductSize
-//         cartProductImage
-//         cartProductPrice
-//         cartProductPriceId
-//         cartProductQuantity
-//       }
-//     }
-//   }
-// `;
-
-const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  jwt.verify(token, 'your_secret_key', (err, user) => {
-    if (err) {
-      return res.status(403).json({ message: 'Forbidden' });
-    }
-    req.user = user; // Attach the payload data to req.user
-    next();
-  });
-};
-
-const getUserByEmail = async (_id) => {
-  try {
-    const user = await User.findOne({ _id });
-    console.log(user, 'get user by email')
-  } catch (error) {
-    throw new Error('Error querying user data');
-  }
-};
-getUserByEmail();
-
 const handleCheckoutSuccess = async (lineItems, token, context, req) => {
   //query products, loop thru lineItems.price and product.inventory.priceId to get a match, update inventory
-
-  // const headers = req.query.token
   app.use((req, res, next) => {
     authMiddleware({ req })
     next();
   });
-
-  
-
-  // const customReq = {
-  //   headers: { authorization: `Bearer ${token?.split(' ').pop() || ''}` },
-  //   query: {}
-  // };
-  // authMiddleware({ req: customReq });
-
-  // if (customReq.user && customReq.user.email) {
-  //   console.log("User found:", customReq.user.email);
-  // } else {
-  //   console.log('No user found');
-  // }
 
   const query = gql`
     query getProducts {
@@ -140,9 +73,6 @@ const handleCheckoutSuccess = async (lineItems, token, context, req) => {
   `;
   try {
     const data = await request(endpoint, query);
-
-    // const userData = await request(endpoint, queryUser, headers);
-    // const user = userData?.me
 
     for (const lineItem of lineItems.data) {
       const lineItemPriceId = lineItem.price.id;
@@ -171,24 +101,7 @@ const handleCheckoutSuccess = async (lineItems, token, context, req) => {
 
           try {
             const updatedProduct = await request(endpoint, UPDATE_PRODUCT_INVENTORY, updateInventoryVariables);
-            console.log('Updated product inventory:', updatedProduct);
-            //////////////////////check if user is loggedin, then clear localstorage or user.cart accordingly
-            // if (req.user.email) {
-            //   console.log("user found");
-            // } else if (!req.user.email) {
-            //   console.log('no user found')
-            // }
-
-            // if (customReq.user) {
-            //   console.log("User found:", customReq.user.email);
-            // } else {
-            //   console.log('No user found');
-            //   console.log(customReq)
-            // }
-
-            // console.log(email, 'req userrrrrrrrrrrr')
-            // console.log(authMiddleware({req}).user, 'lskdjf')
-           
+            console.log('Updated product inventory:', updatedProduct);  
           } catch (updateError) {
             console.error('Error updating product inventory:', updateError);
           }
@@ -213,8 +126,6 @@ app.post('/webhook', express.raw({type: 'application/json'}), async (req, res) =
     console.error('Webhook signature verification failed.', err);
     return res.sendStatus(400);
   }
-
-  const context = {}; // 
 
   switch (event.type) {
     case 'payment_intent.succeeded' && 'checkout.session.completed':
@@ -244,19 +155,6 @@ app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
-
-app.get('/some-protected-route', authenticateToken, async (req, res) => {
-  try {
-    const { email, _id } = req.user; // Access payload data here//////////////////
-    const me = await getUserByEmail(_id);
-    console.log(me, 'route ')
-    if(!me) {
-      console.log("nun")
-    }
-  } catch (error) {
-    res.status(401).json({ message: 'Unauthorized' });
-  }
 });
 
 app.post('/create-checkout-session', async (req, res) => {

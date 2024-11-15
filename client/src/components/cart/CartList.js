@@ -125,16 +125,6 @@ const CartList = ({updateCart}) => {
               cartProductQuantity: 1
             }
           });
-          // await updateProductInventory({
-          //   variables: {
-          //     productId: cartItem.cartProductId,
-          //     sizeId: cartItem.cartProductSizeId,
-          //     cartProductQuantity: 1
-          //   },
-          //   refetchQueries: [
-          //     { query: QUERY_PRODUCTS }
-          //   ]
-          // });
         } catch (err) {
           console.log(err);
         }
@@ -155,21 +145,6 @@ const CartList = ({updateCart}) => {
             cartId: cartItem._id
           }
         })
-        // await updateProductInventory({
-        //   variables: {
-        //     productId: cartItem.cartProductId,
-        //     sizeId: cartItem.cartProductSizeId,
-        //     cartProductQuantity: -1
-        //   },
-        //   refetchQueries: [
-        //     {
-        //       query: QUERY_PRODUCTS,
-        //       variables: {
-        //         products
-        //       }
-        //     }
-        //   ]
-        // })
       } catch(rmvQuantError) {
         console.log(rmvQuantError)
       }
@@ -184,21 +159,6 @@ const CartList = ({updateCart}) => {
           cartId: cartItem._id
         }
       })
-      // await updateProductInventory({
-      //   variables: {
-      //     productId: cartItem.cartProductId,
-      //     sizeId: cartItem.cartProductSizeId,
-      //     cartProductQuantity: -cartItem.cartProductQuantity
-      //   },
-      //   refetchQueries: [
-      //     {
-      //       query: QUERY_PRODUCTS,
-      //       variables: {
-      //         products
-      //       }
-      //     }
-      //   ]
-      // })
     } catch(err) {
       console.log(err)
     }
@@ -228,29 +188,9 @@ const CartList = ({updateCart}) => {
       body: JSON.stringify(
         allItems
       ),
-    })//.then((res) => res.json())
-    // .then(res => { 
-    //   if(res.ok) return res.json()
-    //   return res.json().then(json => Promise.reject(json))
-    // }) 
+    })
     const body = await res.json()
     window.location.href = body.url
-    // .then(({url}) => {
-    //   console.log(url)
-    //   window.location = url
-    // })  
-    // .then(() => {
-    //   stripe.redirectToCheckout(checkoutOptions)
-    // }) 
-    // .catch(e => {
-    //   console.error(e.error)
-    // })
-
-    // const { error } = await stripe.redirectToCheckout({
-    //   sessionId: session.id,
-    // });
-
-    // const {error} = await stripe.redirectToCheckout(checkoutOptions)
     
     if(error) setStripeError(error.message);
     setLoading(false);
@@ -275,10 +215,6 @@ const CartList = ({updateCart}) => {
 
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
-      {/* <div>
-      <h6>Due to limited stock, your cart will be held for {formatTime(time)}</h6>
-        {time === 0 && <h2 style={{color:"red"}}>Time's up!</h2>}
-      </div> */}
       <div className="col">
         {cartItems && cartItems.map((cartItem) =>(
           <div key={cartItem._id} className="cartItemHeight border-top border-bottom border-dark row mb-3 position-relative" >
@@ -313,7 +249,6 @@ const CartList = ({updateCart}) => {
               <Link className="position-absolute top-0 end-0 text-decoration-none text-red" size="sm" onClick={(event) => {
                 event.preventDefault();
                 handleTrash(cartItem);
-                // updateCart();
               }}>
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
               </Link>

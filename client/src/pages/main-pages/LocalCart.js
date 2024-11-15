@@ -19,7 +19,7 @@ const getStripe = () => {
 }
 getStripe()
 
-const LocalCart = ({updateCart}) => {
+const LocalCart = () => {
   const dispatch = useDispatch();
   const {loading, data, error} = useQuery(QUERY_PRODUCTS);
   const products = data?.products;
@@ -59,19 +59,6 @@ const LocalCart = ({updateCart}) => {
         localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
         setLocalCart(updatedLocalCart);
         dispatch(increment());
-        // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
-        //   variables: {
-        //     productId: cartItem.cartProductId,
-        //     sizeId: cartItem.cartProductSizeId,
-        //     cartProductQuantity: 1,
-        //   },
-        //   refetchQueries: [
-        //     { 
-        //       query: QUERY_PRODUCTS, 
-        //       variables: { products } 
-        //     }
-        //   ],
-        // });
       }
     } else {
       console.log("Error with product data");
@@ -88,19 +75,6 @@ const LocalCart = ({updateCart}) => {
       localStorage.setItem('allCartItems', JSON.stringify(updatedLocalCart));
       setLocalCart(updatedLocalCart);
       dispatch(decrement())
-      // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
-      //   variables: {
-      //     productId: cartItem.cartProductId,
-      //     sizeId: cartItem.cartProductSizeId,
-      //     cartProductQuantity: -1
-      //   },
-      //   refetchQueries: [
-      //     {
-      //       query: QUERY_PRODUCTS,
-      //       variables: {products}
-      //     }
-      //   ]
-      // });
     }
   }
 
@@ -110,19 +84,6 @@ const LocalCart = ({updateCart}) => {
     localStorage.setItem("allCartItems", JSON.stringify(updatedLocalCart))
     setLocalCart(updatedLocalCart);
     dispatch(decrement(cartItem.cartProductQuantity))
-    // await updateProductInventory({ ///UPDATE AFTER USER GOES TO CHECKOUT
-    //   variables: {
-    //     productId: cartItem.cartProductId,
-    //     sizeId: cartItem.cartProductSizeId,
-    //     cartProductQuantity: -cartItem.cartProductQuantity
-    //   },
-    //   refetchQueries: [
-    //     {
-    //       query: QUERY_PRODUCTS,
-    //       variables: {products}
-    //     }
-    //   ]
-    // });
   }
 
   const [stripeError, setStripeError] = useState(null)
@@ -150,29 +111,9 @@ const LocalCart = ({updateCart}) => {
       body: JSON.stringify(
         allItems
       ),
-    })//.then((res) => res.json())
-    // .then(res => { 
-    //   if(res.ok) return res.json()
-    //   return res.json().then(json => Promise.reject(json))
-    // }) 
+    });
     const body = await res.json()
     window.location.href = body.url
-    // .then(({url}) => {
-    //   console.log(url)
-    //   window.location = url
-    // })  
-    // .then(() => {
-    //   stripe.redirectToCheckout(checkoutOptions)
-    // }) 
-    // .catch(e => {
-    //   console.error(e.error)
-    // })
-
-    // const { error } = await stripe.redirectToCheckout({
-    //   sessionId: session.id,
-    // });
-
-    // const {error} = await stripe.redirectToCheckout(checkoutOptions)
     
     if(error) setStripeError(error.message);
     setLoading(false);
@@ -208,8 +149,6 @@ const LocalCart = ({updateCart}) => {
     count += parseInt(localCartItems[i].cartProductQuantity)
   }
 
-  
-
   return (
     <div className="container flex justify-content-center cartListWidth" name="cartItem">
       <div className="col">
@@ -240,7 +179,6 @@ const LocalCart = ({updateCart}) => {
                 onClick={(event) => {
                   event.preventDefault();
                   handleTrash(index, cartItem);
-                  // updateCart();
                 }} 
               >
                 <FontAwesomeIcon className="fa-xl mt-1 me-2" icon="fa-sharp fa-xmark" style={{color:"red"}}/>
