@@ -17,7 +17,7 @@ const getStripe = () => {
   return stripePromise;
 }
 
-const CartList = ({updateCart}) => {
+const CartList = () => {
   const navigate = useNavigate()
     
   const {loading, data, error} = useQuery(QUERY_ME);
@@ -25,8 +25,8 @@ const CartList = ({updateCart}) => {
   let cartItems = user.cartItems || []
   console.log(cartItems, "cartItems")
 
-  const {productsLoading, productsData, productsError} = useQuery(QUERY_PRODUCTS);
-  const products = data?.products;
+  const {loading: productsLoading, data: productsData, error: productsError} = useQuery(QUERY_PRODUCTS);
+  const products = productsData?.products;
 
   const [queryCartProductData, { data: singleProductData, error: singleProductError }] = useLazyQuery(QUERY_SINGLE_PRODUCT);
   const [fetchedProductData, setFetchedProductData] = useState({});
@@ -40,7 +40,26 @@ const CartList = ({updateCart}) => {
 
   let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
- 
+
+  for (const cartItem of cartItems) {
+    const cartItemPriceId = cartItem.cartProductPriceId;
+    const cartItemQuantity = cartItem.cartProductQuantity;
+
+    const matchingProduct = products?.find((product) =>
+      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0)
+    );
+    if(matchingProduct) {
+      const matchingInventory = matchingProduct.inventory.find(
+        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
+      );
+      if(matchingInventory) {
+        console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
+      } else {
+        console.log('no match')
+      }
+    }
+  }
+  
   const hasRun = useRef(false)
   useEffect(() => {
     const combineCarts = async () => {    

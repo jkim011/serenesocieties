@@ -10,7 +10,6 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY);
 const cors = require("cors");
 const { request, gql } = require('graphql-request');
-const User = require('./models/User');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
