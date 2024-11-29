@@ -38,27 +38,8 @@ const CartList = () => {
   const [removeCartQuantity, {rmvQuantError}] = useMutation(REMOVE_CART_QUANTITY)
   const [updateProductInventory, {updateInvError}] = useMutation(UPDATE_PRODUCT_INVENTORY)
 
-  let localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
+  const localCartItems = JSON.parse(localStorage.getItem("allCartItems"))
   console.log(localCartItems, "from localStorage")
-
-  for (const cartItem of cartItems) {
-    const cartItemPriceId = cartItem.cartProductPriceId;
-    const cartItemQuantity = cartItem.cartProductQuantity;
-
-    const matchingProduct = products?.find((product) =>
-      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0)
-    );
-    if(matchingProduct) {
-      const matchingInventory = matchingProduct.inventory.find(
-        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
-      );
-      if(matchingInventory) {
-        console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
-      } else {
-        console.log('no match')
-      }
-    }
-  }
   
   const hasRun = useRef(false)
   useEffect(() => {
@@ -180,6 +161,26 @@ const CartList = () => {
       })
     } catch(err) {
       console.log(err)
+    }
+  }
+  
+  for (const cartItem of cartItems) {
+    const cartItemPriceId = cartItem.cartProductPriceId;
+    const cartItemQuantity = cartItem.cartProductQuantity;
+
+    const matchingProduct = products?.find((product) =>
+      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0)
+    );
+    if(matchingProduct) {
+      const matchingInventory = matchingProduct.inventory.find(
+        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
+      );
+      if(matchingInventory) {
+        console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
+        handleTrash(cartItem)
+      } else {
+        console.log('no match')
+      }
     }
   }
 
