@@ -169,15 +169,22 @@ const CartList = () => {
     const cartItemQuantity = cartItem.cartProductQuantity;
 
     const matchingProduct = products?.find((product) =>
-      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0)
+      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId)
     );
     if(matchingProduct) {
       const matchingInventory = matchingProduct.inventory.find(
         (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
       );
+      const lowerInventory = matchingProduct.inventory.find(
+        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && cartItemQuantity > inventoryItem.quantity
+      );
+    console.log(lowerInventory,'lsdkfjlskdjf')
       if(matchingInventory) {
         console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
         handleTrash(cartItem)
+      } else if(lowerInventory){
+        console.log("too much in cart")
+        /////////////// USE DECREMENT TO BRING CARTITEMQUANT DOWN TO INV.QUANT NUMBER
       } else {
         console.log('no match')
       }
