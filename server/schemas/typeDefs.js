@@ -83,7 +83,7 @@ const typeDefs = gql`
         addToCart(userId: ID!, cartProductId: String, cartProductName: String! cartProductSizeId: String!, cartProductSize: String!, cartProductImage: String!, cartProductPrice: Float!, cartProductPriceId: String!, cartProductQuantity: Int): User
         removeFromCart(userId: ID!, cartId: ID!): User
         addToCartQuantity(userId: ID, cartId: ID!, cartProductQuantity: Int): User
-        removeCartQuantity(userId: ID, cartId: ID!): User
+        removeCartQuantity(userId: ID, cartId: ID!, cartProductQuantity: Int): User
         updateProductInventory(productId: ID, sizeId: ID, cartProductQuantity: Int): Product
     }
 
