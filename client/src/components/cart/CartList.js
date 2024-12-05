@@ -142,7 +142,8 @@ const CartList = () => {
         await removeCartQuantity({
           variables: {
             userId: Auth.getProfile().data._id,
-            cartId: cartItem._id
+            cartId: cartItem._id,
+            cartProductQuantity: 1
           }
         })
       } catch(rmvQuantError) {
@@ -184,7 +185,21 @@ const CartList = () => {
         handleTrash(cartItem)
       } else if(lowerInventory){
         console.log("too much in cart")
-        /////////////// USE DECREMENT TO BRING CARTITEMQUANT DOWN TO INV.QUANT NUMBER
+        /////////////////////// testing
+        console.log(cartItemQuantity - lowerInventory.quantity, 'adjustment')
+        let cartQuantityToUpdate = cartItemQuantity - lowerInventory.quantity
+        try {
+          removeCartQuantity({
+            variables: {
+              userId: Auth.getProfile().data._id,
+              cartId: cartItem._id,
+              cartProductQuantity: cartQuantityToUpdate
+            }
+          })
+        } catch(err) {
+          console.log(err)
+        }
+        ////////////////////////////
       } else {
         console.log('no match')
       }
