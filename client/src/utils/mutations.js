@@ -111,8 +111,8 @@ export const ADD_TO_CART_QUANTITY = gql `
 `;
 
 export const REMOVE_CART_QUANTITY = gql `
-  mutation removeCartQuantity($userId: ID!, $cartId: ID!) {
-    removeCartQuantity(userId: $userId, cartId: $cartId) {
+  mutation removeCartQuantity($userId: ID!, $cartId: ID!, $cartProductQuantity: Int) {
+    removeCartQuantity(userId: $userId, cartId: $cartId, cartProductQuantity: $cartProductQuantity) {
       _id
       cartItems{
         cartProductId

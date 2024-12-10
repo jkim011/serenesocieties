@@ -185,9 +185,9 @@ const CartList = () => {
         handleTrash(cartItem)
       } else if(lowerInventory){
         console.log("too much in cart")
-        /////////////////////// testing
-        console.log(cartItemQuantity - lowerInventory.quantity, 'adjustment')
-        let cartQuantityToUpdate = cartItemQuantity - lowerInventory.quantity
+        /////////////////////// testing. loops thru each cartitem so it removes too much. try putting cartQuantityToUpdate variable outside of loop and call function outside of loop
+        let cartQuantityToUpdate = parseInt(cartItemQuantity - lowerInventory.quantity)
+        console.log(cartQuantityToUpdate, 'adjustment')
         try {
           removeCartQuantity({
             variables: {
