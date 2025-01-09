@@ -165,46 +165,49 @@ const CartList = () => {
     }
   }
   
-  for (const cartItem of cartItems) {
-    const cartItemPriceId = cartItem.cartProductPriceId;
-    const cartItemQuantity = cartItem.cartProductQuantity;
+  useEffect(() => {
+    const adjustCartQuantities = async () => {
+      for (const cartItem of cartItems) {
+        const cartItemPriceId = cartItem.cartProductPriceId;
+        const cartItemQuantity = cartItem.cartProductQuantity;
 
-    const matchingProduct = products?.find((product) =>
-      product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId)
-    );
-    if(matchingProduct) {
-      const matchingInventory = matchingProduct.inventory.find(
-        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
-      );
-      const lowerInventory = matchingProduct.inventory.find(
-        (inventoryItem) => inventoryItem.priceId === cartItemPriceId && cartItemQuantity > inventoryItem.quantity
-      );
-    console.log(lowerInventory,'lsdkfjlskdjf')
-      if(matchingInventory) {
-        console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
-        handleTrash(cartItem)
-      } else if(lowerInventory){
-        console.log("too much in cart")
-        /////////////////////// testing. loops thru each cartitem so it removes too much. try putting cartQuantityToUpdate variable outside of loop and call function outside of loop
-        let cartQuantityToUpdate = parseInt(cartItemQuantity - lowerInventory.quantity)
-        console.log(cartQuantityToUpdate, 'adjustment')
-        try {
-          removeCartQuantity({
-            variables: {
-              userId: Auth.getProfile().data._id,
-              cartId: cartItem._id,
-              cartProductQuantity: cartQuantityToUpdate
+        const matchingProduct = products?.find((product) =>
+          product.inventory.some((inventoryItem) => inventoryItem.priceId === cartItemPriceId)
+        );
+        if(matchingProduct) {
+          const matchingInventory = matchingProduct.inventory.find(
+            (inventoryItem) => inventoryItem.priceId === cartItemPriceId && inventoryItem.quantity === 0
+          );
+          const lowerInventory = matchingProduct.inventory.find(
+            (inventoryItem) => inventoryItem.priceId === cartItemPriceId && cartItemQuantity > inventoryItem.quantity
+          );
+
+          if(matchingInventory) {
+            console.log('match found', matchingProduct.name, matchingInventory.size, matchingInventory.priceId)
+            handleTrash(cartItem)
+          } else if (lowerInventory) {
+            console.log("too much in cart")
+            let cartQuantityToUpdate = parseInt(cartItemQuantity - lowerInventory.quantity)
+            try {
+              removeCartQuantity({
+                variables: {
+                  userId: Auth.getProfile().data._id,
+                  cartId: cartItem._id,
+                  cartProductQuantity: cartQuantityToUpdate
+                }
+              })
+            } catch(err) {
+              console.log(err)
             }
-          })
-        } catch(err) {
-          console.log(err)
+          } else {
+            console.log('no match')
+          }
         }
-        ////////////////////////////
-      } else {
-        console.log('no match')
       }
-    }
-  }
+    };
+    adjustCartQuantities();
+  }, [products])
+
 
   const [stripeError, setStripeError] = useState(null)
   const [isLoading, setLoading] = useState(false)
